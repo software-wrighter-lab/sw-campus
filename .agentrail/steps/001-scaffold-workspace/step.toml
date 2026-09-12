@@ -1,0 +1,9 @@
+number = 1
+slug = "scaffold-workspace"
+status = "pending"
+description = "Scaffold the Rust/Yew/WASM workspace so `just serve` shows the campus paintin..."
+role = "production"
+context_files = []
+created_at = "2026-09-12T12:12:05"
+task_type = "scaffold"
+commits = []

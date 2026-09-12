@@ -1,0 +1,1116 @@
+Today 8:27 AM
+I want to come up with a 2.5D isometric view, inspired by game level choosing maps, to create an interactive demonstration of all of my public projects.  To start I just need a small top level map that shows groups of projects, and not all of them yet.  For example, this could look like a college campus or a silicon valley tech giant campus.  On project area is my work on Computer History demos.  to wit, I'd like a Computer History Museum building on the campus that I can click on to visit wings (IBM 1130 wing, IBM System 360 wing, 370 wing 390 wing, RCA CDP1802 wing, etc.).  I'd like a Computer Science building with its own clickable wings: COR24, RISC-V, etc.).  Another building would be the Hardware Lab building with wings for FPGA, SoCs, MCUs, etc.  I want to implement this in Rust/Yew/WASM (very little Javascript, no Python). I want to be able to send a link to the campus map or each building map, or to a wing, or to an exhibit or department within a wing
+
+You want a small, game-like 2.5D campus as the top-level visual index to your public work, implemented primarily in Rust/Yew/WASM, where the information hierarchy is reflected spatially:
+
+Campus → Building → Wing → Exhibit/Department → Project/demo
+
+and critically, every one of those nodes must have its own stable URL that you can send to somebody.
+
+I think this is a very good fit for Yew, and I would deliberately avoid a full 3D engine for the first version.
+
+1. Model it as a navigable world, not as a web page
+
+Conceptually, I would use something like:
+
+SoftwareWrighter Research Campus
+│
+├── Computer History Museum
+│   ├── IBM 1130 Wing
+│   │   ├── 1130 Console
+│   │   ├── 1442 Card Reader
+│   │   ├── Card Reader Radio / Christmas Music
+│   │   └── Keypunch / APL exhibits
+│   │
+│   ├── IBM System/360 Wing
+│   ├── IBM System/370 Wing
+│   ├── IBM System/390 Wing
+│   └── RCA CDP1802 Wing
+│
+├── Computer Science Building
+│   ├── COR24 Department
+│   │   ├── COR24 CPU
+│   │   ├── Tiny C
+│   │   └── SW/TOS
+│   ├── RISC-V Department
+│   └── Programming Languages Department
+│       └── sw-MLPL
+│
+└── Hardware Laboratory
+    ├── FPGA Lab
+    ├── MCU Lab
+    ├── SoC Lab
+    └── Experimental Computing Lab
+
+The exact taxonomy can evolve. The important thing is that the architecture doesn't assume that Git repositories are the top-level unit.
+
+A single "place" might represent:
+
+one repository;
+several repositories;
+a historical topic;
+a research direction;
+a live demo;
+an experiment;
+a document;
+or a collection of all of the above.
+
+That makes this much more useful than a graphical GitHub repository browser.
+
+2. I'd use separate isometric scenes at each level
+
+I would not make the user continuously zoom from a satellite view down to a room.
+
+Instead:
+
+Campus scene
+      |
+      | click Computer History Museum
+      v
+Museum scene
+      |
+      | click IBM 1130 wing
+      v
+1130 wing scene
+      |
+      | click 1442 exhibit
+      v
+1442 exhibit/demo
+
+Think Super Mario World, SimCity, old adventure-game maps, or level-selection screens rather than Google Earth.
+
+That gives you much better control over composition.
+
+Campus
+
+Maybe only 4–6 buildings:
+
+                           ╱──────────────╲
+                          │ COMPUTER      │
+                          │ HISTORY       │
+                          │ MUSEUM        │
+                          ╲──────────────╱
+
+             pond / lawn             walking paths
+
+
+    ╱──────────────╲                    ╱──────────────╲
+   │ COMPUTER      │                  │ HARDWARE      │
+   │ SCIENCE       │                  │ LAB           │
+   │               │                  │               │
+   ╲──────────────╱                    ╲──────────────╱
+
+
+                 future construction site
+                 "Coming Soon"
+
+Don't put every topic on this map.
+
+The campus should answer one question:
+
+"What broad kinds of things does Mike build?"
+
+3. Then let each building have its own visual identity
+
+This is where the idea becomes especially interesting.
+
+Computer History Museum
+
+It could visually resemble a museum complex.
+
+                    ┌──────────────────┐
+                    │  MAIN ROTUNDA    │
+                    └────────┬─────────┘
+                             │
+          ┌──────────────────┼──────────────────┐
+          │                  │                  │
+      IBM 1130           IBM 360            RCA 1802
+        Wing               Wing               Wing
+          │
+      ┌───┴────┐
+      │        │
+   Console   1442
+             │
+        Radio demo
+
+As you add systems, you extend the museum.
+
+It could eventually become a fairly delightful visualization of computing history.
+
+The IBM areas could even loosely reflect chronology spatially:
+
+1130 → System/360 → 370 → 390
+
+rather than merely being arbitrary menu choices.
+
+Computer Science Building
+
+I would make this feel more contemporary, perhaps like a university engineering building.
+
+Departments might be things like:
+
+CPU Architecture
+Programming Languages
+Operating Systems
+Machine Learning
+Algorithms
+Distributed Systems
+
+Projects then appear within departments rather than forcing each repo into its own room.
+
+For example:
+
+Computer Science
+   |
+   +-- Architecture
+   |      |
+   |      +-- COR24
+   |      +-- RISC-V experiments
+   |
+   +-- Operating Systems
+   |      |
+   |      +-- SW/TOS
+   |
+   +-- Languages
+          |
+          +-- sw-MLPL
+          +-- Tiny C
+
+That organization tells visitors why the projects exist, not just their names.
+
+Hardware Lab
+
+This could look much more industrial:
+
+ FPGA BAY        MCU BENCHES       SOC LAB
+
+┌─────────┐    ┌─────────────┐   ┌────────────┐
+│ racks   │    │ oscilloscopes│   │ dev boards │
+│ boards  │    │ programmers │   │ cameras    │
+└─────────┘    └─────────────┘   └────────────┘
+
+        ┌───────────────────────────────┐
+        │ EXPERIMENTAL HARDWARE AREA    │
+        │                               │
+        │ serial memory / LLM / etc.    │
+        └───────────────────────────────┘
+
+So the buildings aren't merely different collections of buttons.
+
+They reinforce the subject matter.
+
+4. Use SVG as your first 2.5D renderer
+
+This is probably the most important implementation recommendation.
+
+For the first version I would use:
+
+Yew → SVG → browser DOM
+
+not WebGL and not Three.js.
+
+You can generate SVG directly from Yew's html! macro. Yew already works naturally with browser DOM APIs through WASM and web-sys; you don't need a JavaScript rendering layer.
+
+An isometric building is just polygons:
+
+          +--------+
+         /        /|
+        /  roof  / |
+       +--------+  |
+       |        |  |
+       | front  | /
+       |        |/
+       +--------+
+
+With the standard isometric projection:
+
+screen_x = (world_x - world_y) * tile_width / 2
+screen_y = (world_x + world_y) * tile_height / 2 - world_z
+
+So in Rust you can have:
+
+struct WorldPoint {
+    x: f32,
+    y: f32,
+    z: f32,
+}
+
+struct ScreenPoint {
+    x: f32,
+    y: f32,
+}
+
+and:
+
+fn project(point: WorldPoint) -> ScreenPoint
+
+Everything else can remain normal SVG.
+
+Advantages
+
+SVG gives you:
+
+native mouse hit testing;
+hover;
+click;
+focus;
+keyboard accessibility;
+text labels;
+CSS;
+transforms;
+animation;
+responsive scaling;
+browser tooltips;
+straightforward Yew events;
+no JS rendering library;
+very small conceptual surface area.
+
+And a building can literally be a link.
+
+html! {
+    <g onclick={onclick}>
+        <polygon points={roof} />
+        <polygon points={front} />
+        <polygon points={side} />
+        <text>{ "Computer History Museum" }</text>
+    </g>
+}
+
+For a map containing perhaps tens or hundreds of objects, SVG performance should be entirely adequate.
+
+If someday you have 10,000 animated objects, reconsider WebGL.
+
+You're nowhere near needing that here.
+
+5. Keep the world model separate from rendering
+
+This will save you a lot of trouble later.
+
+I would define something resembling:
+
+pub struct Place {
+    pub id: PlaceId,
+    pub title: &'static str,
+    pub kind: PlaceKind,
+    pub summary: &'static str,
+    pub parent: Option<PlaceId>,
+    pub scene: Option<SceneId>,
+    pub target: Target,
+}
+
+with:
+
+pub enum PlaceKind {
+    Campus,
+    Building,
+    Wing,
+    Department,
+    Exhibit,
+    Project,
+    Demo,
+}
+
+and:
+
+pub enum Target {
+    Scene(SceneId),
+    InternalPage(PageId),
+    ExternalUrl(&'static str),
+}
+
+Then geometry is separate:
+
+pub struct SceneObject {
+    pub place: PlaceId,
+    pub position: GridPosition,
+    pub footprint: Footprint,
+    pub appearance: Appearance,
+}
+
+This distinction is important.
+
+Semantic model
+IBM 1130
+    parent = Computer History Museum
+    kind   = Wing
+Scene model
+IBM 1130
+    x = 7
+    y = 4
+    width = 4
+    depth = 3
+
+The IBM 1130 should not know where it is drawn.
+
+That lets you redesign the maps without changing the information architecture.
+
+6. Make routes correspond to semantic places
+
+You specifically want links to every granularity.
+
+I'd strongly support that.
+
+Something like:
+
+/campus
+
+/campus/computer-history
+
+/campus/computer-history/ibm-1130
+
+/campus/computer-history/ibm-1130/1442
+
+/campus/computer-history/ibm-1130/1442/radio
+
+and:
+
+/campus/computer-science
+
+/campus/computer-science/cor24
+
+/campus/computer-science/cor24/sw-tos
+
+But internally I would not make the hierarchy dependent upon parsing those strings.
+
+Instead:
+
+#[derive(Clone, Routable, PartialEq)]
+enum Route {
+    #[at("/")]
+    Home,
+
+    #[at("/campus")]
+    Campus,
+
+    #[at("/campus/:building")]
+    Building {
+        building: String,
+    },
+
+    #[at("/campus/:building/:wing")]
+    Wing {
+        building: String,
+        wing: String,
+    },
+
+    #[at("/campus/:building/:wing/:exhibit")]
+    Exhibit {
+        building: String,
+        wing: String,
+        exhibit: String,
+    },
+
+    #[not_found]
+    #[at("/404")]
+    NotFound,
+}
+
+yew-router supports dynamic path segments and nested routing patterns, so this maps naturally onto the application.
+
+That also means navigation remains ordinary browser navigation:
+
+Back works.
+Forward works.
+Open in new tab works.
+Bookmarking works.
+Sending URLs works.
+
+Exactly what you want.
+
+7. There is one important GitHub Pages wrinkle
+
+Because you're likely to host these with GitHub Pages, you'll have to decide how direct deep links work.
+
+Yew Router provides both BrowserRouter and HashRouter; BrowserRouter uses normal browser-history URLs, while HashRouter uses hash history.
+
+For completely trouble-free static hosting you could use:
+
+https://example.org/#/campus/computer-history/ibm-1130
+
+That's ugly but reliable.
+
+I personally think your project deserves nicer URLs:
+
+https://projects.example.org/campus/computer-history/ibm-1130
+
+So I'd use BrowserRouter and configure hosting so unknown paths return your WASM app's index.html.
+
+If GitHub Pages remains the target, a small 404 SPA redirect scheme can accomplish this; if you later put the custom domain behind a static host with rewrite support, it becomes even cleaner.
+
+I would therefore design around clean URLs from day one, even if the first deployment temporarily uses hashes.
+
+8. A good interaction model is "hover → identify; click → enter"
+
+Don't make it behave like a conventional dashboard.
+
+On campus:
+
+Normal
+
+Just the environment.
+
+      [museum]
+
+                    trees
+
+ [CS]                         [hardware]
+Hover
+
+Highlight the building and show perhaps:
+
+COMPUTER HISTORY MUSEUM
+
+Historic computers, emulators,
+interfaces, and interactive demonstrations.
+
+IBM 1130 • System/360 • RCA 1802
+Click
+
+Transition to that building's map.
+
+Not a modal.
+
+Not a drawer.
+
+Not twelve cards appearing.
+
+Actually enter the building.
+
+9. I'd give each level a persistent mini-navigation system
+
+Something unobtrusive:
+
+Research Campus › Computer History Museum › IBM 1130
+
+and perhaps a tiny map icon:
+
+◈ Campus
+
+That prevents the attractive game metaphor from becoming frustrating navigation.
+
+I would also add keyboard navigation later:
+
+Arrow keys   move focus
+Enter        enter
+Esc          go up
+H            campus/home
+
+Accessibility does not have to fight the visual design.
+
+Because these are SVG DOM nodes, you can add things like:
+
+role="link"
+tabindex="0"
+aria-label="IBM 1130 Wing"
+
+rather than making the entire experience a giant inaccessible canvas.
+
+10. Don't make it photorealistic
+
+I think an important aesthetic constraint should be:
+
+architectural illustration, not generic AI-isometric-tech-campus
+
+You mentioned wanting to get away from "AI slop" in another project. The same danger exists here.
+
+I'd choose something closer to:
+
+vintage technical manuals;
+architectural model drawings;
+1970s IBM illustration;
+early SimCity;
+model railroad layouts;
+hand-drawn campus maps;
+ink + muted color;
+perhaps some Paper Banana influence.
+
+For example, Computer History Museum:
+
+warm concrete
+IBM blue accents
+mid-century architecture
+museum banners
+old computer silhouettes through windows
+
+Computer Science:
+
+brick / university engineering building
+chalkboards / graph-paper details
+
+Hardware Lab:
+
+corrugated metal
+loading dock
+antennae
+cables
+roof-mounted equipment
+
+That is much more memorable than:
+
+glass buildings + blue gradients + glowing circuits.
+
+11. The campus can encode meaning spatially
+
+This is one place where the metaphor can become genuinely useful.
+
+For example:
+
+                     COMPUTER HISTORY
+                           │
+                           │
+                           │
+       HARDWARE ────── CENTRAL QUAD ────── COMPUTER SCIENCE
+                           │
+                           │
+                           │
+                         ML LAB
+
+Then connect related areas with paths.
+
+COR24 could physically lie between:
+
+Computer Science ↔ Hardware Lab
+
+because it crosses both domains.
+
+sw-MLPL might eventually sit between:
+
+Computer Science ↔ Mathematics ↔ ML
+
+The visual geography then teaches visitors how your projects relate.
+
+That's far more interesting than simply categorizing repositories.
+
+12. Some projects should become landmarks instead of buildings
+
+This could prevent the campus from filling with rectangles.
+
+For example:
+
+             Computer History Museum
+                       │
+                    fountain
+
+
+   Computer Science                Hardware Lab
+
+
+             Experimental Field
+               ┌─────────┐
+               │ FPGA    │
+               │ antenna │
+               └─────────┘
+
+                    ↓
+
+             Solar camera station
+
+Your bird-camera/NPU mesh could eventually literally appear as cameras/solar panels in an outdoor field.
+
+The sequential-memory/LLM experiments might be represented by a small data center.
+
+Networking projects could become infrastructure.
+
+This lets the map evolve organically.
+
+13. I'd create a small reusable scene engine
+
+Given your normal preference for small Rust modules, I'd probably split a first version roughly like:
+
+campus-app/
+├── src/
+│   ├── app.rs
+│   ├── route.rs
+│   │
+│   ├── world/
+│   │   ├── place.rs
+│   │   ├── catalog.rs
+│   │   └── scene.rs
+│   │
+│   ├── iso/
+│   │   ├── projection.rs
+│   │   ├── geometry.rs
+│   │   └── render.rs
+│   │
+│   └── view/
+│       ├── scene.rs
+│       ├── tooltip.rs
+│       └── breadcrumb.rs
+
+Maybe two crates later:
+
+campus-model
+campus-web
+
+but I wouldn't start there.
+
+The core abstraction is:
+
+Scene
+  |
+  +-- SceneObject
+           |
+           +-- PlaceId
+           +-- Geometry
+           +-- Appearance
+
+and:
+
+World
+  |
+  +-- Place
+       |
+       +-- children
+       +-- destination
+14. Data-driven scenes are worth doing early
+
+I wouldn't hardcode every polygon inside Yew components.
+
+Something like RON would be very Rust-friendly:
+
+Scene(
+    id: "campus",
+    objects: [
+        Building(
+            place: "computer-history",
+            x: 3,
+            y: 2,
+            width: 5,
+            depth: 4,
+            height: 3,
+            style: Museum,
+        ),
+
+        Building(
+            place: "computer-science",
+            x: 10,
+            y: 7,
+            width: 5,
+            depth: 4,
+            height: 4,
+            style: Academic,
+        ),
+
+        Building(
+            place: "hardware-lab",
+            x: 2,
+            y: 10,
+            width: 6,
+            depth: 4,
+            height: 2,
+            style: Industrial,
+        ),
+    ],
+)
+
+Then compile/validate it as part of the Rust build.
+
+No Python asset pipeline required.
+
+Eventually you could even write a little campus editor in Yew and drag buildings around, then export RON.
+
+15. Your MVP should be intentionally tiny
+
+I would resist starting with all of your work.
+
+Version 0.1 campus
+
+Just:
+
+             ┌─────────────────────┐
+             │ COMPUTER HISTORY    │
+             │ MUSEUM              │
+             └─────────────────────┘
+
+
+     ┌────────────────┐       ┌────────────────┐
+     │ COMPUTER       │       │ HARDWARE LAB   │
+     │ SCIENCE        │       │                │
+     └────────────────┘       └────────────────┘
+
+Plus:
+
+a road/path;
+a few trees;
+campus sign;
+maybe a construction site.
+
+Three clickable buildings.
+
+That's enough to validate the entire concept.
+
+16. Then implement one complete vertical slice
+
+Before adding more buildings, go all the way down one branch:
+
+Campus
+
+  ↓
+
+Computer History Museum
+
+  ↓
+
+IBM 1130 Wing
+
+  ↓
+
+1442 Card Reader Exhibit
+
+  ↓
+
+Radio Interference / Christmas Music Demo
+
+That is particularly attractive because it ties directly into the IBM 1130 simulation you were discussing.
+
+So the first end-to-end demonstration could become:
+
+Research Campus
+       ↓
+Computer History Museum
+       ↓
+IBM 1130 Wing
+       ↓
+IBM 1442 Card Reader
+       ↓
+"Listen to the 1442 play a radio"
+
+That is a much better proof of the idea than building a campus containing 40 inactive buildings.
+
+17. It also gives you a natural home for the 1130 console work
+
+The 1130 wing could itself be a small isometric room:
+
+              IBM 1130 CONSOLE
+              ┌───────────────┐
+              │               │
+              └───────────────┘
+
+    1442                         1132 Printer
+ ┌──────────┐                  ┌──────────────┐
+ │          │                  │              │
+ └──────────┘                  └──────────────┘
+
+
+               Keypunch area
+             ┌───────────────┐
+             │    029 / ?    │
+             └───────────────┘
+
+Clicking the console enters your console demo.
+
+Clicking the 1442 enters its animation.
+
+Clicking the nearby transistor radio starts/explains the RFI music demo.
+
+You have now turned several independently interesting demos into a coherent exhibit.
+
+That's the part I find strongest about the campus idea.
+
+18. I would distinguish place navigation from project navigation
+
+An exhibit page might have something like:
+
+IBM 1442 Card Reader
+
+[ Run exhibit ]
+
+About
+Historical context
+How it worked
+Implementation
+
+Related software:
+  sw-comp-history/ibm1130
+  sw-comp-history/1442-radio
+
+[ GitHub ] [ Source ] [ Documentation ]
+
+Thus the campus navigation represents the conceptual world, while GitHub stays the software implementation layer underneath it.
+
+That avoids a common portfolio problem where visitors need to understand repository organization before they can understand the work.
+
+19. A possible long-term campus
+
+I can imagine it eventually becoming something like:
+
+                   ┌──────────────────────┐
+                   │ COMPUTER HISTORY     │
+                   │ MUSEUM               │
+                   └──────────┬───────────┘
+                              │
+                   ═══════════╪═══════════
+                              │
+         ┌────────────────────┼────────────────────┐
+         │                    │                    │
+         │                    │                    │
+ ┌───────▼────────┐   ┌───────▼────────┐   ┌──────▼─────────┐
+ │ COMPUTER       │   │ MACHINE        │   │ HARDWARE       │
+ │ SCIENCE        │   │ LEARNING       │   │ LABORATORY     │
+ │                │   │ INSTITUTE      │   │                │
+ └───────┬────────┘   └───────┬────────┘   └──────┬─────────┘
+         │                    │                    │
+         │                    │                    │
+      COR24                 sw-MLPL             FPGA
+      SW/TOS             visual ML demos        MCU
+      RISC-V              algebra               SoC
+
+
+                 ┌────────────────────────┐
+                 │ EXPERIMENTAL GROUNDS  │
+                 │                        │
+                 │ solar / cameras       │
+                 │ distributed compute   │
+                 │ weird memory systems  │
+                 └────────────────────────┘
+
+But do not build this yet.
+
+The empty spaces themselves are useful. A campus that looks like it can grow is more convincing than a map packed with every project you have.
+
+Recommended first milestone
+
+I'd define the MVP as exactly this:
+
+Yew + WASM + SVG, no Three.js.
+yew-router provides stable semantic URLs. Yew Router is explicitly designed around routes, links, browser navigation, dynamic path segments, and nested routing, so it fits this model well.
+Rust structs hold a semantic Place graph.
+RON holds scene layout.
+An isometric projection module turns grid coordinates into SVG coordinates.
+Campus contains only Computer History Museum, Computer Science, and Hardware Lab.
+Computer History Museum gets the first building-level map.
+IBM 1130 gets the first wing map.
+The 1442/RFI demo becomes the first complete clickable exhibit.
+Breadcrumbs and URLs work at every level.
+
+That gives you a small but architecturally complete system. Everything afterward is content expansion rather than a redesign.
+
+And I think the key conceptual choice is:
+
+Don't build a graphical list of projects. Build a place where the projects live.
+
+That makes the campus useful as an organizing metaphor, not merely decoration.
+
+Yes. I would add this as a first-class building, but I would avoid “Media Studies.” That sounds academic and analytical—studying film/media—whereas your projects are about creating, transforming, synthesizing, and experimenting with media.
+
+My preferred name: Digital Media Studio
+
+It fits nicely with the physical-campus metaphor:
+
+Digital Media Studio
+Video • Audio • Speech • Music • Generative Media
+
+And visually it gives you a completely different building from the museum, CS building, and hardware lab: a combination of recording studio, film-production facility, editing suites, and soundstage.
+
+I could see its internal map looking roughly like:
+
+                     DIGITAL MEDIA STUDIO
+
+              ┌─────────────────────────────┐
+              │      PRODUCTION STAGE       │
+              │  cameras / green screen     │
+              └──────────────┬──────────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        │                    │                    │
+ ┌──────▼───────┐    ┌───────▼──────┐    ┌──────▼───────┐
+ │ VIDEO LAB    │    │ SPEECH LAB   │    │ AUDIO LAB    │
+ │              │    │              │    │              │
+ │ editing      │    │ narration    │    │ SFX          │
+ │ restoration  │    │ voice clone  │    │ processing   │
+ │ lip sync     │    │ TTS          │    │ restoration  │
+ └──────────────┘    └──────────────┘    └──────────────┘
+                             │
+                     ┌───────▼────────┐
+                     │ MUSIC STUDIO   │
+                     │                │
+                     │ generation     │
+                     │ composition    │
+                     │ arrangement    │
+                     └────────────────┘
+
+There is a useful architectural distinction here: the building is organized around media domains, not AI technologies. Voice cloning might use ML, but a visitor looking for your voice work shouldn't have to know that.
+
+Other names worth considering
+Name	Character	My take
+Digital Media Studio	Creative + technical	Best overall
+Media Arts & Technology	University/research campus	Good if you want academic flavor
+Creative Technology Center	Broad and modern	Good, but vague
+Digital Arts Laboratory	Experimental/research	Strong alternative
+Media Technology Lab	Engineering-oriented	Accurate but dry
+Audio/Visual Lab	Retro/technical	Charming, but too narrow
+Creative Computing Studio	Bridges CS and art	Interesting, especially for generative work
+Media Works	Industrial/creative	Memorable campus-building name
+
+I particularly like Digital Media Studio because “studio” naturally accommodates both finished creative works and the tools/experiments used to make them.
+
+I would make Game Development its own building
+
+I'd resist putting games in Digital Media Studio.
+
+Game work consumes media—music, narration, models, animation, sound effects—but architecturally it is a much richer intersection:
+
+                  COMPUTER SCIENCE
+                        ╲
+                         ╲
+                          GAME LAB
+                         ╱       ╲
+                        ╱         ╲
+              DIGITAL MEDIA     3D/GRAPHICS
+
+So I'd create something like the Interactive Computing Lab.
+
+That's broader and more interesting than “Game Development Building.”
+
+It could contain:
+
+INTERACTIVE COMPUTING LAB
+
+Game Development
+    ├── Tower Defense
+    ├── Board-game experiments
+    └── Game mechanics
+
+Graphics & Visualization
+    ├── 2.5D / isometric
+    ├── Three.js / WebGL
+    ├── 3D assets
+    └── Gaussian splatting
+
+Simulation
+    ├── IBM hardware simulation
+    ├── CPU visualization
+    └── physical/system simulations
+
+Human Interaction
+    ├── interactive demos
+    ├── educational interfaces
+    └── visualization experiments
+
+There will deliberately be cross-campus relationships. The IBM 1130 simulation lives in the Computer History Museum, for example, even though its technology relates to the Interactive Computing Lab.
+
+That's a feature rather than a taxonomy problem.
+
+I'd actually embrace cross-campus paths
+
+This could become one of the coolest aspects of the map.
+
+Suppose your tower-defense game uses generated music and sound effects.
+
+The project lives here:
+
+Interactive Computing Lab
+        ↓
+Game Development
+        ↓
+Tower Defense
+
+But its project page could show:
+
+Related campus work
+
+  → Digital Media Studio / Music Studio
+  → Digital Media Studio / Sound Lab
+  → Hardware Lab / ...
+
+Similarly:
+
+Computer History Museum
+  IBM 1130
+      │
+      ├──────────────→ Computer Science / Emulation
+      │
+      ├──────────────→ Digital Media / Audio
+      │                    1442 radio reconstruction
+      │
+      └──────────────→ Interactive Computing / Simulation
+
+You could eventually even represent particularly important relationships as literal paths between campus buildings.
+
+That means the campus isn't just taxonomy. It starts showing the interdisciplinary nature of the projects.
+
+A fifth building may already be emerging: Mathematics & ML
+
+Given your sw-MLPL ecosystem, I wouldn't cram all of this into Computer Science either.
+
+I'd eventually consider:
+
+Computational Sciences Institute
+
+with departments/wings for:
+
+Machine Learning
+Linear Algebra
+Abstract Algebra
+Category Theory
+Numerical Computing
+Array Programming
+ML Visualization
+Model Architecture
+Inference & Quantization
+
+This gives sw-MLPL an interesting position.
+
+The language itself belongs primarily in:
+
+Computer Science → Programming Languages → sw-MLPL
+
+while applications of it appear elsewhere:
+
+                 sw-MLPL
+                    │
+        ┌───────────┼────────────┐
+        ↓           ↓            ↓
+ Computational   Interactive   Hardware
+ Sciences        Computing     Lab
+        │
+ Abstract Algebra
+ Category Theory
+ ML
+
+Again, don't force a project into only one conceptual category. Give it a canonical “home” and allow exhibits elsewhere to reference it.
+
+So the initial campus starts becoming coherent
+
+I'd currently envision five major buildings, although the MVP still only needs three:
+
+                       COMPUTER HISTORY
+                           MUSEUM
+                             │
+                             │
+                      ─── CENTRAL QUAD ───
+                    ╱          │          ╲
+                   ╱           │           ╲
+                  ╱            │            ╲
+
+       COMPUTER            COMPUTATIONAL       HARDWARE
+       SCIENCE               SCIENCES            LAB
+       BUILDING              INSTITUTE
+                  ╲            │            ╱
+                   ╲           │           ╱
+                    ╲          │          ╱
+                     INTERACTIVE COMPUTING
+                             LAB
+                              │
+                              │
+                     DIGITAL MEDIA
+                         STUDIO
+
+I wouldn't make that symmetrical in the actual artwork. A slightly irregular, organically expanded campus would be much more convincing.
+
+And this suggests some fun environmental storytelling. Computer History Museum could be the oldest-looking structure. Computer Science could resemble a 1970s university building. Hardware Lab could have loading docks, antennas and rooftop equipment. Computational Sciences could be newer. Digital Media Studio could have a soundstage, satellite dish, editing wing and recording booths. Interactive Computing might have a somewhat playful architecture.
+
+That gives each destination a recognizable silhouette before you've even drawn a label.
+
+Most importantly, I'd keep the semantic distinction:
+
+Buildings represent fields of exploration. Wings represent subjects. Exhibits represent actual work. Repositories are implementation artifacts attached to exhibits.
+
+That rule will keep the campus understandable even as you add dozens or eventually hundreds of repositories and demos.
+
+Can you add in the Math building (suggest a good name) and generate a mock up god's eye view of the campus.  Leave room for future buildings. A future building might cover writing-related areas of work like Story Telling, Nonfictional, and literate programming (need to clean up this description, but basically how to describe, in writing, interesting information about mostly technical topics.  There may be room for fictional writing, game dev, entertainment, but not sure how to add this to the campus.  Draw me a picture or two, please
+Edit
+Today 9:59 AM
+Image is generally good, but branding is "Software Wrighter" not "Mike" and the future area I do not want to mention explicitly is Robotics, please fix
+Edit
+

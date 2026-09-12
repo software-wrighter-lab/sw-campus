@@ -1,0 +1,9 @@
+number = 2
+slug = "world-model"
+status = "pending"
+description = "Create the semantic model: crate crates/campus-model plus content/catalog.ron..."
+role = "production"
+context_files = []
+created_at = "2026-09-12T12:12:05"
+task_type = "rust-lib"
+commits = []

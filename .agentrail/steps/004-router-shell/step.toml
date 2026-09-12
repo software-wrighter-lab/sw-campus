@@ -1,0 +1,9 @@
+number = 4
+slug = "router-shell"
+status = "pending"
+description = "Wire routing so every place in the catalog renders at its URL, with a breadcr..."
+role = "production"
+context_files = []
+created_at = "2026-09-12T12:12:05"
+task_type = "yew"
+commits = []

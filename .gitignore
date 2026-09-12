@@ -1,0 +1,22 @@
+# Build output
+/target/
+/dist/
+/dist-pages/
+
+# Claude Code local state (per-machine settings, runtime locks).
+# EXCEPTION: .claude/commands/ holds shared slash commands.
+.claude/*
+!.claude/commands/
+
+# agentrail raw session transcripts: huge append-only event logs.
+# The durable saga record (steps/, trajectories/, plan.md, saga.toml)
+# stays tracked; sessions do not. See CLAUDE.md.
+.agentrail/sessions/
+.agentrail-archive/*/sessions/
+
+# macOS Finder metadata
+.DS_Store
+**/.DS_Store
+
+# Scratch
+/tmp/

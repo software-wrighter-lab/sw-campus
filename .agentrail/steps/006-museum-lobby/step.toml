@@ -1,0 +1,12 @@
+number = 6
+slug = "museum-lobby"
+status = "pending"
+description = """
+Bring the Computer History Museum lobby scene live.
+
+Read docs/plan.md ("Cont..."""
+role = "production"
+context_files = []
+created_at = "2026-09-12T12:12:05"
+task_type = "yew-content"
+commits = []

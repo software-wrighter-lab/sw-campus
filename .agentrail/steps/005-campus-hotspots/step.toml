@@ -1,0 +1,9 @@
+number = 5
+slug = "campus-hotspots"
+status = "pending"
+description = "Make the campus scene interactive: painting + SVG hotspot layer, hover captio..."
+role = "production"
+context_files = []
+created_at = "2026-09-12T12:12:05"
+task_type = "yew"
+commits = []
