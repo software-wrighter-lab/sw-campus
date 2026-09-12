@@ -182,9 +182,9 @@ const PLACES = {
   // ---- Computational Sciences Institute (sw-ml-study) ----
   'computational-sciences': { kind: 'Building', title: 'Computational Sciences Institute', status: 'open',
     tagline: 'Mathematics · Machine Learning · Artificial Intelligence',
-    summary: 'From patterns to possibilities. The sw-ml-study family: an array language built for machine learning, and the mathematics, algorithms, and ML experiments written in it.',
+    summary: 'Ideas become understanding. The sw-ml-study family: an array language built for machine learning, and the mathematics, algorithms, and ML experiments written in it.',
     scene: 'csi-lobby',
-    children: ['sw-mlpl','mathematics-foundation','category-theory','ml-utilities','algorithms-data-structures','functional-pipelines','extensions-integrations','all-sw-ml-study','math-through-ages','patterns-fountain','theory-to-reality','visualization-theater'] },
+    children: ['sw-mlpl','mathematics-foundation','category-theory','machine-learning','algorithms-data-structures','functional-pipelines','extensions-integrations','all-sw-ml-study','abstraction-to-intelligence','curiosity-fountain','visualizing-understanding','ideas-lab'] },
 
   'sw-mlpl': { kind: 'Wing', title: 'sw-MLPL', status: 'open',
     tagline: 'The array-oriented language for ML and beyond. Language · REPL · Libraries · Demos',
@@ -212,9 +212,9 @@ const PLACES = {
     summary: 'Executable lessons where category-theory laws become diagrams you can inspect: values move along arrows, both sides of an equation run over the same finite inputs, and a failed law shows a concrete counterexample. Functions, identity, composition, then products, coproducts, functors, natural transformations, optics, and one concrete adjunction. No browser build yet; the lessons run in the interpreter.',
     repos: [['sw-ml-study/demo-category-theory','the lessons']] },
 
-  'ml-utilities': { kind: 'Wing', title: 'ML Utilities', status: 'open',
-    tagline: 'Data · Models · Training · Evaluation. Utilities · Datasets · Tools · Experiments',
-    summary: 'The machine-learning wing, under the name the directory gives it. Artifact utilities inspect, validate, convert, and quantise Safetensors and GGUF checkpoints in MLPL. Two microscopes expose the intermediate values of a training run and of a tiny mixture-of-experts as recorded timelines. The Serial Parameter Machine asks whether inference needs random-access memory at all, and answers with an FPGA emulator you can drive. A Rust neural-net lab bench trains logic gates in the browser. Nine forked reference repos (ATTN/11, bertviz, PredictiveCoding, JEPA, ViT, and others) sit on the reading shelf and are not Software Wrighter work.',
+  'machine-learning': { kind: 'Wing', title: 'Machine Learning', status: 'open',
+    tagline: 'Data · Models · Training · Evaluation. Datasets · Tools · Experiments',
+    summary: 'Artifact utilities inspect, validate, convert, and quantise Safetensors and GGUF checkpoints in MLPL. Two microscopes expose the intermediate values of a training run and of a tiny mixture-of-experts as recorded timelines. The Serial Parameter Machine asks whether inference needs random-access memory at all, and answers with an FPGA emulator you can drive. A Rust neural-net lab bench trains logic gates in the browser. Nine forked reference repos (ATTN/11, bertviz, PredictiveCoding, JEPA, ViT, and others) sit on the reading shelf and are not Software Wrighter work.',
     demos: [
       { name: 'Serial-MoE FPGA Visual Emulator', repo: 'sw-ml-study/emufpga', url: MLS + 'emufpga/', note: 'streaming low-bit weights from sequential storage' },
       { name: 'Neural Network Lab Bench', repo: 'sw-ml-study/neural-net-rs', url: MLS + 'neural-net-rs/', note: 'train AND, OR, XOR, QUADRANT in the browser' },
@@ -241,10 +241,10 @@ const PLACES = {
     tagline: 'Browse on GitHub', external: { label: 'Browse sw-ml-study on GitHub', url: GH + 'sw-ml-study' },
     summary: 'Every repository in the organisation, including the reading-shelf forks that are not exhibits.' },
 
-  'math-through-ages':     { kind: 'Lobby exhibit', title: 'Mathematics Through the Ages', status: 'soon', tagline: 'Ideas · Notation · Machines · Insight' },
-  'patterns-fountain':     { kind: 'Landmark', title: 'Patterns Shape Possibilities', status: 'soon', tagline: 'The fountain in the rotunda.' },
-  'theory-to-reality':     { kind: 'Lobby exhibit', title: 'From Theory to Reality', status: 'soon', tagline: 'Data · Models · Experiments · Impact' },
-  'visualization-theater': { kind: 'Lobby exhibit', title: 'Visualization Theater', status: 'soon', tagline: 'Where the microscopes will be projected.' },
+  'abstraction-to-intelligence': { kind: 'Lobby exhibit', title: 'From Abstraction to Intelligence', status: 'soon', tagline: 'Numbers · Structures · Models · Real-World Impact' },
+  'curiosity-fountain':          { kind: 'Landmark', title: 'Curiosity Drives Progress', status: 'soon', tagline: 'The armillary fountain in the rotunda.' },
+  'visualizing-understanding':   { kind: 'Lobby exhibit', title: 'Visualizing Understanding', status: 'soon', tagline: 'Data · Models · Algorithms · Insight' },
+  'ideas-lab':                   { kind: 'Lobby exhibit', title: 'Ideas Lab', status: 'soon', tagline: 'Where the microscopes will be projected.' },
 
   // ---- Other campus places ----
   'hardware-lab':          { kind: 'Building', title: 'Hardware Lab', status: 'soon', tagline: 'FPGA · SoCs · MCUs · Prototyping · Test & Measurement · Experimental Systems' },
@@ -279,11 +279,11 @@ const SCENES = {
     ['information-desk', 500,620,580,110], ['featured-projects', 1355,405,181,195],
   ]},
   'csi-lobby': { image: 'images/csi-lobby.webp', alt: 'Painted lobby of the Computational Sciences Institute with the sw-ml-study project directory', hotspots: [
-    ['sw-mlpl', 582,338,322,40], ['mathematics-foundation', 582,383,322,40], ['category-theory', 582,428,322,40],
-    ['ml-utilities', 582,473,322,40], ['algorithms-data-structures', 582,518,322,40], ['functional-pipelines', 582,563,322,40],
-    ['extensions-integrations', 582,608,322,40], ['all-sw-ml-study', 582,653,322,40],
-    ['math-through-ages', 20,780,380,180], ['patterns-fountain', 620,720,390,110],
-    ['theory-to-reality', 1150,760,386,200], ['visualization-theater', 1160,570,220,130],
+    ['sw-mlpl', 588,308,300,38], ['mathematics-foundation', 588,353,300,38], ['category-theory', 588,398,300,38],
+    ['machine-learning', 588,443,300,38], ['algorithms-data-structures', 588,488,300,38], ['functional-pipelines', 588,533,300,38],
+    ['extensions-integrations', 588,578,300,38], ['all-sw-ml-study', 588,623,300,34],
+    ['abstraction-to-intelligence', 0,700,370,160], ['curiosity-fountain', 610,660,370,130],
+    ['visualizing-understanding', 1180,700,356,170], ['ideas-lab', 1140,530,190,160],
   ]},
 };
 const W = 1536, H = 1024;

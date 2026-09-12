@@ -360,29 +360,29 @@ have no repos), interfaces-peripherals (1150-1536, 640-840),
 information-desk (500-1080, 620-730), featured-projects (1355-1536, 405-600).
 
 Computational Sciences Institute (`images/computational-sciences-institute-lobby.png`,
-board x 582-904, rows 40 px starting y 338 with a 45 px pitch):
+second version; board x 588-888, rows 38 px starting y 308 with a 45 px pitch):
 
 | row | place | repos behind it |
 | --- | --- | --- |
 | 1 | sw-mlpl | sw-mlpl (latest), mlpl-live (stable at mlpl.softwarewrighter.com), demo-mlpl-libraries |
 | 2 | mathematics-foundation | demo-abstract-algebra (site, course, lab, all live), demo-linear-algebra; calculus and discrete are empty |
 | 3 | category-theory | demo-category-theory (no browser build) |
-| 4 | ml-utilities | THE ML wing: demo-ml-utils, demo-ml-microscope, moe-microscope, emufpga (live), neural-net-rs (live), ml-viz, cat-finder |
+| 4 | machine-learning | demo-ml-utils, demo-ml-microscope, moe-microscope, emufpga (live), neural-net-rs (live), ml-viz, cat-finder |
 | 5 | algorithms-data-structures | demo-algorithms, demo-data-structures, demo-memory |
 | 6 | functional-pipelines | demo-functional-pipelines, demo-combinators, demo-design-patterns |
 | 7 | extensions-integrations | demo-extensions, demo-file-processing, demo-mlpl-libraries |
 | 8 | all-sw-ml-study | outbound link to github.com/sw-ml-study |
 
-Floor: math-through-ages (20-400, 780-960), patterns-fountain (620-1010,
-720-830), theory-to-reality (1150-1536, 760-960), visualization-theater
-(1160-1380, 570-700).
+Floor: abstraction-to-intelligence (0-370, 700-860), curiosity-fountain
+(610-980, 660-790), visualizing-understanding (1180-1536, 700-870),
+ideas-lab (1140-1330, 530-690).
+
+The second version of this painting fixed the two naming problems the
+first one had (it now says "Institute" everywhere, and the ML row is
+"Machine Learning", not "ML Utilities").
 
 Known mismatches to resolve when the art is regenerated (queue: wing-art):
 
-- The Institute painting calls itself "Computational Sciences Building";
-  the campus painting and the catalog say "Institute".
-- The Institute board's only ML row is "ML Utilities" while its banner says
-  "Machine Learning". The catalog treats that row as the whole ML wing.
 - Both paintings carry mock chrome (campus sign, breadcrumb pill).
 - Nine sw-ml-study repos are forks of other people's work (ATTN-11, bertviz,
   PredictiveCoding, Engram, Diffusion, JEPA, ViT, Repeated-Sampling,
