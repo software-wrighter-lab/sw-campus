@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software Wrighter Research Campus</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/campus.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#/">Software Wrighter Research Campus<small>Explore · Build · Learn · Create</small></a>
+    <span class="mock">Mockup · sw-comp-history scope</span>
+  </header>
+  <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
+  <main id="main"></main>
+  <footer>
+    <span>Copyright &copy; 2026 Michael A Wright</span>
+    <a href="https://github.com/software-wrighter-lab/sw-campus/blob/main/LICENSE">MIT License</a>
+    <a href="https://github.com/software-wrighter-lab/sw-campus">Repository: software-wrighter-lab/sw-campus</a>
+    <span>Mockup of the Rust/Yew/WASM app described in docs/plan.md</span>
+  </footer>
+</div>
+
+<script>
+// ---------- Content: the semantic model (what exists) ----------
+const GH = 'https://github.com/sw-comp-history/';
+const LIVE = 'https://sw-comp-history.github.io/';
+
+const PLACES = {
+  campus: { kind: 'Campus', title: 'Software Wrighter Research Campus',
+    tagline: 'A growing campus of projects, experiments, and ideas.',
+    scene: 'campus',
+    children: ['computer-history','computer-science','hardware-lab','computational-sciences','digital-media','interactive-computing','commons','future-nw','future-ne','future-sw'] },
+
+  'computer-history': { kind: 'Building', title: 'Computer History Museum', status: 'open',
+    tagline: 'Vintage systems · Emulations · Interactive demos',
+    summary: 'People, ideas, machines. Historic computers rebuilt as emulators you can run in the browser, with the toolchains written to program them.',
+    scene: 'lobby',
+    children: ['ibm-1130','ibm-360','ibm-370','ibm-390','early-computers','personal-computing','processors','interfaces-media','minicomputers','game-machines','special-exhibits','library-archives','vacuum-tubes','transistors','punch-cards','core-memory','paper-tape','early-pcs'] },
+
+  'ibm-1130': { kind: 'Wing', title: 'IBM 1130 Wing', status: 'open', parentTitle: 'Computer History Museum',
+    tagline: 'The 1131 console, its peripherals, and the toolchain written to program it.',
+    demos: [
+      { name: 'IBM 1130 System Emulator', repo: 'ibm-1130-rs', url: LIVE + 'ibm-1130-rs/', note: 'Yew/Rust/WASM emulation of the 1130 system' },
+    ],
+    repos: [
+      ['sw-ibm-1130-peripherals', 'peripherals emulation and demos (1442, 1132, 2310 ...)'],
+      ['sw-ibm1130-forth', 'FORTH for the IBM 1130'],
+      ['sw-ibm1130-isa', 'ISA: opcodes, encoding, addressing modes'],
+      ['sw-ibm1130-asm', 'assembler'],
+      ['sw-ibm1130-codegen', 'code generator'],
+      ['sw-ibm1130-target', 'toolchain target'],
+      ['sw-ibm1130-emulator', 'emulator core'],
+    ],
+    exhibits: [['029','IBM 029 Card Punch'],['1130','IBM 1130 Console (1131 CPU)'],['1442','IBM 1442 Card Read Punch'],['1132','IBM 1132 Printer'],['2310','IBM 2310 Disk Drive']] },
+
+  'ibm-360': { kind: 'Wing', title: 'IBM System/360 Wing', status: 'open', parentTitle: 'Computer History Museum',
+    tagline: 'The family that made "compatible" a word, and APL\\360 running on it.',
+    demos: [ { name: 'APL Horse Race', repo: 'apl-horse-race', url: LIVE + 'apl-horse-race/', note: 'Throwback Thursday: a first program, in APL\\360' } ],
+    repos: [['apl-horse-race', 'the APL\\360 horse race']], exhibits: [] },
+
+  'ibm-370': { kind: 'Wing', title: 'IBM System/370 Wing', status: 'soon', parentTitle: 'Computer History Museum',
+    tagline: 'Virtual memory, VM/370, and the machines that ran the 1970s.', demos: [], repos: [], exhibits: [] },
+
+  'ibm-390': { kind: 'Wing', title: 'IBM System/390 Wing', status: 'open', parentTitle: 'Computer History Museum',
+    tagline: 'ESA/390 assembler, and the batch pipelines of CMS and TSO.',
+    demos: [
+      { name: 'IBM ESA/390 Assembly Emulator', repo: 'ibm-390-rs', url: LIVE + 'ibm-390-rs/', note: 'OS/390 assembler emulator in Yew/Rust/WASM' },
+      { name: 'Historical Batch Pipelines', repo: 'pipelines-rs', url: LIVE + 'pipelines-rs/', note: 'IBM CMS/TSO Pipelines, demonstrated in Rust' },
+    ],
+    repos: [['ibm-390-rs','ESA/390 emulator'],['pipelines-rs','CMS/TSO Pipelines']], exhibits: [] },
+
+  processors: { kind: 'Wing', title: 'Processors & Architectures', status: 'open', parentTitle: 'Computer History Museum',
+    tagline: 'Instruction sets as artifacts. First installation: the RCA CDP1802 (COSMAC).',
+    demos: [
+      { name: 'RCA COSMAC 1802 Assembly Emulator', repo: 'rca-1802-rs', url: LIVE + 'rca-1802-rs/', note: 'COSMAC ELF simulator in Yew/Rust/WASM' },
+      { name: 'CDP1802 I/O Live Demo', repo: 'sw-cdp1802-io', url: LIVE + 'sw-cdp1802-io/', note: 'input/output on the 1802' },
+    ],
+    repos: [['sw-cdp1802-isa','ISA'],['sw-cdp1802-asm','assembler'],['sw-cdp1802-codegen','code generator'],['sw-cdp1802-target','toolchain target'],['sw-cdp1802-emulator','emulator core']],
+    exhibits: [] },
+
+  'early-computers':   { kind: 'Wing', title: 'Early Computers & Pioneers', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Before the mainframe.', demos: [], repos: [], exhibits: [] },
+  'personal-computing':{ kind: 'Wing', title: 'Personal Computing', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'The machine on the desk.', demos: [], repos: [], exhibits: [] },
+  'interfaces-media':  { kind: 'Wing', title: 'Interfaces & Media', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Cards, tape, terminals, screens.', demos: [], repos: [], exhibits: [] },
+  minicomputers:       { kind: 'Wing', title: 'Minicomputers & Workstations', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Smaller than a room, bigger than a desk.', demos: [], repos: [], exhibits: [] },
+  'game-machines':     { kind: 'Wing', title: 'Game Machines', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Consoles, arcades, and the hardware that played.', demos: [], repos: [], exhibits: [] },
+  'special-exhibits':  { kind: 'Wing', title: 'Special Exhibits', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Rotating installations.', demos: [], repos: [], exhibits: [] },
+  'library-archives':  { kind: 'Wing', title: 'Library & Archives', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Manuals, listings, and the paper trail.', demos: [], repos: [], exhibits: [] },
+
+  'vacuum-tubes': { kind: 'Lobby exhibit', title: 'Vacuum Tubes', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1930s to 1950s.', demos: [], repos: [], exhibits: [] },
+  transistors:    { kind: 'Lobby exhibit', title: 'Transistors & Early ICs', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1950s to 1970s.', demos: [], repos: [], exhibits: [] },
+  'punch-cards':  { kind: 'Lobby exhibit', title: 'Punch Cards', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1890s to 1970s.', demos: [], repos: [], exhibits: [] },
+  'core-memory':  { kind: 'Lobby exhibit', title: 'Core Memory', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1950s to 1970s.', demos: [], repos: [], exhibits: [] },
+  'paper-tape':   { kind: 'Lobby exhibit', title: 'Paper Tape', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1950s to 1980s.', demos: [], repos: [], exhibits: [] },
+  'early-pcs':    { kind: 'Lobby exhibit', title: 'Early Personal Computers', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1970s to 1980s.', demos: [], repos: [], exhibits: [] },
+
+  'computer-science':      { kind: 'Building', title: 'Computer Science Building', status: 'soon', parentTitle: 'Campus', tagline: 'Architecture · Operating Systems · Programming Languages · Compilers · COR24 · RISC-V', demos: [], repos: [], exhibits: [] },
+  'hardware-lab':          { kind: 'Building', title: 'Hardware Lab', status: 'soon', parentTitle: 'Campus', tagline: 'FPGA · SoCs · MCUs · Prototyping · Test & Measurement · Experimental Systems', demos: [], repos: [], exhibits: [] },
+  'computational-sciences':{ kind: 'Building', title: 'Computational Sciences Institute', status: 'soon', parentTitle: 'Campus', tagline: 'Mathematics · Machine Learning · Linear Algebra · Abstract Algebra · Category Theory · Numerical Methods', demos: [], repos: [], exhibits: [] },
+  'digital-media':         { kind: 'Building', title: 'Digital Media Studio', status: 'soon', parentTitle: 'Campus', tagline: 'Video · Audio · Speech · Music Generation · Editing · SFX · Voice Cloning · Generative Media', demos: [], repos: [], exhibits: [] },
+  'interactive-computing': { kind: 'Building', title: 'Interactive Computing Lab', status: 'soon', parentTitle: 'Campus', tagline: 'Games · Graphics · Visualization · Simulations · Interactive Demos · Educational Tools', demos: [], repos: [], exhibits: [] },
+  commons:   { kind: 'Landmark', title: 'The Commons', status: 'soon', parentTitle: 'Campus', tagline: 'Ideas meet here.', demos: [], repos: [], exhibits: [] },
+  'future-nw': { kind: 'Site', title: 'Future Building', status: 'soon', parentTitle: 'Campus', tagline: 'New ideas coming soon.', demos: [], repos: [], exhibits: [] },
+  'future-ne': { kind: 'Site', title: 'Future Building', status: 'soon', parentTitle: 'Campus', tagline: 'New ideas coming soon.', demos: [], repos: [], exhibits: [] },
+  'future-sw': { kind: 'Site', title: 'Future Building', status: 'soon', parentTitle: 'Campus', tagline: 'New ideas coming soon.', demos: [], repos: [], exhibits: [] },
+};
+
+// ---------- Scenes: where things are drawn (1536 x 1024 image space) ----------
+const SCENES = {
+  campus: { image: 'images/campus.webp', alt: 'Painted map of the Software Wrighter Research Campus', hotspots: [
+    ['computer-history', 575,130,385,210], ['computer-science', 285,250,280,230], ['hardware-lab', 950,250,350,220],
+    ['computational-sciences', 230,480,390,260], ['digital-media', 620,600,290,230], ['interactive-computing', 1050,460,390,250],
+    ['commons', 700,400,180,130], ['future-nw', 60,210,270,150], ['future-ne', 1290,230,230,140], ['future-sw', 20,760,310,150],
+  ]},
+  lobby: { image: 'images/lobby.webp', alt: 'Painted lobby of the Computer History Museum with its directory board', hotspots: [
+    ['ibm-1130', 577,375,193,24], ['ibm-360', 577,404,193,24], ['ibm-370', 577,433,193,24], ['ibm-390', 577,462,193,24],
+    ['early-computers', 577,492,193,24], ['personal-computing', 577,522,193,24],
+    ['processors', 792,375,183,24], ['interfaces-media', 792,404,183,24], ['minicomputers', 792,433,183,24],
+    ['game-machines', 792,462,183,24], ['special-exhibits', 792,492,183,24], ['library-archives', 792,522,183,24],
+    ['vacuum-tubes', 30,700,205,200], ['transistors', 295,720,195,180], ['punch-cards', 300,610,160,110],
+    ['core-memory', 460,640,140,150], ['paper-tape', 1000,640,160,150], ['early-pcs', 1170,690,200,160],
+  ]},
+};
+const W = 1536, H = 1024;
+
+// ---------- Routing: #/campus/computer-history/ibm-1130 ----------
+function pathOf(id) {
+  if (id === 'campus') return '#/';
+  const parent = PLACES.campus.children.includes(id) ? '' : '/computer-history';
+  return '#/campus' + parent + '/' + id;
+}
+function current() {
+  const segs = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  if (segs[0] === 'campus') segs.shift();
+  const id = segs.length ? segs[segs.length - 1] : 'campus';
+  const chain = ['campus', ...segs];
+  return { id: PLACES[id] ? id : null, chain };
+}
+function parentOf(id) {
+  if (id === 'campus') return null;
+  return PLACES.campus.children.includes(id) ? 'campus' : 'computer-history';
+}
+
+// ---------- Rendering ----------
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function renderCrumbs(chain) {
+  const parts = [];
+  chain.forEach((id, i) => {
+    const p = PLACES[id];
+    const label = id === 'campus' ? 'Campus' : (p ? p.title : id);
+    if (i < chain.length - 1) parts.push(`<a href="${pathOf(id)}">${esc(label)}</a><span class="sep">›</span>`);
+    else parts.push(`<span class="here">${esc(label)}</span>`);
+  });
+  parts.push(`<span class="keys"><kbd>Esc</kbd> up &nbsp; <kbd>H</kbd> campus</span>`);
+  document.getElementById('crumbs').innerHTML = parts.join('');
+}
+
+function chip(p) {
+  if (p.status === 'open') return '<span class="chip open">Open</span>';
+  return '<span class="chip soon">Opening soon</span>';
+}
+
+function renderScene(place) {
+  const sc = SCENES[place.scene];
+  const hots = sc.hotspots.map(([id, x, y, w, h]) => {
+    const p = PLACES[id];
+    const pts = `${x},${y} ${x+w},${y} ${x+w},${y+h} ${x},${y+h}`;
+    return `<a class="hot ${p.status === 'open' ? '' : 'soon'}" href="${pathOf(id)}" role="link" aria-label="${esc(p.title)}"
+      data-id="${id}" data-cx="${x + w/2}" data-by="${y + h}"><polygon points="${pts}"></polygon></a>`;
+  }).join('');
+  const dir = place.children.map(id => {
+    const p = PLACES[id];
+    return `<li><a href="${pathOf(id)}">${esc(p.title)}</a>${chip(p)}</li>`;
+  }).join('');
+  return `
+    <div class="scene" id="scene">
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(sc.alt)}">
+        <image href="${sc.image}" width="${W}" height="${H}"></image>
+        ${hots}
+      </svg>
+      <div class="caption" id="caption" hidden></div>
+    </div>
+    <section class="dir" aria-label="Directory">
+      <h2>${place.kind === 'Campus' ? 'On the campus' : 'Museum directory'}</h2>
+      <ul>${dir}</ul>
+    </section>`;
+}
+
+function renderPage(id, place) {
+  const demos = place.demos.map(d => `
+    <li><span class="name">${esc(d.name)}<small>${esc(d.repo)} · ${esc(d.note)}</small></span>
+        <a class="run" href="${d.url}" target="_blank" rel="noopener">Run demo</a></li>`).join('');
+  const repos = place.repos.map(([r, note]) => `
+    <li><a href="${GH + r}" target="_blank" rel="noopener">sw-comp-history/${esc(r)}</a> <span>· ${esc(note)}</span></li>`).join('');
+  const exhibits = place.exhibits.map(([slug, title]) => `
+    <li><span>${esc(title)}</span><span class="chip ph">${esc(slug)} · planned</span></li>`).join('');
+  const parent = parentOf(id);
+  return `
+    <article class="page">
+      <div class="eyebrow">${esc(place.kind)} · ${esc(place.parentTitle || 'Campus')}</div>
+      <h1>${esc(place.title)}</h1>
+      <p class="tagline">${esc(place.tagline)}</p>
+      <div class="cols">
+        <div class="prose">
+          <div class="placeholder"><span class="chip soon">Placeholder</span>
+            This is where the ${esc(place.kind.toLowerCase())}'s story goes: what the machines were, why they mattered,
+            and what was built here to bring them back. The real text is written when the exhibits are installed.
+          </div>
+          ${place.exhibits.length ? `
+          <div class="section exhibits">
+            <h2>Exhibits in this wing</h2>
+            <ul>${exhibits}</ul>
+          </div>` : ''}
+        </div>
+        <div>
+          <div class="section demos">
+            <h2>Live demos</h2>
+            ${demos ? `<ul>${demos}</ul>` : `<p class="placeholder"><span class="chip soon">Opening soon</span>No live demo installed yet.</p>`}
+          </div>
+          ${repos ? `<div class="section repos"><h2>Source repositories</h2><ul>${repos}</ul></div>` : ''}
+        </div>
+      </div>
+      <a class="back" href="${pathOf(parent)}">‹ Back to ${esc(parent === 'campus' ? 'the campus' : PLACES[parent].title)}</a>
+    </article>`;
+}
+
+function render() {
+  const { id, chain } = current();
+  const main = document.getElementById('main');
+  if (!id) {
+    renderCrumbs(['campus']);
+    main.innerHTML = `<article class="page"><h1>No such place</h1><p class="tagline">Nothing is built at this address.</p><a class="back" href="#/">‹ Back to the campus</a></article>`;
+    return;
+  }
+  const place = PLACES[id];
+  renderCrumbs(chain);
+  main.innerHTML = place.scene ? renderScene(place) : renderPage(id, place);
+  document.title = (id === 'campus' ? '' : place.title + ' · ') + 'Software Wrighter Research Campus';
+  if (place.scene) wireScene();
+  window.scrollTo(0, 0);
+}
+
+// ---------- Hover captions ----------
+function wireScene() {
+  const scene = document.getElementById('scene');
+  const cap = document.getElementById('caption');
+  const show = a => {
+    const p = PLACES[a.dataset.id];
+    const kids = (p.children || []).slice(0, 4).map(k => PLACES[k].title).join(' · ');
+    const soon = p.status !== 'open';
+    cap.className = 'caption' + (soon ? ' soon' : '');
+    cap.innerHTML = `<div class="kind">${esc(p.kind)}</div><h3>${esc(p.title)}</h3><p>${esc(p.tagline)}</p>
+      ${kids ? `<div class="children">${esc(kids)}${p.children.length > 4 ? ' · …' : ''}</div>` : ''}
+      <div class="enter">${soon ? 'Opening soon' : 'Click to enter'}</div>`;
+    const cx = a.dataset.cx / W, by = a.dataset.by / H;
+    let left = Math.min(Math.max(cx, 0.14), 0.86) * 100;
+    cap.style.left = left + '%';
+    if (by > 0.72) { cap.style.top = ''; cap.style.bottom = (100 - (by - 0.02) * 100 + 8) + '%'; }
+    else { cap.style.bottom = ''; cap.style.top = (by * 100 + 1) + '%'; }
+    cap.hidden = false;
+  };
+  const hide = () => { cap.hidden = true; };
+  scene.querySelectorAll('.hot').forEach(a => {
+    a.addEventListener('mouseenter', () => show(a));
+    a.addEventListener('focus', () => show(a));
+    a.addEventListener('mouseleave', hide);
+    a.addEventListener('blur', hide);
+  });
+}
+
+// ---------- Keys ----------
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea')) return;
+  if (e.key === 'Escape') { const { id } = current(); const p = parentOf(id); if (p) location.hash = pathOf(p); }
+  if (e.key === 'h' || e.key === 'H') location.hash = '#/';
+});
+
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>
