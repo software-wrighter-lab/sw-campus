@@ -11,7 +11,7 @@
 <div class="wrap">
   <header>
     <a class="brand" href="#/">Software Wrighter Research Campus<small>Explore · Build · Learn · Create</small></a>
-    <span class="mock">Mockup · sw-comp-history scope</span>
+    <span class="mock">Mockup · sw-comp-history · sw-embed · sw-ml-study</span>
   </header>
   <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
   <main id="main"></main>
@@ -25,86 +25,235 @@
 
 <script>
 // ---------- Content: the semantic model (what exists) ----------
-const GH = 'https://github.com/sw-comp-history/';
-const LIVE = 'https://sw-comp-history.github.io/';
+// Every place: kind, title, tagline, status ('open' | 'soon'), and optionally
+// summary (real prose, shown as a draft), demos (live, runnable in a browser),
+// repos ('org/name' + note), exhibits (planned sub-places), external (a
+// single outbound link), scene (a painting with hotspots), children.
+const GH = 'https://github.com/';
+const CH = 'https://sw-comp-history.github.io/';
+const EMB = 'https://sw-embed.github.io/';
+const MLS = 'https://sw-ml-study.github.io/';
 
 const PLACES = {
   campus: { kind: 'Campus', title: 'Software Wrighter Research Campus',
     tagline: 'A growing campus of projects, experiments, and ideas.',
     scene: 'campus',
-    children: ['computer-history','computer-science','hardware-lab','computational-sciences','digital-media','interactive-computing','commons','future-nw','future-ne','future-sw'] },
+    children: ['computer-history','computer-science','computational-sciences','hardware-lab','digital-media','interactive-computing','commons','future-nw','future-ne','future-sw'] },
 
+  // ---- Computer History Museum (sw-comp-history) ----
   'computer-history': { kind: 'Building', title: 'Computer History Museum', status: 'open',
     tagline: 'Vintage systems · Emulations · Interactive demos',
     summary: 'People, ideas, machines. Historic computers rebuilt as emulators you can run in the browser, with the toolchains written to program them.',
     scene: 'lobby',
     children: ['ibm-1130','ibm-360','ibm-370','ibm-390','early-computers','personal-computing','processors','interfaces-media','minicomputers','game-machines','special-exhibits','library-archives','vacuum-tubes','transistors','punch-cards','core-memory','paper-tape','early-pcs'] },
 
-  'ibm-1130': { kind: 'Wing', title: 'IBM 1130 Wing', status: 'open', parentTitle: 'Computer History Museum',
+  'ibm-1130': { kind: 'Wing', title: 'IBM 1130 Wing', status: 'open',
     tagline: 'The 1131 console, its peripherals, and the toolchain written to program it.',
-    demos: [
-      { name: 'IBM 1130 System Emulator', repo: 'ibm-1130-rs', url: LIVE + 'ibm-1130-rs/', note: 'Yew/Rust/WASM emulation of the 1130 system' },
-    ],
+    demos: [ { name: 'IBM 1130 System Emulator', repo: 'sw-comp-history/ibm-1130-rs', url: CH + 'ibm-1130-rs/', note: 'Yew/Rust/WASM emulation of the 1130 system' } ],
     repos: [
-      ['sw-ibm-1130-peripherals', 'peripherals emulation and demos (1442, 1132, 2310 ...)'],
-      ['sw-ibm1130-forth', 'FORTH for the IBM 1130'],
-      ['sw-ibm1130-isa', 'ISA: opcodes, encoding, addressing modes'],
-      ['sw-ibm1130-asm', 'assembler'],
-      ['sw-ibm1130-codegen', 'code generator'],
-      ['sw-ibm1130-target', 'toolchain target'],
-      ['sw-ibm1130-emulator', 'emulator core'],
+      ['sw-comp-history/sw-ibm-1130-peripherals', 'peripherals emulation and demos (1442, 1132, 2310 ...)'],
+      ['sw-comp-history/sw-ibm1130-forth', 'FORTH for the IBM 1130'],
+      ['sw-comp-history/sw-ibm1130-isa', 'ISA: opcodes, encoding, addressing modes'],
+      ['sw-comp-history/sw-ibm1130-asm', 'assembler'], ['sw-comp-history/sw-ibm1130-codegen', 'code generator'],
+      ['sw-comp-history/sw-ibm1130-target', 'toolchain target'], ['sw-comp-history/sw-ibm1130-emulator', 'emulator core'],
     ],
     exhibits: [['029','IBM 029 Card Punch'],['1130','IBM 1130 Console (1131 CPU)'],['1442','IBM 1442 Card Read Punch'],['1132','IBM 1132 Printer'],['2310','IBM 2310 Disk Drive']] },
-
-  'ibm-360': { kind: 'Wing', title: 'IBM System/360 Wing', status: 'open', parentTitle: 'Computer History Museum',
+  'ibm-360': { kind: 'Wing', title: 'IBM System/360 Wing', status: 'open',
     tagline: 'The family that made "compatible" a word, and APL\\360 running on it.',
-    demos: [ { name: 'APL Horse Race', repo: 'apl-horse-race', url: LIVE + 'apl-horse-race/', note: 'Throwback Thursday: a first program, in APL\\360' } ],
-    repos: [['apl-horse-race', 'the APL\\360 horse race']], exhibits: [] },
-
-  'ibm-370': { kind: 'Wing', title: 'IBM System/370 Wing', status: 'soon', parentTitle: 'Computer History Museum',
-    tagline: 'Virtual memory, VM/370, and the machines that ran the 1970s.', demos: [], repos: [], exhibits: [] },
-
-  'ibm-390': { kind: 'Wing', title: 'IBM System/390 Wing', status: 'open', parentTitle: 'Computer History Museum',
+    demos: [ { name: 'APL Horse Race', repo: 'sw-comp-history/apl-horse-race', url: CH + 'apl-horse-race/', note: 'Throwback Thursday: a first program, in APL\\360' } ],
+    repos: [['sw-comp-history/apl-horse-race', 'the APL\\360 horse race']] },
+  'ibm-370': { kind: 'Wing', title: 'IBM System/370 Wing', status: 'soon', tagline: 'Virtual memory, VM/370, and the machines that ran the 1970s.' },
+  'ibm-390': { kind: 'Wing', title: 'IBM System/390 Wing', status: 'open',
     tagline: 'ESA/390 assembler, and the batch pipelines of CMS and TSO.',
     demos: [
-      { name: 'IBM ESA/390 Assembly Emulator', repo: 'ibm-390-rs', url: LIVE + 'ibm-390-rs/', note: 'OS/390 assembler emulator in Yew/Rust/WASM' },
-      { name: 'Historical Batch Pipelines', repo: 'pipelines-rs', url: LIVE + 'pipelines-rs/', note: 'IBM CMS/TSO Pipelines, demonstrated in Rust' },
+      { name: 'IBM ESA/390 Assembly Emulator', repo: 'sw-comp-history/ibm-390-rs', url: CH + 'ibm-390-rs/', note: 'OS/390 assembler emulator in Yew/Rust/WASM' },
+      { name: 'Historical Batch Pipelines', repo: 'sw-comp-history/pipelines-rs', url: CH + 'pipelines-rs/', note: 'IBM CMS/TSO Pipelines, demonstrated in Rust' },
     ],
-    repos: [['ibm-390-rs','ESA/390 emulator'],['pipelines-rs','CMS/TSO Pipelines']], exhibits: [] },
-
-  processors: { kind: 'Wing', title: 'Processors & Architectures', status: 'open', parentTitle: 'Computer History Museum',
+    repos: [['sw-comp-history/ibm-390-rs','ESA/390 emulator'],['sw-comp-history/pipelines-rs','CMS/TSO Pipelines']] },
+  processors: { kind: 'Wing', title: 'Processors & Architectures', status: 'open',
     tagline: 'Instruction sets as artifacts. First installation: the RCA CDP1802 (COSMAC).',
     demos: [
-      { name: 'RCA COSMAC 1802 Assembly Emulator', repo: 'rca-1802-rs', url: LIVE + 'rca-1802-rs/', note: 'COSMAC ELF simulator in Yew/Rust/WASM' },
-      { name: 'CDP1802 I/O Live Demo', repo: 'sw-cdp1802-io', url: LIVE + 'sw-cdp1802-io/', note: 'input/output on the 1802' },
+      { name: 'RCA COSMAC 1802 Assembly Emulator', repo: 'sw-comp-history/rca-1802-rs', url: CH + 'rca-1802-rs/', note: 'COSMAC ELF simulator in Yew/Rust/WASM' },
+      { name: 'CDP1802 I/O Live Demo', repo: 'sw-comp-history/sw-cdp1802-io', url: CH + 'sw-cdp1802-io/', note: 'input/output on the 1802' },
     ],
-    repos: [['sw-cdp1802-isa','ISA'],['sw-cdp1802-asm','assembler'],['sw-cdp1802-codegen','code generator'],['sw-cdp1802-target','toolchain target'],['sw-cdp1802-emulator','emulator core']],
-    exhibits: [] },
+    repos: [['sw-comp-history/sw-cdp1802-isa','ISA'],['sw-comp-history/sw-cdp1802-asm','assembler'],['sw-comp-history/sw-cdp1802-codegen','code generator'],['sw-comp-history/sw-cdp1802-target','toolchain target'],['sw-comp-history/sw-cdp1802-emulator','emulator core']] },
+  'early-computers':   { kind: 'Wing', title: 'Early Computers & Pioneers', status: 'soon', tagline: 'Before the mainframe.' },
+  'personal-computing':{ kind: 'Wing', title: 'Personal Computing', status: 'soon', tagline: 'The machine on the desk.' },
+  'interfaces-media':  { kind: 'Wing', title: 'Interfaces & Media', status: 'soon', tagline: 'Cards, tape, terminals, screens.' },
+  minicomputers:       { kind: 'Wing', title: 'Minicomputers & Workstations', status: 'soon', tagline: 'Smaller than a room, bigger than a desk.' },
+  'game-machines':     { kind: 'Wing', title: 'Game Machines', status: 'soon', tagline: 'Consoles, arcades, and the hardware that played.' },
+  'special-exhibits':  { kind: 'Wing', title: 'Special Exhibits', status: 'soon', tagline: 'Rotating installations.' },
+  'library-archives':  { kind: 'Wing', title: 'Library & Archives', status: 'soon', tagline: 'Manuals, listings, and the paper trail.' },
+  'vacuum-tubes': { kind: 'Lobby exhibit', title: 'Vacuum Tubes', status: 'soon', tagline: '1930s to 1950s.' },
+  transistors:    { kind: 'Lobby exhibit', title: 'Transistors & Early ICs', status: 'soon', tagline: '1950s to 1970s.' },
+  'punch-cards':  { kind: 'Lobby exhibit', title: 'Punch Cards', status: 'soon', tagline: '1890s to 1970s.' },
+  'core-memory':  { kind: 'Lobby exhibit', title: 'Core Memory', status: 'soon', tagline: '1950s to 1970s.' },
+  'paper-tape':   { kind: 'Lobby exhibit', title: 'Paper Tape', status: 'soon', tagline: '1950s to 1980s.' },
+  'early-pcs':    { kind: 'Lobby exhibit', title: 'Early Personal Computers', status: 'soon', tagline: '1970s to 1980s.' },
 
-  'early-computers':   { kind: 'Wing', title: 'Early Computers & Pioneers', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Before the mainframe.', demos: [], repos: [], exhibits: [] },
-  'personal-computing':{ kind: 'Wing', title: 'Personal Computing', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'The machine on the desk.', demos: [], repos: [], exhibits: [] },
-  'interfaces-media':  { kind: 'Wing', title: 'Interfaces & Media', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Cards, tape, terminals, screens.', demos: [], repos: [], exhibits: [] },
-  minicomputers:       { kind: 'Wing', title: 'Minicomputers & Workstations', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Smaller than a room, bigger than a desk.', demos: [], repos: [], exhibits: [] },
-  'game-machines':     { kind: 'Wing', title: 'Game Machines', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Consoles, arcades, and the hardware that played.', demos: [], repos: [], exhibits: [] },
-  'special-exhibits':  { kind: 'Wing', title: 'Special Exhibits', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Rotating installations.', demos: [], repos: [], exhibits: [] },
-  'library-archives':  { kind: 'Wing', title: 'Library & Archives', status: 'soon', parentTitle: 'Computer History Museum', tagline: 'Manuals, listings, and the paper trail.', demos: [], repos: [], exhibits: [] },
+  // ---- Computer Science Building (sw-embed) ----
+  'computer-science': { kind: 'Building', title: 'Computer Science Building', status: 'open',
+    tagline: 'Embedded Systems · Architectures · Languages · Emulators · Demos · Tools',
+    summary: 'From curiosity to code. The sw-embed family: a 24-bit soft CPU, the languages bootstrapped onto it, a microkernel, and a browser IDE for every one of them.',
+    scene: 'cs-lobby',
+    children: ['cpu-architectures','language-experiments','operating-systems','emulators-simulators','hardware-interfaces','development-tools','demos-experiments','all-sw-embed','cpus-through-ages','interfaces-peripherals','information-desk','featured-projects'] },
 
-  'vacuum-tubes': { kind: 'Lobby exhibit', title: 'Vacuum Tubes', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1930s to 1950s.', demos: [], repos: [], exhibits: [] },
-  transistors:    { kind: 'Lobby exhibit', title: 'Transistors & Early ICs', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1950s to 1970s.', demos: [], repos: [], exhibits: [] },
-  'punch-cards':  { kind: 'Lobby exhibit', title: 'Punch Cards', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1890s to 1970s.', demos: [], repos: [], exhibits: [] },
-  'core-memory':  { kind: 'Lobby exhibit', title: 'Core Memory', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1950s to 1970s.', demos: [], repos: [], exhibits: [] },
-  'paper-tape':   { kind: 'Lobby exhibit', title: 'Paper Tape', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1950s to 1980s.', demos: [], repos: [], exhibits: [] },
-  'early-pcs':    { kind: 'Lobby exhibit', title: 'Early Personal Computers', status: 'soon', parentTitle: 'Computer History Museum', tagline: '1970s to 1980s.', demos: [], repos: [], exhibits: [] },
+  'cpu-architectures': { kind: 'Wing', title: 'CPU Architectures', status: 'open',
+    tagline: 'COR24 · CPU design · Emulation demos',
+    summary: 'COR24 is MakerLisp\'s 24-bit RISC soft CPU for small FPGAs: 8 registers, 34 instructions, a 16 MB address space, 101 MHz on a Lattice MachXO2. Software Wrighter\'s independent toolchain for it, and a RISC-V RV32I teaching emulator, live here. Every other wing in this building builds on these two instruction sets.',
+    demos: [
+      { name: 'COR24 Tools & Demos hub', repo: 'sw-embed/web-sw-cor24-demos', url: EMB + 'web-sw-cor24-demos/', note: 'ISA reference, hardware notes, and the directory of every live demo' },
+      { name: 'COR24 Emulator', repo: 'sw-embed/cor24-rs', url: EMB + 'cor24-rs/', note: 'Yew/Rust/WASM' },
+      { name: 'RISC-V RV32I Assembly Emulator', repo: 'sw-embed/risc-v-rs', url: EMB + 'risc-v-rs/', note: 'interactive teaching emulator' },
+    ],
+    repos: [['sw-embed/sw-cor24-isa','ISA definitions: opcodes, encoding, registers'],['sw-embed/sw-cor24-emulator','emulator core (trimmed from cor24-rs)'],['sw-embed/sw-cor24-project','ecosystem hub and map'],['hardwarewrighter/hw-cor24-tang-nano','the soft CPU on a Tang Nano FPGA']],
+    exhibits: [['cor24','COR24 24-bit RISC'],['risc-v','RISC-V RV32I']] },
 
-  'computer-science':      { kind: 'Building', title: 'Computer Science Building', status: 'soon', parentTitle: 'Campus', tagline: 'Architecture · Operating Systems · Programming Languages · Compilers · COR24 · RISC-V', demos: [], repos: [], exhibits: [] },
-  'hardware-lab':          { kind: 'Building', title: 'Hardware Lab', status: 'soon', parentTitle: 'Campus', tagline: 'FPGA · SoCs · MCUs · Prototyping · Test & Measurement · Experimental Systems', demos: [], repos: [], exhibits: [] },
-  'computational-sciences':{ kind: 'Building', title: 'Computational Sciences Institute', status: 'soon', parentTitle: 'Campus', tagline: 'Mathematics · Machine Learning · Linear Algebra · Abstract Algebra · Category Theory · Numerical Methods', demos: [], repos: [], exhibits: [] },
-  'digital-media':         { kind: 'Building', title: 'Digital Media Studio', status: 'soon', parentTitle: 'Campus', tagline: 'Video · Audio · Speech · Music Generation · Editing · SFX · Voice Cloning · Generative Media', demos: [], repos: [], exhibits: [] },
-  'interactive-computing': { kind: 'Building', title: 'Interactive Computing Lab', status: 'soon', parentTitle: 'Campus', tagline: 'Games · Graphics · Visualization · Simulations · Interactive Demos · Educational Tools', demos: [], repos: [], exhibits: [] },
-  commons:   { kind: 'Landmark', title: 'The Commons', status: 'soon', parentTitle: 'Campus', tagline: 'Ideas meet here.', demos: [], repos: [], exhibits: [] },
-  'future-nw': { kind: 'Site', title: 'Future Building', status: 'soon', parentTitle: 'Campus', tagline: 'New ideas coming soon.', demos: [], repos: [], exhibits: [] },
-  'future-ne': { kind: 'Site', title: 'Future Building', status: 'soon', parentTitle: 'Campus', tagline: 'New ideas coming soon.', demos: [], repos: [], exhibits: [] },
-  'future-sw': { kind: 'Site', title: 'Future Building', status: 'soon', parentTitle: 'Campus', tagline: 'New ideas coming soon.', demos: [], repos: [], exhibits: [] },
+  'language-experiments': { kind: 'Wing', title: 'Language Experiments', status: 'open',
+    tagline: 'Tiny C · Forth · APL · Lisp · and more',
+    summary: 'Language bootstrapping as a sport. Twelve languages brought up on a 24-bit CPU with 1 MB of SRAM, each with a browser IDE or debugger so you can run them without the hardware. Several are implemented in each other: Smalltalk in Tiny BASIC, BASIC in Pascal on a p-code VM, SNOBOL4 in PL/SW, OCaml in Pascal.',
+    demos: [
+      { name: 'Tiny C Web IDE', repo: 'sw-embed/web-sw-cor24-x-tinyc', url: EMB + 'web-sw-cor24-x-tinyc/', note: 'compile, assemble, run' },
+      { name: 'Pascal', repo: 'sw-embed/web-sw-cor24-pascal', url: EMB + 'web-sw-cor24-pascal/', note: 'Turbo-Pascal-inspired compiler and runtime' },
+      { name: 'Forth debugger', repo: 'sw-embed/web-sw-cor24-forth', url: EMB + 'web-sw-cor24-forth/', note: 'direct-threaded Forth' },
+      { name: 'Tiny Macro Lisp REPL', repo: 'sw-embed/web-sw-cor24-macrolisp', url: EMB + 'web-sw-cor24-macrolisp/', note: 'Lisp-1 with closures, GC, TCO' },
+      { name: 'APL', repo: 'sw-embed/web-sw-cor24-apl', url: EMB + 'web-sw-cor24-apl/', note: 'an APL interpreter on COR24' },
+      { name: 'Time-Sharing BASIC', repo: 'sw-embed/web-sw-cor24-basic', url: EMB + 'web-sw-cor24-basic/', note: '1970s terminal BASIC, written in Pascal on p-code' },
+      { name: 'SNOBOL4', repo: 'sw-embed/web-sw-cor24-snobol4', url: EMB + 'web-sw-cor24-snobol4/', note: 'string processing, implemented in PL/SW' },
+      { name: 'PL/SW', repo: 'sw-embed/web-sw-cor24-plsw', url: EMB + 'web-sw-cor24-plsw/', note: 'a PL/I-inspired systems language' },
+      { name: 'OCaml', repo: 'sw-embed/web-sw-cor24-ocaml', url: EMB + 'web-sw-cor24-ocaml/', note: 'implemented in COR24 Pascal' },
+      { name: 'Fortran', repo: 'sw-embed/web-sw-cor24-fortran', url: EMB + 'web-sw-cor24-fortran/', note: 'research-phase compiler' },
+      { name: 'Smalltalk', repo: 'sw-embed/web-sw-cor24-smalltalk', url: EMB + 'web-sw-cor24-smalltalk/', note: 'a demo Smalltalk in Tiny BASIC' },
+      { name: 'p-code VM debugger', repo: 'sw-embed/web-sw-cor24-pcode', url: EMB + 'web-sw-cor24-pcode/', note: 'the substrate under Pascal and BASIC' },
+    ],
+    repos: [['sw-embed/sw-cor24-macrolisp','Tiny Macro Lisp'],['sw-embed/sw-cor24-forth','Forth kernel'],['sw-embed/sw-cor24-pascal','Pascal'],['sw-embed/sw-cor24-basic','BASIC'],['sw-embed/sw-cor24-snobol4','SNOBOL4'],['sw-embed/sw-cor24-plsw','PL/SW'],['sw-embed/sw-cor24-ocaml','OCaml'],['sw-embed/sw-cor24-fortran','Fortran'],['sw-embed/sw-cor24-smalltalk','Smalltalk'],['sw-embed/sw-cor24-apl','APL'],['sw-embed/sw-cor24-prolog','Prolog (WAM-like VM)'],['sw-embed/sw-cor24-rpg-ii','RPG-II'],['sw-embed/sw-cor24-hlasm','HLASM'],['sw-embed/sw-cor24-rust','Rust-to-COR24 via MSP430 IR'],['sw-embed/sw-cor24-script','sws shell / scripting']] },
+
+  'operating-systems': { kind: 'Wing', title: 'Operating Systems', status: 'open',
+    tagline: 'sw-tos · MesaOS · MLOS (sw-os-ml) · OS experiments',
+    summary: 'SWTOS is a clean-room microkernel inspired by MINIX IPC, built natively for small CPUs and FPGA soft cores, with a TUI you can drive in the browser. MLOS is a different bet: a new kernel, written from scratch in Rust, that virtualises resident model state the way Unix virtualises pages. It is an operating system first and belongs here; the Machine Learning wing points back at it.',
+    demos: [
+      { name: 'SWTOS stable demo', repo: 'sw-embed/swtos-live', url: 'https://swtos.softwarewrighter.com/', note: 'swtos.softwarewrighter.com' },
+      { name: 'SWTOS TUI in the browser', repo: 'sw-embed/web-sw-tos', url: EMB + 'web-sw-tos/', note: 'latest build' },
+    ],
+    repos: [['sw-embed/sw-tos','Software Wrighter Tiny O/S for COR24'],['sw-ml-study/sw-os-ml','MLOS: an OS for machine-learning state (pre-implementation; cross-listed from the Institute)'],['softwarewrighter/MesaOS','reference fork of an external 64-bit Rust OS, not Software Wrighter work']] },
+
+  'emulators-simulators': { kind: 'Wing', title: 'Emulators & Simulators', status: 'open',
+    tagline: 'Interactive demos · Web-based simulators',
+    summary: 'The same machines seen through the browser: every simulator in the building that runs as Rust compiled to WebAssembly. The CPU Architectures wing owns the instruction sets; this wing is the collection of things you can click Run on.',
+    demos: [
+      { name: 'COR24 Emulator', repo: 'sw-embed/cor24-rs', url: EMB + 'cor24-rs/', note: 'the original Yew emulator' },
+      { name: 'RISC-V RV32I Assembly Emulator', repo: 'sw-embed/risc-v-rs', url: EMB + 'risc-v-rs/', note: 'learn RV32I by running it' },
+      { name: 'COR24 cross-assembler Web UI', repo: 'sw-embed/web-sw-cor24-x-assembler', url: EMB + 'web-sw-cor24-x-assembler/', note: 'assemble and step' },
+      { name: 'p-code VM debugger', repo: 'sw-embed/web-sw-cor24-pcode', url: EMB + 'web-sw-cor24-pcode/', note: 'watch the VM run' },
+      { name: 'Forth debugger', repo: 'sw-embed/web-sw-cor24-forth', url: EMB + 'web-sw-cor24-forth/', note: 'step the inner interpreter' },
+    ],
+    repos: [['sw-embed/web-sw-cor24-assembler','browser assembly IDE and emulator'],['sw-embed/sw-cor24-debugger','debugger for emulator and hardware']] },
+
+  'hardware-interfaces': { kind: 'Wing', title: 'Hardware Interfaces', status: 'soon',
+    tagline: 'UART · I2C · SPI · JTAG · FPGA · MCU demos',
+    summary: 'No live demos yet. The public repos closest to this wing are a BMP280 pressure-sensor driver and the ESP32-S3 and bench-instrument work under hardwarewrighter. The Hardware Lab building across the quad is the canonical home for the FPGA and MCU work; this wing will show the software side of the same interfaces.',
+    repos: [['sw-embed/bmp280','embedded-hal driver for the BMP280 pressure sensor'],['hardwarewrighter/lb-esp32-s3-n16r8','ESP32-S3 work repo'],['hardwarewrighter/scpi-scripts','programmable scope, DMM, PSU, function generator']] },
+
+  'development-tools': { kind: 'Wing', title: 'Development Tools', status: 'open',
+    tagline: 'Toolchains · Build environments · Utilities',
+    summary: 'Cross tools run on the host in Rust: assembler, Tiny C compiler, p-code assembler, linker, and ahead-of-time compiler. Native tools run on the COR24 itself in C: an assembler, a resident monitor, a shell, and a line editor. The browser IDEs wrap the cross tools.',
+    demos: [
+      { name: 'COR24 cross-assembler', repo: 'sw-embed/web-sw-cor24-x-assembler', url: EMB + 'web-sw-cor24-x-assembler/', note: 'assembly source to machine code, live' },
+      { name: 'Tiny C cross-compiler IDE', repo: 'sw-embed/web-sw-cor24-x-tinyc', url: EMB + 'web-sw-cor24-x-tinyc/', note: 'compile, assemble, run' },
+      { name: 'p-code toolchain debugger', repo: 'sw-embed/web-sw-cor24-pcode', url: EMB + 'web-sw-cor24-pcode/', note: 'VM, assembler, linker' },
+    ],
+    repos: [['sw-embed/sw-cor24-x-assembler','cross-assembler library and CLI'],['sw-embed/sw-cor24-x-tinyc','Tiny C cross-compiler'],['sw-embed/sw-cor24-pcode','p-code VM, assembler, linker'],['sw-embed/sw-cor24-x-pc-aotc','p-code ahead-of-time compiler'],['sw-embed/sw-cor24-assembler','native assembler in C, runs on COR24'],['sw-embed/sw-cor24-tinyc','native C compiler (future)'],['sw-embed/sw-cor24-monitor','resident monitor'],['sw-embed/sw-cor24-script','sws interactive shell'],['sw-embed/sw-cor24-yocto-ed','modal line editor over UART'],['sw-cli-tools/sw-launcher','CLI for launching sw-embed apps on emulators']] },
+
+  'demos-experiments': { kind: 'Wing', title: 'Demos & Experiments', status: 'open',
+    tagline: 'Hands-on examples · Educational projects',
+    summary: 'The front door of the sw-embed ecosystem: a categorised grid of every live demo, the ISA reference, and the hardware notes, itself built in Yew.',
+    demos: [ { name: 'COR24 Tools & Demos', repo: 'sw-embed/web-sw-cor24-demos', url: EMB + 'web-sw-cor24-demos/', note: '7 categories, 13 demos' } ],
+    repos: [['sw-embed/web-sw-cor24-demos','the landing page']] },
+
+  'all-sw-embed': { kind: 'Directory', title: 'All sw-embed Repositories', status: 'open',
+    tagline: 'Browse on GitHub', external: { label: 'Browse sw-embed on GitHub', url: GH + 'sw-embed' },
+    summary: 'Every repository in the organisation, including the ones not yet installed as exhibits.' },
+
+  'cpus-through-ages':      { kind: 'Lobby exhibit', title: 'CPUs Through the Ages', status: 'soon', tagline: 'Z80 · 6502 · RISC-V · COR24. Two of these have emulators here; the other two are aspirations.' },
+  'interfaces-peripherals': { kind: 'Lobby exhibit', title: 'Interfaces and Peripherals', status: 'soon', tagline: 'UART · I2C · SPI · JTAG' },
+  'information-desk':       { kind: 'Lobby exhibit', title: 'Information', status: 'soon', tagline: 'sw-embed · Demos · Documentation · Get Started' },
+  'featured-projects':      { kind: 'Lobby exhibit', title: 'Featured sw-embed Projects', status: 'soon', tagline: 'sw-cor24 · sw-tos · Tiny C · Language Demos · Hardware Interface Demos · Emulator Collection' },
+
+  // ---- Computational Sciences Institute (sw-ml-study) ----
+  'computational-sciences': { kind: 'Building', title: 'Computational Sciences Institute', status: 'open',
+    tagline: 'Mathematics · Machine Learning · Artificial Intelligence',
+    summary: 'From patterns to possibilities. The sw-ml-study family: an array language built for machine learning, and the mathematics, algorithms, and ML experiments written in it.',
+    scene: 'csi-lobby',
+    children: ['sw-mlpl','mathematics-foundation','category-theory','ml-utilities','algorithms-data-structures','functional-pipelines','extensions-integrations','all-sw-ml-study','math-through-ages','patterns-fountain','theory-to-reality','visualization-theater'] },
+
+  'sw-mlpl': { kind: 'Wing', title: 'sw-MLPL', status: 'open',
+    tagline: 'The array-oriented language for ML and beyond. Language · REPL · Libraries · Demos',
+    summary: 'sw-MLPL is a Rust-first array and tensor programming language for machine learning, visualisation, and experimentation, inspired by APL, APL2, J, and BQN. The playground runs the whole interpreter in the browser: pick a demo, edit it, run it. Every other wing in this building is written in it.',
+    demos: [
+      { name: 'sw-MLPL Playground (stable)', repo: 'sw-ml-study/mlpl-live', url: 'https://mlpl.softwarewrighter.com/', note: 'the recommended public build' },
+      { name: 'sw-MLPL Playground (latest)', repo: 'sw-ml-study/sw-mlpl', url: MLS + 'sw-mlpl/', note: 'built from main' },
+    ],
+    repos: [['sw-ml-study/sw-mlpl','the language, playground, and native tools'],['sw-ml-study/mlpl-live','the stable release build'],['sw-ml-study/demo-mlpl-libraries','reusable libraries written in MLPL']],
+    exhibits: [['playground','The Playground'],['reference','Language reference and glossary'],['libraries','MLPL libraries']] },
+
+  'mathematics-foundation': { kind: 'Wing', title: 'Mathematics Foundation', status: 'open',
+    tagline: 'Core math for ML and computation. Linear Algebra · Abstract Algebra · Calculus · Discrete Math',
+    summary: 'The premise of the algebra course is small and does a lot of work: a finite binary operation on n elements is an n x n array, so every law is an array predicate and every counterexample is an index you can see. Linear algebra climbs from dot products to least squares, PCA, LoRA, and attention. Calculus and discrete mathematics have no lessons yet.',
+    demos: [
+      { name: 'Abstract Algebra, Visually', repo: 'sw-ml-study/demo-abstract-algebra', url: MLS + 'demo-abstract-algebra/', note: 'magmas to groups, as pictures' },
+      { name: 'The algebra course', repo: 'sw-ml-study/demo-abstract-algebra', url: MLS + 'demo-abstract-algebra/learn/', note: 'eleven guided steps; the interpreter grades you in the page' },
+      { name: 'The Cayley table Lab', repo: 'sw-ml-study/demo-abstract-algebra', url: MLS + 'demo-abstract-algebra/lab/', note: 'edit a table, watch the classifier re-decide' },
+    ],
+    repos: [['sw-ml-study/demo-linear-algebra','feature vectors to attention, visually'],['sw-ml-study/demo-abstract-algebra','13 lessons, 0 explicit loops']],
+    exhibits: [['linear-algebra','Linear Algebra'],['abstract-algebra','Abstract Algebra'],['calculus','Calculus'],['discrete-math','Discrete Mathematics']] },
+
+  'category-theory': { kind: 'Wing', title: 'Category Theory', status: 'open',
+    tagline: 'Composable thinking for complex systems. Concepts · Visualizations · Examples',
+    summary: 'Executable lessons where category-theory laws become diagrams you can inspect: values move along arrows, both sides of an equation run over the same finite inputs, and a failed law shows a concrete counterexample. Functions, identity, composition, then products, coproducts, functors, natural transformations, optics, and one concrete adjunction. No browser build yet; the lessons run in the interpreter.',
+    repos: [['sw-ml-study/demo-category-theory','the lessons']] },
+
+  'ml-utilities': { kind: 'Wing', title: 'ML Utilities', status: 'open',
+    tagline: 'Data · Models · Training · Evaluation. Utilities · Datasets · Tools · Experiments',
+    summary: 'The machine-learning wing, under the name the directory gives it. Artifact utilities inspect, validate, convert, and quantise Safetensors and GGUF checkpoints in MLPL. Two microscopes expose the intermediate values of a training run and of a tiny mixture-of-experts as recorded timelines. The Serial Parameter Machine asks whether inference needs random-access memory at all, and answers with an FPGA emulator you can drive. A Rust neural-net lab bench trains logic gates in the browser. Nine forked reference repos (ATTN/11, bertviz, PredictiveCoding, JEPA, ViT, and others) sit on the reading shelf and are not Software Wrighter work.',
+    demos: [
+      { name: 'Serial-MoE FPGA Visual Emulator', repo: 'sw-ml-study/emufpga', url: MLS + 'emufpga/', note: 'streaming low-bit weights from sequential storage' },
+      { name: 'Neural Network Lab Bench', repo: 'sw-ml-study/neural-net-rs', url: MLS + 'neural-net-rs/', note: 'train AND, OR, XOR, QUADRANT in the browser' },
+    ],
+    repos: [['sw-ml-study/demo-ml-utils','inspect, validate, visualise, convert, quantise checkpoints'],['sw-ml-study/demo-ml-microscope','intermediate values as a recorded timeline'],['sw-ml-study/moe-microscope','an introspectable tiny MoE from scratch'],['sw-ml-study/emufpga','Serial Parameter Machine research vehicle'],['sw-ml-study/neural-net-rs','CLI, REST, and WASM neural-net platform'],['sw-ml-study/ml-viz','Blender + three.js scenes from ML scene specs'],['sw-ml-study/cat-finder','find the cats in a photo library with local YOLO'],['sw-ml-study/sw-os-ml','MLOS, the OS for model state (canonical home: Operating Systems, Computer Science Building)']],
+    exhibits: [['artifact-utils','Checkpoint utilities: inference and quantisation'],['ml-microscope','The ML Microscope'],['moe-microscope','The MoE Microscope'],['serial-moe','Serial Parameter Machine'],['lab-bench','Neural Network Lab Bench'],['ml-viz','ML visualisation scenes'],['cat-finder','Cat Finder']] },
+
+  'algorithms-data-structures': { kind: 'Wing', title: 'Algorithms & Data Structures', status: 'open',
+    tagline: 'Classic and modern algorithms. Implementations · Visualizations · Practice',
+    summary: 'Can an array language designed for ML explain dynamically sized structures and ordinary programming with few loops, preferably none? Searching, sorting, graphs, dynamic programming, and matrices in one repo; representations, invariants, and honest costs in another; and a third on one question: how does a system find the small part of memory that matters, from hash probes toward retrieval and sparse attention. Interpreter lessons; no browser build yet.',
+    repos: [['sw-ml-study/demo-algorithms','searching, sorting, graphs, DP, serialization'],['sw-ml-study/demo-data-structures','representations, operations, invariants, costs'],['sw-ml-study/demo-memory','hash tables, caches, filters, retrieval']] },
+
+  'functional-pipelines': { kind: 'Wing', title: 'Functional Pipelines & Combinators', status: 'open',
+    tagline: 'Data pipelines, transformations, and more. Combinators · Extensions · Examples',
+    summary: 'Ramda-inspired pipelines using array operations and compiler-visible functions; bird-named combinators from To Mock a Mockingbird proving the language is higher-order; and functional readings of the Gang of Four patterns as pure values, composition, and effects-as-data. Interpreter lessons; no browser build yet.',
+    repos: [['sw-ml-study/demo-functional-pipelines','readable functional pipelines'],['sw-ml-study/demo-combinators','the combinator aviary'],['sw-ml-study/demo-design-patterns','GoF patterns, functionally']] },
+
+  'extensions-integrations': { kind: 'Wing', title: 'Extensions & Integrations', status: 'open',
+    tagline: 'Extend MLPL with native capabilities. Rust Extensions · 3D Visualization · File I/O · More',
+    summary: 'Independently built Rust libraries add native capability without growing the runtime: a wireframe cube, a native 3D tensor city, an audio spectrum, SQLite, HTTP, and the Rust/Yew ML microscope viewer. File processing asks whether an APL-descended language can handle real byte formats and compile to a standalone executable: hexdump to WAV to MP3 and Ogg. Native builds; no browser demo published yet.',
+    repos: [['sw-ml-study/demo-extensions','dynamically loaded Rust extensions and native apps'],['sw-ml-study/demo-file-processing','hexdump, WAV, MP3/ID3, Ogg, streaming'],['sw-ml-study/demo-mlpl-libraries','shareable MLPL modules']] },
+
+  'all-sw-ml-study': { kind: 'Directory', title: 'All sw-ml-study Repositories', status: 'open',
+    tagline: 'Browse on GitHub', external: { label: 'Browse sw-ml-study on GitHub', url: GH + 'sw-ml-study' },
+    summary: 'Every repository in the organisation, including the reading-shelf forks that are not exhibits.' },
+
+  'math-through-ages':     { kind: 'Lobby exhibit', title: 'Mathematics Through the Ages', status: 'soon', tagline: 'Ideas · Notation · Machines · Insight' },
+  'patterns-fountain':     { kind: 'Landmark', title: 'Patterns Shape Possibilities', status: 'soon', tagline: 'The fountain in the rotunda.' },
+  'theory-to-reality':     { kind: 'Lobby exhibit', title: 'From Theory to Reality', status: 'soon', tagline: 'Data · Models · Experiments · Impact' },
+  'visualization-theater': { kind: 'Lobby exhibit', title: 'Visualization Theater', status: 'soon', tagline: 'Where the microscopes will be projected.' },
+
+  // ---- Other campus places ----
+  'hardware-lab':          { kind: 'Building', title: 'Hardware Lab', status: 'soon', tagline: 'FPGA · SoCs · MCUs · Prototyping · Test & Measurement · Experimental Systems' },
+  'digital-media':         { kind: 'Building', title: 'Digital Media Studio', status: 'soon', tagline: 'Video · Audio · Speech · Music Generation · Editing · SFX · Voice Cloning · Generative Media' },
+  'interactive-computing': { kind: 'Building', title: 'Interactive Computing Lab', status: 'soon', tagline: 'Games · Graphics · Visualization · Simulations · Interactive Demos · Educational Tools' },
+  commons:     { kind: 'Landmark', title: 'The Commons', status: 'soon', tagline: 'Ideas meet here.' },
+  'future-nw': { kind: 'Site', title: 'Future Building', status: 'soon', tagline: 'New ideas coming soon.' },
+  'future-ne': { kind: 'Site', title: 'Future Building', status: 'soon', tagline: 'New ideas coming soon.' },
+  'future-sw': { kind: 'Site', title: 'Future Building', status: 'soon', tagline: 'New ideas coming soon.' },
 };
 
 // ---------- Scenes: where things are drawn (1536 x 1024 image space) ----------
@@ -122,25 +271,37 @@ const SCENES = {
     ['vacuum-tubes', 30,700,205,200], ['transistors', 295,720,195,180], ['punch-cards', 300,610,160,110],
     ['core-memory', 460,640,140,150], ['paper-tape', 1000,640,160,150], ['early-pcs', 1170,690,200,160],
   ]},
+  'cs-lobby': { image: 'images/cs-lobby.webp', alt: 'Painted lobby of the Computer Science Building with the sw-embed project directory', hotspots: [
+    ['cpu-architectures', 524,213,438,40], ['language-experiments', 524,257,438,40], ['operating-systems', 524,301,438,40],
+    ['emulators-simulators', 524,345,438,40], ['hardware-interfaces', 524,389,438,40], ['development-tools', 524,433,438,40],
+    ['demos-experiments', 524,477,438,40], ['all-sw-embed', 524,521,438,36],
+    ['cpus-through-ages', 0,640,410,190], ['interfaces-peripherals', 1150,640,386,200],
+    ['information-desk', 500,620,580,110], ['featured-projects', 1355,405,181,195],
+  ]},
+  'csi-lobby': { image: 'images/csi-lobby.webp', alt: 'Painted lobby of the Computational Sciences Institute with the sw-ml-study project directory', hotspots: [
+    ['sw-mlpl', 582,338,322,40], ['mathematics-foundation', 582,383,322,40], ['category-theory', 582,428,322,40],
+    ['ml-utilities', 582,473,322,40], ['algorithms-data-structures', 582,518,322,40], ['functional-pipelines', 582,563,322,40],
+    ['extensions-integrations', 582,608,322,40], ['all-sw-ml-study', 582,653,322,40],
+    ['math-through-ages', 20,780,380,180], ['patterns-fountain', 620,720,390,110],
+    ['theory-to-reality', 1150,760,386,200], ['visualization-theater', 1160,570,220,130],
+  ]},
 };
 const W = 1536, H = 1024;
 
-// ---------- Routing: #/campus/computer-history/ibm-1130 ----------
-function pathOf(id) {
-  if (id === 'campus') return '#/';
-  const parent = PLACES.campus.children.includes(id) ? '' : '/computer-history';
-  return '#/campus' + parent + '/' + id;
-}
+// ---------- Hierarchy derived from children (a place never stores its parent) ----------
+const PARENT = {};
+for (const [id, p] of Object.entries(PLACES)) (p.children || []).forEach(c => { PARENT[c] = id; });
+function chainOf(id) { const out = []; for (let cur = id; cur; cur = PARENT[cur]) out.unshift(cur); return out; }
+function pathOf(id) { return id === 'campus' ? '#/' : '#/campus/' + chainOf(id).slice(1).join('/'); }
+function parentOf(id) { return PARENT[id] || null; }
+
+// ---------- Routing: #/campus/computer-science/cpu-architectures ----------
 function current() {
   const segs = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (segs[0] === 'campus') segs.shift();
   const id = segs.length ? segs[segs.length - 1] : 'campus';
-  const chain = ['campus', ...segs];
-  return { id: PLACES[id] ? id : null, chain };
-}
-function parentOf(id) {
-  if (id === 'campus') return null;
-  return PLACES.campus.children.includes(id) ? 'campus' : 'computer-history';
+  const valid = PLACES[id] && chainOf(id).slice(1).join('/') === segs.join('/');
+  return { id: valid ? id : null, chain: valid ? chainOf(id) : ['campus'] };
 }
 
 // ---------- Rendering ----------
@@ -149,8 +310,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 function renderCrumbs(chain) {
   const parts = [];
   chain.forEach((id, i) => {
-    const p = PLACES[id];
-    const label = id === 'campus' ? 'Campus' : (p ? p.title : id);
+    const label = id === 'campus' ? 'Campus' : PLACES[id].title;
     if (i < chain.length - 1) parts.push(`<a href="${pathOf(id)}">${esc(label)}</a><span class="sep">›</span>`);
     else parts.push(`<span class="here">${esc(label)}</span>`);
   });
@@ -159,22 +319,18 @@ function renderCrumbs(chain) {
 }
 
 function chip(p) {
-  if (p.status === 'open') return '<span class="chip open">Open</span>';
-  return '<span class="chip soon">Opening soon</span>';
+  return p.status === 'open' ? '<span class="chip open">Open</span>' : '<span class="chip soon">Opening soon</span>';
 }
 
-function renderScene(place) {
+function renderScene(id, place) {
   const sc = SCENES[place.scene];
-  const hots = sc.hotspots.map(([id, x, y, w, h]) => {
-    const p = PLACES[id];
+  const hots = sc.hotspots.map(([hid, x, y, w, h]) => {
+    const p = PLACES[hid];
     const pts = `${x},${y} ${x+w},${y} ${x+w},${y+h} ${x},${y+h}`;
-    return `<a class="hot ${p.status === 'open' ? '' : 'soon'}" href="${pathOf(id)}" role="link" aria-label="${esc(p.title)}"
-      data-id="${id}" data-cx="${x + w/2}" data-by="${y + h}"><polygon points="${pts}"></polygon></a>`;
+    return `<a class="hot ${p.status === 'open' ? '' : 'soon'}" href="${pathOf(hid)}" role="link" aria-label="${esc(p.title)}"
+      data-id="${hid}" data-cx="${x + w/2}" data-by="${y + h}"><polygon points="${pts}"></polygon></a>`;
   }).join('');
-  const dir = place.children.map(id => {
-    const p = PLACES[id];
-    return `<li><a href="${pathOf(id)}">${esc(p.title)}</a>${chip(p)}</li>`;
-  }).join('');
+  const dir = place.children.map(cid => `<li><a href="${pathOf(cid)}">${esc(PLACES[cid].title)}</a>${chip(PLACES[cid])}</li>`).join('');
   return `
     <div class="scene" id="scene">
       <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(sc.alt)}">
@@ -184,36 +340,37 @@ function renderScene(place) {
       <div class="caption" id="caption" hidden></div>
     </div>
     <section class="dir" aria-label="Directory">
-      <h2>${place.kind === 'Campus' ? 'On the campus' : 'Museum directory'}</h2>
+      <h2>${id === 'campus' ? 'On the campus' : 'Directory'}</h2>
       <ul>${dir}</ul>
     </section>`;
 }
 
 function renderPage(id, place) {
-  const demos = place.demos.map(d => `
+  const demos = (place.demos || []).map(d => `
     <li><span class="name">${esc(d.name)}<small>${esc(d.repo)} · ${esc(d.note)}</small></span>
         <a class="run" href="${d.url}" target="_blank" rel="noopener">Run demo</a></li>`).join('');
-  const repos = place.repos.map(([r, note]) => `
-    <li><a href="${GH + r}" target="_blank" rel="noopener">sw-comp-history/${esc(r)}</a> <span>· ${esc(note)}</span></li>`).join('');
-  const exhibits = place.exhibits.map(([slug, title]) => `
+  const repos = (place.repos || []).map(([r, note]) => `
+    <li><a href="${GH + r}" target="_blank" rel="noopener">${esc(r)}</a> <span>· ${esc(note)}</span></li>`).join('');
+  const exhibits = (place.exhibits || []).map(([slug, title]) => `
     <li><span>${esc(title)}</span><span class="chip ph">${esc(slug)} · planned</span></li>`).join('');
   const parent = parentOf(id);
+  const prose = place.summary
+    ? `<p class="draft"><span class="chip draft">Draft</span>${esc(place.summary)}</p>`
+    : `<div class="placeholder"><span class="chip soon">Placeholder</span>
+        This is where the ${esc(place.kind.toLowerCase())}'s story goes: what it holds, why it matters,
+        and what was built here. The real text is written when the exhibits are installed.</div>`;
+  const external = place.external
+    ? `<p><a class="run" href="${place.external.url}" target="_blank" rel="noopener">${esc(place.external.label)}</a></p>` : '';
   return `
     <article class="page">
-      <div class="eyebrow">${esc(place.kind)} · ${esc(place.parentTitle || 'Campus')}</div>
+      <div class="eyebrow">${esc(place.kind)} · ${esc(parent === 'campus' ? 'Campus' : PLACES[parent].title)}</div>
       <h1>${esc(place.title)}</h1>
       <p class="tagline">${esc(place.tagline)}</p>
       <div class="cols">
         <div class="prose">
-          <div class="placeholder"><span class="chip soon">Placeholder</span>
-            This is where the ${esc(place.kind.toLowerCase())}'s story goes: what the machines were, why they mattered,
-            and what was built here to bring them back. The real text is written when the exhibits are installed.
-          </div>
-          ${place.exhibits.length ? `
-          <div class="section exhibits">
-            <h2>Exhibits in this wing</h2>
-            <ul>${exhibits}</ul>
-          </div>` : ''}
+          ${prose}
+          ${external}
+          ${exhibits ? `<div class="section exhibits"><h2>Exhibits in this wing</h2><ul>${exhibits}</ul></div>` : ''}
         </div>
         <div>
           <div class="section demos">
@@ -230,14 +387,13 @@ function renderPage(id, place) {
 function render() {
   const { id, chain } = current();
   const main = document.getElementById('main');
+  renderCrumbs(chain);
   if (!id) {
-    renderCrumbs(['campus']);
     main.innerHTML = `<article class="page"><h1>No such place</h1><p class="tagline">Nothing is built at this address.</p><a class="back" href="#/">‹ Back to the campus</a></article>`;
     return;
   }
   const place = PLACES[id];
-  renderCrumbs(chain);
-  main.innerHTML = place.scene ? renderScene(place) : renderPage(id, place);
+  main.innerHTML = place.scene ? renderScene(id, place) : renderPage(id, place);
   document.title = (id === 'campus' ? '' : place.title + ' · ') + 'Software Wrighter Research Campus';
   if (place.scene) wireScene();
   window.scrollTo(0, 0);
@@ -256,8 +412,7 @@ function wireScene() {
       ${kids ? `<div class="children">${esc(kids)}${p.children.length > 4 ? ' · …' : ''}</div>` : ''}
       <div class="enter">${soon ? 'Opening soon' : 'Click to enter'}</div>`;
     const cx = a.dataset.cx / W, by = a.dataset.by / H;
-    let left = Math.min(Math.max(cx, 0.14), 0.86) * 100;
-    cap.style.left = left + '%';
+    cap.style.left = (Math.min(Math.max(cx, 0.14), 0.86) * 100) + '%';
     if (by > 0.72) { cap.style.top = ''; cap.style.bottom = (100 - (by - 0.02) * 100 + 8) + '%'; }
     else { cap.style.bottom = ''; cap.style.top = (by * 100 + 1) + '%'; }
     cap.hidden = false;
@@ -274,7 +429,7 @@ function wireScene() {
 // ---------- Keys ----------
 document.addEventListener('keydown', e => {
   if (e.target.matches('input, textarea')) return;
-  if (e.key === 'Escape') { const { id } = current(); const p = parentOf(id); if (p) location.hash = pathOf(p); }
+  if (e.key === 'Escape') { const { id } = current(); const p = id && parentOf(id); if (p) location.hash = pathOf(p); }
   if (e.key === 'h' || e.key === 'H') location.hash = '#/';
 });
 

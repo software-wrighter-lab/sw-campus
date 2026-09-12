@@ -333,6 +333,61 @@ x 575-975, y 375-548 with 12 rows of about 29 px, two columns:
 The wall banners (left: "IBM 1130 / System/360 / 370 / 390") can be a
 second hotspot for `ibm-1130` later; one hotspot per place is enough now.
 
+### Two more lobbies (added 2026-09-12, afternoon)
+
+Two more paintings arrived and settled the "where does ML live" question
+by organisation: the Computer Science Building's board is the **sw-embed
+Project Directory**, the Computational Sciences Institute's board is
+**Explore the sw-ml-study Repositories**. The Computer History Museum is
+sw-comp-history. One org per building, so far.
+
+Computer Science Building (`images/computer-science-lobby.png`, board
+x 522-965, rows 40 px tall starting y 213 with a 44 px pitch):
+
+| row | place | repos behind it |
+| --- | --- | --- |
+| 1 | cpu-architectures | cor24-rs, risc-v-rs, web-sw-cor24-demos, sw-cor24-isa, hw-cor24-tang-nano |
+| 2 | language-experiments | 12 live web-sw-cor24-* language demos + their toolchain repos |
+| 3 | operating-systems | swtos-live, web-sw-tos, sw-tos; sw-ml-study/sw-os-ml cross-listed; MesaOS is an external fork |
+| 4 | emulators-simulators | the browser IDEs/debuggers, same demos as rows 1 and 2 seen as "things you can Run" |
+| 5 | hardware-interfaces | placeholder: bmp280, hardwarewrighter repos; no live demo |
+| 6 | development-tools | x-assembler, x-tinyc, pcode (live); monitor, script, yocto-ed, debugger, aotc |
+| 7 | demos-experiments | web-sw-cor24-demos |
+| 8 | all-sw-embed | outbound link to github.com/sw-embed |
+
+Floor: cpus-through-ages (x 0-410, y 640-830; the Z80 and 6502 in the case
+have no repos), interfaces-peripherals (1150-1536, 640-840),
+information-desk (500-1080, 620-730), featured-projects (1355-1536, 405-600).
+
+Computational Sciences Institute (`images/computational-sciences-institute-lobby.png`,
+board x 582-904, rows 40 px starting y 338 with a 45 px pitch):
+
+| row | place | repos behind it |
+| --- | --- | --- |
+| 1 | sw-mlpl | sw-mlpl (latest), mlpl-live (stable at mlpl.softwarewrighter.com), demo-mlpl-libraries |
+| 2 | mathematics-foundation | demo-abstract-algebra (site, course, lab, all live), demo-linear-algebra; calculus and discrete are empty |
+| 3 | category-theory | demo-category-theory (no browser build) |
+| 4 | ml-utilities | THE ML wing: demo-ml-utils, demo-ml-microscope, moe-microscope, emufpga (live), neural-net-rs (live), ml-viz, cat-finder |
+| 5 | algorithms-data-structures | demo-algorithms, demo-data-structures, demo-memory |
+| 6 | functional-pipelines | demo-functional-pipelines, demo-combinators, demo-design-patterns |
+| 7 | extensions-integrations | demo-extensions, demo-file-processing, demo-mlpl-libraries |
+| 8 | all-sw-ml-study | outbound link to github.com/sw-ml-study |
+
+Floor: math-through-ages (20-400, 780-960), patterns-fountain (620-1010,
+720-830), theory-to-reality (1150-1536, 760-960), visualization-theater
+(1160-1380, 570-700).
+
+Known mismatches to resolve when the art is regenerated (queue: wing-art):
+
+- The Institute painting calls itself "Computational Sciences Building";
+  the campus painting and the catalog say "Institute".
+- The Institute board's only ML row is "ML Utilities" while its banner says
+  "Machine Learning". The catalog treats that row as the whole ML wing.
+- Both paintings carry mock chrome (campus sign, breadcrumb pill).
+- Nine sw-ml-study repos are forks of other people's work (ATTN-11, bertviz,
+  PredictiveCoding, Engram, Diffusion, JEPA, ViT, Repeated-Sampling,
+  Bonsai-Image-Demo). They are not exhibits; at most a "reading shelf".
+
 IBM 1130 wing: no art yet. Step 7 draws a simple SVG floor plan (console
 centre, 1442 left, 1132 right, keypunch area front, disk at the back) as the
 scene image, so the wing works end to end and the painted art replaces it

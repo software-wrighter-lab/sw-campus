@@ -325,3 +325,8 @@
   @media (prefers-reduced-motion: reduce) {
     .scene image, .hot polygon { transition: none; }
   }
+
+  /* Draft prose (real text, not yet final) */
+  .draft { max-width: 62ch; margin: 0 0 14px; }
+  .draft .chip { margin-right: 8px; vertical-align: middle; }
+  .chip.draft { color: var(--lawn); border: 1px solid var(--lawn); }
