@@ -406,3 +406,19 @@
   .chip.m-early    { color: var(--brass); border: 1px solid var(--brass); }
   .chip.m-planned  { color: var(--ink-2); border: 1px dashed var(--ink-2); }
   .placard .chip { vertical-align: middle; margin-left: 6px; }
+
+  /* Layout fixes: the drawer pushes the page left; the easel sits bottom centre of a lobby */
+  :root { --drawer-w: 400px; }
+  .drawer { width: min(var(--drawer-w), 100vw); }
+  @media (min-width: 900px) {
+    body.docent-open { padding-right: calc(var(--drawer-w) + 16px); transition: padding-right 160ms ease; }
+  }
+  .scene .easel { right: auto; left: 50%; bottom: 2%; transform: translateX(-50%); width: 300px; max-width: 60%; }
+  .placard { transform: none; }
+  .head-right { display: flex; align-items: center; gap: 12px; }
+  .docent-btn {
+    font-family: var(--mono); font-size: 0.78rem; font-weight: 500;
+    color: var(--paper); background: var(--blue); border: 0; border-radius: 2px; padding: 6px 12px; cursor: pointer;
+  }
+  .docent-btn:hover { background: var(--blue-ink); }
+  @media (prefers-reduced-motion: reduce) { body.docent-open { transition: none; } }

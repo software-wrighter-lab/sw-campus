@@ -11,7 +11,7 @@
 <div class="wrap">
   <header>
     <a class="brand" href="#/">Software Wrighter Research Campus<small>Explore · Build · Learn · Create</small></a>
-    <span class="mock">Mockup · sw-comp-history · sw-embed · sw-ml-study</span>
+<span class="head-right"><button type="button" class="docent-btn" id="head-docent">Docent</button><span class="mock">Mockup · sw-comp-history · sw-embed · sw-ml-study</span></span>
   </header>
   <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
   <main id="main"></main>
@@ -431,7 +431,7 @@ function renderScene(id, place) {
         ${hots}
       </svg>
       <div class="caption" id="caption" hidden></div>
-      ${easelHtml(id, place)}
+      ${place.kind === 'Building' ? easelHtml(id, place) : ''}
     </div>
     <section class="dir" aria-label="Directory">
       <h2>${id === 'campus' ? 'On the campus' : 'Directory'}</h2>
@@ -530,7 +530,7 @@ document.addEventListener('keydown', e => {
   if (e.target.matches('input, textarea')) return;
   if (e.key === 'Escape') {
     const d = document.getElementById('docent');
-    if (!d.hidden) { d.hidden = true; return; }
+    if (!d.hidden) { closeDocent(); return; }
     const { id } = current(); const p = id && parentOf(id); if (p) location.hash = pathOf(p);
   }
   if (e.key === 'h' || e.key === 'H') location.hash = '#/';
@@ -705,7 +705,9 @@ function renderEaselStory(id) {
 function wireEasel() {
   const b = document.getElementById('easel-ask'); if (b) b.onclick = openDocent;
 }
-function openDocent() { const d = document.getElementById('docent'); d.hidden = false; renderTranscript(); document.getElementById('q').focus(); }
+function openDocent() { const d = document.getElementById('docent'); d.hidden = false; document.body.classList.add('docent-open'); renderTranscript(); document.getElementById('q').focus(); }
+function closeDocent() { document.getElementById('docent').hidden = true; document.body.classList.remove('docent-open'); }
+document.getElementById('head-docent').onclick = openDocent;
 
 // --- transcript ---
 function renderTranscript() {
@@ -728,7 +730,7 @@ function speak(text) {
 }
 document.getElementById('ask').addEventListener('submit', e => { e.preventDefault(); const i = document.getElementById('q'); const q = i.value.trim(); if (q) { answer(q); i.value = ''; } });
 document.getElementById('chips').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b) answer(b.dataset.q); });
-document.getElementById('docent-close').onclick = () => { document.getElementById('docent').hidden = true; };
+document.getElementById('docent-close').onclick = closeDocent;
 document.getElementById('docent-clear').onclick = () => { ctx = freshCtx(); ctx.currentPlace = current().id || 'campus'; saveCtx(); renderTranscript(); renderEaselStory(ctx.currentPlace); speechSynthesis && speechSynthesis.cancel(); };
 
 window.addEventListener('hashchange', render);
