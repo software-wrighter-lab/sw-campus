@@ -388,10 +388,18 @@ Known mismatches to resolve when the art is regenerated (queue: wing-art):
   PredictiveCoding, Engram, Diffusion, JEPA, ViT, Repeated-Sampling,
   Bonsai-Image-Demo). They are not exhibits; at most a "reading shelf".
 
-IBM 1130 wing: no art yet. Step 7 draws a simple SVG floor plan (console
-centre, 1442 left, 1132 right, keypunch area front, disk at the back) as the
-scene image, so the wing works end to end and the painted art replaces it
-by changing one filename.
+IBM 1130 wing (`images/ibm-1130-wing-rough.png`, added 2026-09-13): a rough
+painting whose machines are stand-ins to be redrawn, but whose placards are
+usable hotspots. Placard rects (x, y, w, h): 1442 (258,220,190,185),
+1133 (535,118,185,150), 1131 CPU -> ibm-1130-emulator (768,245,192,145),
+1132 (1108,224,188,160), 029 (1355,285,178,155); machine bodies and the
+bottom timeline labels (y 950, h 50) are second hotspots for the same
+places. Demo matches: 1131 console and 029 keypunch run in
+sw-comp-history/ibm-1130-rs; 1442, 1133 and 2310 run in
+softwarewrighter/demo-ibm-1130-system; nothing simulates the 1132. The
+painted "Coming Soon" buttons are inaccurate where a demo exists; the
+caption tip says so. Step 7 uses this painting instead of an SVG floor
+plan. Adding the 1442 to the catalog is the snapshot B event for the docent.
 
 ## Build, run, check
 

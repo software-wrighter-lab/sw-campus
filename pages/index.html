@@ -87,13 +87,38 @@ const PLACES = {
       ['sw-comp-history/sw-ibm1130-asm', 'assembler'], ['sw-comp-history/sw-ibm1130-codegen', 'code generator'],
       ['sw-comp-history/sw-ibm1130-target', 'toolchain target'], ['sw-comp-history/sw-ibm1130-emulator', 'emulator core'],
     ],
-    children: ['ibm-1130-emulator'],
-    exhibits: [['029','IBM 029 Card Punch'],['1442','IBM 1442 Card Read Punch'],['1132','IBM 1132 Printer'],['2310','IBM 2310 Disk Drive']] },
+    scene: 'ibm-1130-wing',
+    children: ['ibm-1130-emulator','1133','1442','1132','029','2310'] },
   'ibm-1130-emulator': { kind: 'Exhibit', title: 'IBM 1130 System Emulator', status: 'open',
-    tagline: 'Yew/Rust/WASM emulation of the 1130 system.',
+    tagline: 'The 1131 CPU: 16-bit, 8K to 64K words of core, the console with its lights, switches and speed knob.',
+    tip: 'Runs today: the console panel, the 1131 console printer and the 029 keypunch are tabs in one emulator.',
     summary: 'The 1131 console with its lights and switches, the 2310 disk, the 1442 card read punch and the 1403 printer, simulated with the timing of the real hardware. Run it in the browser; nothing to install.',
     demos: [ { name: 'IBM 1130 System Emulator', repo: 'sw-comp-history/ibm-1130-rs', url: CH + 'ibm-1130-rs/', note: 'Yew/Rust/WASM emulation of the 1130 system' } ],
     repos: [['sw-comp-history/ibm-1130-rs', 'the emulator']] },
+  '1133': { kind: 'Exhibit', title: 'IBM 1133 Multiplexor', status: 'open',
+    tagline: 'Connects up to eight terminals and manages the I/O channels.',
+    tip: 'The placard says coming soon, but the 1133 is simulated in the IBM 1130 System Simulator (softwarewrighter org).',
+    demos: [ { name: 'IBM 1130 System Simulator', repo: 'softwarewrighter/demo-ibm-1130-system', url: 'https://softwarewrighter.github.io/demo-ibm-1130-system/', note: 'peripherals with real timing: 2310, 2311, 1442, 1403, 1133' } ],
+    repos: [['softwarewrighter/demo-ibm-1130-system','the peripheral simulator'],['sw-comp-history/sw-ibm-1130-peripherals','where the peripherals are being consolidated']] },
+  '1442': { kind: 'Exhibit', title: 'IBM 1442 Card Read Punch', status: 'open',
+    tagline: 'Reads and punches 80-column cards at up to 600 cards a minute.',
+    tip: 'The placard says coming soon, but the 1442 is simulated in the IBM 1130 System Simulator. The card-reader radio demo is still to come.',
+    demos: [ { name: 'IBM 1130 System Simulator', repo: 'softwarewrighter/demo-ibm-1130-system', url: 'https://softwarewrighter.github.io/demo-ibm-1130-system/', note: 'card reader/punch interface and deck handling' } ],
+    repos: [['softwarewrighter/demo-ibm-1130-system','the peripheral simulator'],['sw-comp-history/sw-ibm-1130-peripherals','where the peripherals are being consolidated']],
+    exhibits: [['radio','Card-reader radio: music by RFI']] },
+  '1132': { kind: 'Exhibit', title: 'IBM 1132 Printer', status: 'soon',
+    tagline: 'Line printer, 132 columns, up to 600 lines a minute.',
+    tip: 'No 1132 yet. The emulator has the 1131 console printer; the simulator has the 1403 line printer.' },
+  '029': { kind: 'Exhibit', title: 'IBM 029 Keypunch', status: 'open',
+    tagline: 'Punches 80-column cards from the keyboard, with Hollerith encoding.',
+    tip: 'Runs today as a tab inside the IBM 1130 System Emulator: type text, see the punch pattern, build a deck.',
+    demos: [ { name: 'IBM 1130 System Emulator', repo: 'sw-comp-history/ibm-1130-rs', url: CH + 'ibm-1130-rs/', note: 'open the 029 Keypunch tab' } ],
+    repos: [['sw-comp-history/ibm-1130-rs','the emulator']] },
+  '2310': { kind: 'Exhibit', title: 'IBM 2310 Disk Drive', status: 'open',
+    tagline: 'The 2315 cartridge: one platter, half a million words, and the sound of a seek.',
+    tip: 'Not on the painting yet. Simulated with real seek timing and synthesized seek sounds in the IBM 1130 System Simulator.',
+    demos: [ { name: 'IBM 1130 System Simulator', repo: 'softwarewrighter/demo-ibm-1130-system', url: 'https://softwarewrighter.github.io/demo-ibm-1130-system/', note: 'disk map viewer, cylinder/head/sector' } ],
+    repos: [['softwarewrighter/demo-ibm-1130-system','the peripheral simulator']] },
   'ibm-360': { kind: 'Wing', title: 'IBM System/360 Wing', status: 'open',
     tagline: 'The family that made "compatible" a word, and APL\\360 running on it.',
     demos: [ { name: 'APL Horse Race', repo: 'sw-comp-history/apl-horse-race', url: CH + 'apl-horse-race/', note: 'Throwback Thursday: a first program, in APL\\360' } ],
@@ -343,6 +368,14 @@ const SCENES = {
     ['visualizing-understanding', 1180,700,356,170], ['ideas-lab', 1140,530,190,160],
   ]},
 };
+SCENES['ibm-1130-wing'] = { image: 'images/ibm-1130-wing.webp', alt: 'Rough painting of the IBM 1130 wing: 1442 card read punch, 1133 multiplexor, 1131 console, 1132 printer, 029 keypunch', hotspots: [
+    ['1442', 258,220,190,185], ['1442', 150,400,350,240],
+    ['1133', 535,118,185,150], ['1133', 465,268,235,270],
+    ['ibm-1130-emulator', 768,245,192,145], ['ibm-1130-emulator', 615,340,415,260],
+    ['1132', 1108,224,188,160], ['1132', 1075,385,215,135],
+    ['029', 1355,285,178,155], ['029', 1270,440,266,120],
+    ['ibm-1130-emulator', 540,950,75,50], ['1133', 640,950,115,50], ['1442', 765,950,160,50], ['1132', 930,950,90,50], ['029', 1035,950,105,50],
+  ]};
 const W = 1536, H = 1024;
 
 // ---------- Maturity: the docent's work-in-progress voice (pre-written, never generated) ----------
@@ -357,7 +390,9 @@ const MATURITY = {
 const PROGRESS = {
   campus: ['working', 'The campus itself is a static mockup: three lobbies have paintings and directories, the rest are placeholders. The Rust app that replaces it is planned in docs/plan.md.'],
   'computer-history': ['working', 'Four wings have live demos. The IBM 1130 wing is the vertical slice being built first; the 029, 1442, 1132 and 2310 exhibits are planned.'],
-  'ibm-1130': ['working', 'The 1130 system emulator runs. The card punch, card reader, printer and disk exhibits are planned, and the 1442 will be the docent\'s first new-knowledge test.'],
+  'ibm-1130': ['working', 'The painting is a rough draft: the machines are stand-ins to be redrawn. The 1131 console and 029 keypunch run in the emulator; the 1442, 1133 and 2310 run in the peripheral simulator; the 1132 has nothing yet.'],
+  '1442': ['working', 'Simulated with card timing today. The card-reader radio demo, music by radio-frequency interference, is planned and will be the docent\'s first new-knowledge test.'],
+  '1132': ['planned', 'Nothing simulates the 1132 yet.'],
   'ibm-1130-emulator': ['working', 'Runs in the browser with timing models for the disk, cards and printer. Under active development in sw-comp-history.'],
   'rca-1802': ['working', 'Two demos run: the assembly emulator and the I/O demo. The toolchain repos behind them are early.'],
   apl: ['working', 'The interpreter runs on COR24 in the browser. Coverage of the APL language is partial.'],
@@ -430,7 +465,7 @@ function renderScene(id, place) {
   const hots = sc.hotspots.map(([hid, x, y, w, h]) => {
     const p = PLACES[hid];
     const pts = `${x},${y} ${x+w},${y} ${x+w},${y+h} ${x},${y+h}`;
-    return `<a class="hot ${p.status === 'open' ? '' : 'soon'}" href="${pathOf(hid)}" role="link" aria-label="${esc(p.title)}"
+    return `<a class="hot ${p.status === 'open' ? '' : 'soon'}" href="${pathOf(hid)}" role="link" aria-label="${esc(p.title)}" title="${esc(p.tip || p.tagline)}"
       data-id="${hid}" data-cx="${x + w/2}" data-by="${y + h}"><polygon points="${pts}"></polygon></a>`;
   }).join('');
   const dir = place.children.map(cid => `<li><a href="${pathOf(cid)}">${esc(PLACES[cid].title)}</a>${chip(PLACES[cid])}</li>`).join('');
@@ -449,6 +484,17 @@ function renderScene(id, place) {
     </section>`;
 }
 
+function renderLinks(id, place) {
+  const demos = (place.demos || []).map(d => `
+    <li><span class="name">${esc(d.name)}<small>${esc(d.repo)} · ${esc(d.note)}</small></span>
+        <a class="run" href="${d.url}" target="_blank" rel="noopener">Run demo</a></li>`).join('');
+  const repos = (place.repos || []).map(([r, note]) => `
+    <li><a href="${GH + r}" target="_blank" rel="noopener">${esc(r)}</a> <span>· ${esc(note)}</span></li>`).join('');
+  if (!demos && !repos) return '';
+  return `<div class="cols links"><div class="prose">${place.summary ? `<p class="draft"><span class="chip draft">Draft</span>${esc(place.summary)}</p>` : ''}</div>
+    <div>${demos ? `<div class="section demos"><h2>Live demos</h2><ul>${demos}</ul></div>` : ''}
+    ${repos ? `<div class="section repos"><h2>Source repositories</h2><ul>${repos}</ul></div>` : ''}</div></div>`;
+}
 function renderPage(id, place) {
   const demos = (place.demos || []).map(d => `
     <li><span class="name">${esc(d.name)}<small>${esc(d.repo)} · ${esc(d.note)}</small></span>
@@ -500,7 +546,7 @@ function render() {
     return;
   }
   const place = PLACES[id];
-  main.innerHTML = place.scene ? renderScene(id, place) : renderPage(id, place);
+  main.innerHTML = place.scene ? renderScene(id, place) + (place.kind === 'Wing' ? renderLinks(id, place) : '') : renderPage(id, place);
   document.title = (id === 'campus' ? '' : place.title + ' · ') + 'Software Wrighter Research Campus';
   if (place.scene) wireScene();
   wireEasel();
@@ -517,7 +563,7 @@ function wireScene() {
     const kids = (p.children || []).slice(0, 4).map(k => PLACES[k].title).join(' · ');
     const soon = p.status !== 'open';
     cap.className = 'caption' + (soon ? ' soon' : '');
-    cap.innerHTML = `<div class="kind">${esc(p.kind)}</div><h3>${esc(p.title)}</h3><p>${esc(p.tagline)}</p>
+    cap.innerHTML = `<div class="kind">${esc(p.kind)} ${chip(p)}</div><h3>${esc(p.title)}</h3><p>${esc(p.tagline)}</p>${p.tip ? `<p class="tip">${esc(p.tip)}</p>` : ''}
       ${kids ? `<div class="children">${esc(kids)}${p.children.length > 4 ? ' · …' : ''}</div>` : ''}
       <div class="enter">${soon ? 'Opening soon' : 'Click to enter'}</div>`;
     const cx = a.dataset.cx / W, by = a.dataset.by / H;

@@ -429,3 +429,8 @@
 
   .drawer-foot { flex-wrap: wrap; justify-content: flex-start; row-gap: 4px; }
   .drawer-foot .link { margin-right: auto; }
+
+  /* Caption tips and the links block under a wing painting */
+  .caption .tip { margin-top: 6px; font-size: 0.78rem; color: var(--ink); border-top: 1px dotted var(--rule); padding-top: 6px; }
+  .caption .kind .chip { margin-left: 6px; vertical-align: middle; }
+  .cols.links { margin-top: 28px; }
