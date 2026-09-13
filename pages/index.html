@@ -560,15 +560,46 @@ function loadCtx() { try { return Object.assign(freshCtx(), JSON.parse(localStor
 function saveCtx() { try { localStorage.setItem(CTX_KEY, JSON.stringify(ctx)); } catch {} }
 let ctx = loadCtx();
 
+// Docent knowledge authored here for places snapshot A does not cover yet. Same shape as the
+// snapshot's docent block; hand it to moe-microscope for snapshot B, then delete it here.
+const DOCENT_LOCAL = {
+  aliases: {
+    'moe-microscope': ['moe microscope', 'the moe microscope', 'mixture of experts', 'mixture-of-experts', 'micromoe', 'the microscope', 'moe demo', 'moe-microscope', 'where the docent is trained', 'docent training'],
+    'machine-learning': ['machine learning wing', 'the ml wing', 'ml wing', 'machine learning'],
+    'computational-sciences': ['computational sciences institute', 'the institute', 'computational sciences', 'math building', 'the math building'],
+  },
+  concepts: {
+    'moe-microscope': ['mixture of experts', 'router', 'experts', 'sparse models', 'tiny models', 'expert specialisation', 'training', 'docent', 'sw-mlpl'],
+    'machine-learning': ['machine learning', 'models', 'training', 'inference', 'quantisation', 'neural networks'],
+    'computational-sciences': ['mathematics', 'machine learning', 'algebra', 'category theory', 'sw-mlpl'],
+  },
+  stories: [
+    { id: 'moe-arrival', place: 'moe-microscope', kind: 'arrival', title: 'A model small enough to read',
+      text: 'The MoE Microscope builds a tiny mixture-of-experts language model from scratch in sw-MLPL, one mechanism at a time: tokens, a router, a handful of experts, an expert cache. The point is not the model but the view: every tensor, every routing decision, and every byte is recorded so a learner can look inside.', concepts: ['mixture of experts', 'router', 'experts'] },
+    { id: 'moe-size', place: 'moe-microscope', kind: 'detail', title: 'Seven thousand parameters',
+      text: 'The top-1 MicroMoE under the lens has about seven thousand parameters, roughly fifty-five kilobytes as doubles, and a whole expert is about a thousand. That is small enough to print, and small enough that experts visibly specialise without anyone telling them what to specialise in.', concepts: ['tiny models', 'expert specialisation'] },
+    { id: 'moe-docent', place: 'moe-microscope', kind: 'feature', title: 'Where the docent learns the campus',
+      text: 'The microscope has a second training area: this campus. A tiny mixture-of-experts is trained in batch there on the catalog you are walking through, and predicts only what a visitor means, an intent and a destination. The catalog supplies every title, link and story, so a stale model can never invent an exhibit. The docent you are talking to is the mockup of that; the trained model replaces the matcher behind it and nothing else.', concepts: ['docent', 'training'] },
+    { id: 'ml-arrival', place: 'machine-learning', kind: 'arrival', title: 'Machine learning you can inspect',
+      text: 'Everything in this wing is built to be looked at: checkpoint utilities that read Safetensors and GGUF files in sw-MLPL, two microscopes that record a training run as a timeline, a serial-parameter FPGA emulator that streams weights from sequential storage, and a neural-net lab bench that trains logic gates in the browser.', concepts: ['machine learning', 'models'] },
+    { id: 'csi-arrival', place: 'computational-sciences', kind: 'arrival', title: 'Ideas become understanding',
+      text: 'This building holds the sw-ml-study family: an array language built for machine learning, and the mathematics, algorithms and models written in it. Start at the sw-MLPL playground if you like languages, the algebra course if you like pictures, or the Machine Learning wing if you want to see a model think.', concepts: ['sw-mlpl', 'mathematics', 'machine learning'] },
+  ],
+};
+function mergeLocal() {
+  Object.assign(DOCENT.aliases, DOCENT_LOCAL.aliases); Object.assign(DOCENT.concepts, DOCENT_LOCAL.concepts);
+  DOCENT_LOCAL.stories.forEach(st => DOCENT.stories.some(x => x.id === st.id) || DOCENT.stories.push(st));
+  DOCENT.ready = true;
+}
 async function loadSnapshot() {
   try {
     const s = await (await fetch('docent/snapshot-a.json')).json();
     DOCENT.stories = s.story_ids.map((id, i) => ({ id, place: s.story_places[i], kind: s.story_kinds[i],
       title: s.story_titles[i], text: s.story_texts[i], concepts: s.story_concepts[i].split('|') }));
     s.ids.forEach((id, i) => { DOCENT.aliases[id] = s.aliases[i].split('|'); DOCENT.concepts[id] = s.concepts[i].split('|'); });
-    DOCENT.ready = true;
-    DOCENT.edition = `Mockup docent · keyword matcher · ${DOCENT.stories.length} stories from campus snapshot ${s.snapshot} · no model yet`;
-  } catch (e) { DOCENT.edition = 'Mockup docent · keyword matcher · stories unavailable (serve over http) · no model yet'; }
+    mergeLocal();
+    DOCENT.edition = `Mockup docent · keyword matcher · ${DOCENT.stories.length} stories (snapshot ${s.snapshot} + ${DOCENT_LOCAL.stories.length} local) · no model yet`;
+  } catch (e) { mergeLocal(); DOCENT.edition = 'Mockup docent · keyword matcher · local stories only (snapshot needs http) · no model yet'; }
   document.getElementById('docent-edition').textContent = DOCENT.edition;
 }
 
@@ -619,7 +650,9 @@ function pickStory(id, kind) {
   return (kind && u.find(s => s.kind === kind)) || u[0] || null;
 }
 function storyForQuery(q, pred) {
-  const cands = [ctx.currentPlace, ...pred.ranked.map(r => r.id)];
+  // A place named in the question wins; otherwise the current place first, then the predicted ones.
+  const named = pred.ranked.filter(r => r.score >= 3).map(r => r.id);
+  const cands = [...named, ctx.currentPlace, ...pred.ranked.map(r => r.id)];
   for (const id of cands) { const s = pickStory(id); if (s) return s; }
   const qt = tokens(q);
   return DOCENT.stories.find(s => !ctx.toldStories.includes(s.id) && s.concepts.some(c => tokens(c).some(t => qt.includes(t)))) || null;
