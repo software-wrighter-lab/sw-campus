@@ -3,7 +3,8 @@
 **[Open the campus](https://software-wrighter-lab.github.io/sw-campus/)** -- the
 live demo. Hover a building, click to enter, follow a directory to a wing and
 its live demos. Today it is the static mockup from [`pages/`](pages/); the
-Rust/Yew/WASM app will replace it at the same URL.
+Rust/Yew/WASM app will replace it at the same URL. The idea is introduced in
+the blog post [Software Wrighter Research Campus](https://blog.softwarewrighter.com/2026/09/12/software-wrighter-research-campus/).
 
 A visual, explorable guide to the public projects and live demos of
 Software Wrighter, drawn as a research campus you can walk into.
@@ -54,6 +55,7 @@ mockup from `pages/`, later the app) and will also appear at
 | docs/research.txt | Raw design conversation the plan was distilled from |
 | [CLAUDE.md](CLAUDE.md) | Rules for coding agents working this repo |
 | [mockups/README.md](mockups/README.md) | The static mockup in `pages/` and how to serve it locally |
+| [Blog post](https://blog.softwarewrighter.com/2026/09/12/software-wrighter-research-campus/) | Why the campus exists, for visitors |
 
 Source art lives in `images/` (`sw-campus.png`, `museum-lobby.png`). Those
 are the originals; the web build serves optimised copies.
