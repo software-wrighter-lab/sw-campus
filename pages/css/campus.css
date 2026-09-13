@@ -426,3 +426,6 @@
   /* The hidden attribute must beat the drawer's display:flex */
   .drawer[hidden] { display: none; }
   body.no-anim, body.no-anim.docent-open { transition: none; }
+
+  .drawer-foot { flex-wrap: wrap; justify-content: flex-start; row-gap: 4px; }
+  .drawer-foot .link { margin-right: auto; }
