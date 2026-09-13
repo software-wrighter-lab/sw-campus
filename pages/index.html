@@ -231,6 +231,7 @@ const PLACES = {
   'computational-sciences': { kind: 'Building', title: 'Computational Sciences Institute', status: 'open',
     tagline: 'Mathematics · Machine Learning · Artificial Intelligence',
     summary: 'Ideas become understanding. The sw-ml-study family: an array language built for machine learning, and the mathematics, algorithms, and ML experiments written in it.',
+    // featured switches to 'moe-microscope' when its docent page is published (moe-microscope saga 4, step 5).
     scene: 'csi-lobby', featured: 'machine-learning',
     children: ['sw-mlpl','mathematics-foundation','category-theory','machine-learning','algorithms-data-structures','functional-pipelines','extensions-integrations','all-sw-ml-study','abstraction-to-intelligence','curiosity-fountain','visualizing-understanding','ideas-lab'] },
 
@@ -268,8 +269,13 @@ const PLACES = {
       { name: 'Neural Network Lab Bench', repo: 'sw-ml-study/neural-net-rs', url: MLS + 'neural-net-rs/', note: 'train AND, OR, XOR, QUADRANT in the browser' },
     ],
     repos: [['sw-ml-study/demo-ml-utils','inspect, validate, visualise, convert, quantise checkpoints'],['sw-ml-study/demo-ml-microscope','intermediate values as a recorded timeline'],['sw-ml-study/moe-microscope','an introspectable tiny MoE from scratch'],['sw-ml-study/emufpga','Serial Parameter Machine research vehicle'],['sw-ml-study/neural-net-rs','CLI, REST, and WASM neural-net platform'],['sw-ml-study/ml-viz','Blender + three.js scenes from ML scene specs'],['sw-ml-study/cat-finder','find the cats in a photo library with local YOLO'],['sw-ml-study/sw-os-ml','MLOS, the OS for model state (canonical home: Operating Systems, Computer Science Building)']],
-    exhibits: [['artifact-utils','Checkpoint utilities: inference and quantisation'],['ml-microscope','The ML Microscope'],['moe-microscope','The MoE Microscope'],['serial-moe','Serial Parameter Machine'],['lab-bench','Neural Network Lab Bench'],['ml-viz','ML visualisation scenes'],['cat-finder','Cat Finder']] },
+    children: ['moe-microscope'],
+    exhibits: [['artifact-utils','Checkpoint utilities: inference and quantisation'],['ml-microscope','The ML Microscope'],['serial-moe','Serial Parameter Machine'],['lab-bench','Neural Network Lab Bench'],['ml-viz','ML visualisation scenes'],['cat-finder','Cat Finder']] },
 
+  'moe-microscope': { kind: 'Exhibit', title: 'The MoE Microscope', status: 'open',
+    tagline: 'A tiny mixture-of-experts built from scratch in sw-MLPL, with every routing decision on view. It is also where the campus docent is trained.',
+    summary: 'MicroMoE is a few thousand parameters: tokens, a router, a handful of experts, an expert cache. Every lesson records its intermediate values and hands them to a generic Rust/Yew microscope host, so you can watch experts specialise, compare dense against routed variants, and read the memory, speed and quality of each. The second training area is the campus docent: a model that learns this campus\'s catalog and answers the easel questions you are reading now.',
+    repos: [['sw-ml-study/moe-microscope','the lessons, the recordings, and the docent training recipe'],['sw-ml-study/demo-extensions','the generic Rust/Yew microscope host']] },
   'algorithms-data-structures': { kind: 'Wing', title: 'Algorithms & Data Structures', status: 'open',
     tagline: 'Classic and modern algorithms. Implementations · Visualizations · Practice',
     summary: 'Can an array language designed for ML explain dynamically sized structures and ordinary programming with few loops, preferably none? Searching, sorting, graphs, dynamic programming, and matrices in one repo; representations, invariants, and honest costs in another; and a third on one question: how does a system find the small part of memory that matters, from hash probes toward retrieval and sparse attention. Interpreter lessons; no browser build yet.',
@@ -359,6 +365,7 @@ const PROGRESS = {
   'mathematics-foundation': ['working', 'Abstract algebra stage one is complete with thirteen lessons; linear algebra is in progress; calculus and discrete mathematics are planned.'],
   'category-theory': ['early', 'The lessons run in the interpreter; there is no browser page yet.'],
   'machine-learning': ['working', 'The serial-MoE FPGA emulator and the neural-net lab bench run in the browser. The microscopes and the campus docent itself are in progress in moe-microscope.'],
+  'moe-microscope': ['early', 'Six experiments have run natively with recorded results; the browser page, which will also host "train the docent", is the current saga\'s step 5. When it is published this exhibit becomes the Institute\'s featured exhibit.'],
   'algorithms-data-structures': ['early', 'Three lesson repos run in the interpreter; no browser build yet.'],
   'functional-pipelines': ['early', 'Three lesson repos run in the interpreter; no browser build yet.'],
   'extensions-integrations': ['early', 'Native builds only; no browser demo published yet.'],

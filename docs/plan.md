@@ -367,7 +367,7 @@ second version; board x 588-888, rows 38 px starting y 308 with a 45 px pitch):
 | 1 | sw-mlpl | sw-mlpl (latest), mlpl-live (stable at mlpl.softwarewrighter.com), demo-mlpl-libraries |
 | 2 | mathematics-foundation | demo-abstract-algebra (site, course, lab, all live), demo-linear-algebra; calculus and discrete are empty |
 | 3 | category-theory | demo-category-theory (no browser build) |
-| 4 | machine-learning | demo-ml-utils, demo-ml-microscope, moe-microscope, emufpga (live), neural-net-rs (live), ml-viz, cat-finder |
+| 4 | machine-learning | demo-ml-utils, demo-ml-microscope, moe-microscope, emufpga (live), neural-net-rs (live), ml-viz, cat-finder | The MoE Microscope is its own exhibit (early); it becomes the Institute's featured exhibit once moe-microscope publishes its browser page. |
 | 5 | algorithms-data-structures | demo-algorithms, demo-data-structures, demo-memory |
 | 6 | functional-pipelines | demo-functional-pipelines, demo-combinators, demo-design-patterns |
 | 7 | extensions-integrations | demo-extensions, demo-file-processing, demo-mlpl-libraries |
