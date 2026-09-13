@@ -1,5 +1,10 @@
 # sw-campus -- Software Wrighter Research Campus
 
+**[Open the campus](https://software-wrighter-lab.github.io/sw-campus/)** -- the
+live demo. Hover a building, click to enter, follow a directory to a wing and
+its live demos. Today it is the static mockup from [`pages/`](pages/); the
+Rust/Yew/WASM app will replace it at the same URL.
+
 A visual, explorable guide to the public projects and live demos of
 Software Wrighter, drawn as a research campus you can walk into.
 
@@ -26,9 +31,9 @@ The MVP is one complete vertical slice: campus map, Computer History
 Museum lobby, IBM 1130 wing, and exhibits for the 029 card punch, the 1130
 console, and the 1442 card read punch.
 
-It will be published first at
-`https://software-wrighter-lab.github.io/sw-campus/` (today: the static
-mockup from `pages/`; later: the app) and at
+It is published at
+<https://software-wrighter-lab.github.io/sw-campus/> (today the static
+mockup from `pages/`, later the app) and will also appear at
 `https://campus.softwarewrighter.com/`.
 
 ## Purpose
@@ -48,6 +53,7 @@ mockup from `pages/`; later: the app) and at
 | [docs/plan.md](docs/plan.md) | Architecture, content model, URLs, hosting, and the implementation saga |
 | docs/research.txt | Raw design conversation the plan was distilled from |
 | [CLAUDE.md](CLAUDE.md) | Rules for coding agents working this repo |
+| [mockups/README.md](mockups/README.md) | The static mockup in `pages/` and how to serve it locally |
 
 Source art lives in `images/` (`sw-campus.png`, `museum-lobby.png`). Those
 are the originals; the web build serves optimised copies.
