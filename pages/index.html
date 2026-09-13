@@ -15,6 +15,32 @@
   </header>
   <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
   <main id="main"></main>
+  <aside id="docent" class="drawer" hidden aria-label="Campus docent">
+    <div class="drawer-head">
+      <div>
+        <div class="kind">Self-guided tour</div>
+        <h2>Campus Docent</h2>
+      </div>
+      <button type="button" class="icon" id="docent-close" aria-label="Close the docent">×</button>
+    </div>
+    <div class="edition" id="docent-edition">Mockup docent · keyword matcher · stories from snapshot A · no model yet</div>
+    <ol class="transcript" id="transcript"></ol>
+    <div class="chips" id="chips">
+      <button type="button" data-q="where am i">Where am I</button>
+      <button type="button" data-q="what is here">What's here</button>
+      <button type="button" data-q="recommend something">Recommend</button>
+      <button type="button" data-q="tell me a story">Tell me a story</button>
+    </div>
+    <form id="ask" class="ask">
+      <label for="q" class="sr">Ask the docent</label>
+      <input id="q" type="text" autocomplete="off" placeholder="Where can I see an early microprocessor?">
+      <button type="submit">Ask</button>
+    </form>
+    <div class="drawer-foot">
+      <button type="button" class="link" id="docent-clear">Clear my tour</button>
+      <a href="https://github.com/sw-ml-study/moe-microscope" target="_blank" rel="noopener">How the docent is trained</a>
+    </div>
+  </aside>
   <footer>
     <span>Copyright &copy; 2026 Michael A Wright</span>
     <a href="https://github.com/software-wrighter-lab/sw-campus/blob/main/LICENSE">MIT License</a>
@@ -37,14 +63,14 @@ const MLS = 'https://sw-ml-study.github.io/';
 const PLACES = {
   campus: { kind: 'Campus', title: 'Software Wrighter Research Campus',
     tagline: 'A growing campus of projects, experiments, and ideas.',
-    scene: 'campus',
+    scene: 'campus', featured: 'ibm-1130-emulator',
     children: ['computer-history','computer-science','computational-sciences','hardware-lab','digital-media','interactive-computing','commons','future-nw','future-ne','future-sw'] },
 
   // ---- Computer History Museum (sw-comp-history) ----
   'computer-history': { kind: 'Building', title: 'Computer History Museum', status: 'open',
     tagline: 'Vintage systems · Emulations · Interactive demos',
     summary: 'People, ideas, machines. Historic computers rebuilt as emulators you can run in the browser, with the toolchains written to program them.',
-    scene: 'lobby',
+    scene: 'lobby', featured: 'ibm-1130-emulator',
     children: ['ibm-1130','ibm-360','ibm-370','ibm-390','early-computers','personal-computing','processors','interfaces-media','minicomputers','game-machines','special-exhibits','library-archives','vacuum-tubes','transistors','punch-cards','core-memory','paper-tape','early-pcs'] },
 
   'ibm-1130': { kind: 'Wing', title: 'IBM 1130 Wing', status: 'open',
@@ -57,7 +83,13 @@ const PLACES = {
       ['sw-comp-history/sw-ibm1130-asm', 'assembler'], ['sw-comp-history/sw-ibm1130-codegen', 'code generator'],
       ['sw-comp-history/sw-ibm1130-target', 'toolchain target'], ['sw-comp-history/sw-ibm1130-emulator', 'emulator core'],
     ],
-    exhibits: [['029','IBM 029 Card Punch'],['1130','IBM 1130 Console (1131 CPU)'],['1442','IBM 1442 Card Read Punch'],['1132','IBM 1132 Printer'],['2310','IBM 2310 Disk Drive']] },
+    children: ['ibm-1130-emulator'],
+    exhibits: [['029','IBM 029 Card Punch'],['1442','IBM 1442 Card Read Punch'],['1132','IBM 1132 Printer'],['2310','IBM 2310 Disk Drive']] },
+  'ibm-1130-emulator': { kind: 'Exhibit', title: 'IBM 1130 System Emulator', status: 'open',
+    tagline: 'Yew/Rust/WASM emulation of the 1130 system.',
+    summary: 'The 1131 console with its lights and switches, the 2310 disk, the 1442 card read punch and the 1403 printer, simulated with the timing of the real hardware. Run it in the browser; nothing to install.',
+    demos: [ { name: 'IBM 1130 System Emulator', repo: 'sw-comp-history/ibm-1130-rs', url: CH + 'ibm-1130-rs/', note: 'Yew/Rust/WASM emulation of the 1130 system' } ],
+    repos: [['sw-comp-history/ibm-1130-rs', 'the emulator']] },
   'ibm-360': { kind: 'Wing', title: 'IBM System/360 Wing', status: 'open',
     tagline: 'The family that made "compatible" a word, and APL\\360 running on it.',
     demos: [ { name: 'APL Horse Race', repo: 'sw-comp-history/apl-horse-race', url: CH + 'apl-horse-race/', note: 'Throwback Thursday: a first program, in APL\\360' } ],
@@ -76,7 +108,16 @@ const PLACES = {
       { name: 'RCA COSMAC 1802 Assembly Emulator', repo: 'sw-comp-history/rca-1802-rs', url: CH + 'rca-1802-rs/', note: 'COSMAC ELF simulator in Yew/Rust/WASM' },
       { name: 'CDP1802 I/O Live Demo', repo: 'sw-comp-history/sw-cdp1802-io', url: CH + 'sw-cdp1802-io/', note: 'input/output on the 1802' },
     ],
-    repos: [['sw-comp-history/sw-cdp1802-isa','ISA'],['sw-comp-history/sw-cdp1802-asm','assembler'],['sw-comp-history/sw-cdp1802-codegen','code generator'],['sw-comp-history/sw-cdp1802-target','toolchain target'],['sw-comp-history/sw-cdp1802-emulator','emulator core']] },
+    repos: [['sw-comp-history/sw-cdp1802-isa','ISA'],['sw-comp-history/sw-cdp1802-asm','assembler'],['sw-comp-history/sw-cdp1802-codegen','code generator'],['sw-comp-history/sw-cdp1802-target','toolchain target'],['sw-comp-history/sw-cdp1802-emulator','emulator core']],
+    children: ['rca-1802'] },
+  'rca-1802': { kind: 'Exhibit', title: 'RCA COSMAC 1802', status: 'open',
+    tagline: 'COSMAC ELF simulator and input/output on the 1802, in Yew/Rust/WASM.',
+    summary: 'An 8-bit CMOS microprocessor from 1976 with sixteen 16-bit registers and a hobbyist following, from the COSMAC ELF kit to spacecraft. Two demos: the assembly emulator and the I/O demo.',
+    demos: [
+      { name: 'RCA COSMAC 1802 Assembly Emulator', repo: 'sw-comp-history/rca-1802-rs', url: CH + 'rca-1802-rs/', note: 'COSMAC ELF simulator' },
+      { name: 'CDP1802 I/O Live Demo', repo: 'sw-comp-history/sw-cdp1802-io', url: CH + 'sw-cdp1802-io/', note: 'input and output on the 1802' },
+    ],
+    repos: [['sw-comp-history/rca-1802-rs','the emulator'],['sw-comp-history/sw-cdp1802-io','the I/O demo']] },
   'early-computers':   { kind: 'Wing', title: 'Early Computers & Pioneers', status: 'soon', tagline: 'Before the mainframe.' },
   'personal-computing':{ kind: 'Wing', title: 'Personal Computing', status: 'soon', tagline: 'The machine on the desk.' },
   'interfaces-media':  { kind: 'Wing', title: 'Interfaces & Media', status: 'soon', tagline: 'Cards, tape, terminals, screens.' },
@@ -95,7 +136,7 @@ const PLACES = {
   'computer-science': { kind: 'Building', title: 'Computer Science Building', status: 'open',
     tagline: 'Embedded Systems · Architectures · Languages · Emulators · Demos · Tools',
     summary: 'From curiosity to code. The sw-embed family: a 24-bit soft CPU, the languages bootstrapped onto it, a microkernel, and a browser IDE for every one of them.',
-    scene: 'cs-lobby',
+    scene: 'cs-lobby', featured: 'apl',
     children: ['cpu-architectures','language-experiments','operating-systems','emulators-simulators','hardware-interfaces','development-tools','demos-experiments','all-sw-embed','cpus-through-ages','interfaces-peripherals','information-desk','featured-projects'] },
 
   'cpu-architectures': { kind: 'Wing', title: 'CPU Architectures', status: 'open',
@@ -126,8 +167,14 @@ const PLACES = {
       { name: 'Smalltalk', repo: 'sw-embed/web-sw-cor24-smalltalk', url: EMB + 'web-sw-cor24-smalltalk/', note: 'a demo Smalltalk in Tiny BASIC' },
       { name: 'p-code VM debugger', repo: 'sw-embed/web-sw-cor24-pcode', url: EMB + 'web-sw-cor24-pcode/', note: 'the substrate under Pascal and BASIC' },
     ],
+    children: ['apl'],
     repos: [['sw-embed/sw-cor24-macrolisp','Tiny Macro Lisp'],['sw-embed/sw-cor24-forth','Forth kernel'],['sw-embed/sw-cor24-pascal','Pascal'],['sw-embed/sw-cor24-basic','BASIC'],['sw-embed/sw-cor24-snobol4','SNOBOL4'],['sw-embed/sw-cor24-plsw','PL/SW'],['sw-embed/sw-cor24-ocaml','OCaml'],['sw-embed/sw-cor24-fortran','Fortran'],['sw-embed/sw-cor24-smalltalk','Smalltalk'],['sw-embed/sw-cor24-apl','APL'],['sw-embed/sw-cor24-prolog','Prolog (WAM-like VM)'],['sw-embed/sw-cor24-rpg-ii','RPG-II'],['sw-embed/sw-cor24-hlasm','HLASM'],['sw-embed/sw-cor24-rust','Rust-to-COR24 via MSP430 IR'],['sw-embed/sw-cor24-script','sws shell / scripting']] },
 
+  apl: { kind: 'Exhibit', title: 'APL', status: 'open',
+    tagline: 'An APL interpreter on COR24, in the browser.',
+    summary: 'Iverson notation on a 24-bit soft CPU: one glyph per idea, arrays as the unit of thought, and an interactive session where the whole program fits on one line.',
+    demos: [ { name: 'APL on COR24', repo: 'sw-embed/web-sw-cor24-apl', url: EMB + 'web-sw-cor24-apl/', note: 'browser APL session' } ],
+    repos: [['sw-embed/sw-cor24-apl','the interpreter'],['sw-embed/web-sw-cor24-apl','the web UI']] },
   'operating-systems': { kind: 'Wing', title: 'Operating Systems', status: 'open',
     tagline: 'sw-tos · MesaOS · MLOS (sw-os-ml) · OS experiments',
     summary: 'SWTOS is a clean-room microkernel inspired by MINIX IPC, built natively for small CPUs and FPGA soft cores, with a TUI you can drive in the browser. MLOS is a different bet: a new kernel, written from scratch in Rust, that virtualises resident model state the way Unix virtualises pages. It is an operating system first and belongs here; the Machine Learning wing points back at it.',
@@ -183,7 +230,7 @@ const PLACES = {
   'computational-sciences': { kind: 'Building', title: 'Computational Sciences Institute', status: 'open',
     tagline: 'Mathematics · Machine Learning · Artificial Intelligence',
     summary: 'Ideas become understanding. The sw-ml-study family: an array language built for machine learning, and the mathematics, algorithms, and ML experiments written in it.',
-    scene: 'csi-lobby',
+    scene: 'csi-lobby', featured: 'machine-learning',
     children: ['sw-mlpl','mathematics-foundation','category-theory','machine-learning','algorithms-data-structures','functional-pipelines','extensions-integrations','all-sw-ml-study','abstraction-to-intelligence','curiosity-fountain','visualizing-understanding','ideas-lab'] },
 
   'sw-mlpl': { kind: 'Wing', title: 'sw-MLPL', status: 'open',
@@ -338,6 +385,7 @@ function renderScene(id, place) {
         ${hots}
       </svg>
       <div class="caption" id="caption" hidden></div>
+      ${easelHtml(id, place)}
     </div>
     <section class="dir" aria-label="Directory">
       <h2>${id === 'campus' ? 'On the campus' : 'Directory'}</h2>
@@ -359,6 +407,7 @@ function renderPage(id, place) {
     : `<div class="placeholder"><span class="chip soon">Placeholder</span>
         This is where the ${esc(place.kind.toLowerCase())}'s story goes: what it holds, why it matters,
         and what was built here. The real text is written when the exhibits are installed.</div>`;
+  const kids = (place.children || []).map(cid => `<li><a href="${pathOf(cid)}">${esc(PLACES[cid].title)}</a>${chip(PLACES[cid])}</li>`).join('');
   const external = place.external
     ? `<p><a class="run" href="${place.external.url}" target="_blank" rel="noopener">${esc(place.external.label)}</a></p>` : '';
   return `
@@ -370,9 +419,11 @@ function renderPage(id, place) {
         <div class="prose">
           ${prose}
           ${external}
-          ${exhibits ? `<div class="section exhibits"><h2>Exhibits in this wing</h2><ul>${exhibits}</ul></div>` : ''}
+          ${kids ? `<div class="section dir"><h2>In this ${esc(place.kind.toLowerCase())}</h2><ul>${kids}</ul></div>` : ''}
+          ${exhibits ? `<div class="section exhibits"><h2>Planned exhibits</h2><ul>${exhibits}</ul></div>` : ''}
         </div>
         <div>
+          ${easelHtml(id, place)}
           <div class="section demos">
             <h2>Live demos</h2>
             ${demos ? `<ul>${demos}</ul>` : `<p class="placeholder"><span class="chip soon">Opening soon</span>No live demo installed yet.</p>`}
@@ -396,6 +447,8 @@ function render() {
   main.innerHTML = place.scene ? renderScene(id, place) : renderPage(id, place);
   document.title = (id === 'campus' ? '' : place.title + ' · ') + 'Software Wrighter Research Campus';
   if (place.scene) wireScene();
+  wireEasel();
+  docentArrive(id);
   window.scrollTo(0, 0);
 }
 
@@ -429,12 +482,203 @@ function wireScene() {
 // ---------- Keys ----------
 document.addEventListener('keydown', e => {
   if (e.target.matches('input, textarea')) return;
-  if (e.key === 'Escape') { const { id } = current(); const p = id && parentOf(id); if (p) location.hash = pathOf(p); }
+  if (e.key === 'Escape') {
+    const d = document.getElementById('docent');
+    if (!d.hidden) { d.hidden = true; return; }
+    const { id } = current(); const p = id && parentOf(id); if (p) location.hash = pathOf(p);
+  }
   if (e.key === 'h' || e.key === 'H') location.hash = '#/';
 });
 
+
+// ---------- Docent (mockup) ----------
+// A self-guided audio tour in a chat window. This mockup answers with a
+// deterministic keyword matcher over the catalog; the trained tiny MoE from
+// sw-ml-study/moe-microscope replaces `predict()` and nothing else. Story text
+// is canned in snapshot A and never generated. The catalog stays the
+// authority for titles, URLs, breadcrumbs, and status.
+const DOCENT = { stories: [], aliases: {}, concepts: {}, ready: false, edition: 'no snapshot loaded' };
+const CTX_KEY = 'sw-campus-docent-context';
+const freshCtx = () => ({ currentPlace: 'campus', recentPlaces: [], interests: [], recentQueries: [], toldStories: [], transcript: [], lastStory: null, stop: 0 });
+function loadCtx() { try { return Object.assign(freshCtx(), JSON.parse(localStorage.getItem(CTX_KEY) || '{}')); } catch { return freshCtx(); } }
+function saveCtx() { try { localStorage.setItem(CTX_KEY, JSON.stringify(ctx)); } catch {} }
+let ctx = loadCtx();
+
+async function loadSnapshot() {
+  try {
+    const s = await (await fetch('docent/snapshot-a.json')).json();
+    DOCENT.stories = s.story_ids.map((id, i) => ({ id, place: s.story_places[i], kind: s.story_kinds[i],
+      title: s.story_titles[i], text: s.story_texts[i], concepts: s.story_concepts[i].split('|') }));
+    s.ids.forEach((id, i) => { DOCENT.aliases[id] = s.aliases[i].split('|'); DOCENT.concepts[id] = s.concepts[i].split('|'); });
+    DOCENT.ready = true;
+    DOCENT.edition = `Mockup docent · keyword matcher · ${DOCENT.stories.length} stories from campus snapshot ${s.snapshot} · no model yet`;
+  } catch (e) { DOCENT.edition = 'Mockup docent · keyword matcher · stories unavailable (serve over http) · no model yet'; }
+  document.getElementById('docent-edition').textContent = DOCENT.edition;
+}
+
+// --- language ---
+const STOP = new Set('a an the of in on at to for is are was were be i me my you your it this that what where which who how why can could would like want see show take go tell about something some any and or with from do does did there here please wing wings building lobby exhibit exhibits demo demos page place'.split(' '));
+const tokens = q => q.toLowerCase().replace(/[^a-z0-9/ ]+/g, ' ').split(/\s+/).filter(t => t && !STOP.has(t));
+function intentOf(q) {
+  const s = q.toLowerCase();
+  if (/\b(again|repeat|once more)\b/.test(s)) return 'again';
+  if (/\b(story|stories|anecdote|tell me about|history of|background)\b/.test(s)) return 'story';
+  if (/\b(where am i|what is here|what's here|whats here|around here|nearby)\b/.test(s)) return 'here';
+  if (/\b(where|take me|go to|show me|find|get to|how do i get)\b/.test(s)) return 'navigate';
+  if (/\b(recommend|suggest|interested|i like|something|worth seeing|what should)\b/.test(s)) return 'recommend';
+  if (/\b(what is|what's|whats|explain|about|why|how does|what did)\b/.test(s)) return 'explain';
+  return 'navigate';
+}
+function placeSignals(id) {
+  const p = PLACES[id];
+  const sig = new Map();
+  const add = (text, w) => tokens(text).forEach(t => sig.set(t, Math.max(sig.get(t) || 0, w)));
+  add(p.title, 2); (DOCENT.aliases[id] || []).forEach(a => add(a, 3)); (DOCENT.concepts[id] || []).forEach(c => add(c, 4));
+  add(p.tagline, 1.5); if (p.summary) add(p.summary, 0.5);
+  (p.demos || []).forEach(d => { add(d.name, 2); add(d.repo.split('/')[1].replace(/-/g, ' '), 2); });
+  (p.repos || []).forEach(([r]) => add(r.split('/')[1].replace(/-/g, ' '), 1.5));
+  return sig;
+}
+function predict(q) {
+  const qt = tokens(q);
+  const ranked = Object.keys(PLACES).map(id => {
+    const sig = placeSignals(id); const hits = [];
+    let score = 0;
+    const hit = t => sig.has(t) ? sig.get(t) : Math.max(0, ...[...sig].filter(([k]) => k.length >= 5 && t.length >= 5 && (t.includes(k) || k.includes(t))).map(([, w]) => w * 0.8));
+    qt.forEach(t => { const w = hit(t); if (w) { score += w; hits.push(t); } });
+    if (score) score += (PLACES[id].status === 'open' ? 0.5 : 0) + (PLACES[id].kind === 'Exhibit' ? 0.5 : 0);
+    const phrase = (DOCENT.aliases[id] || []).find(a => a.length > 3 && q.toLowerCase().includes(a));
+    if (phrase) { score += 4; hits.push(`"${phrase}"`); }
+    return { id, score, hits };
+  }).filter(r => r.score > 0).sort((a, b) => b.score - a.score).slice(0, 3);
+  return { intent: intentOf(q), ranked, confidence: ranked.length ? Math.min(1, ranked[0].score / 6) : 0 };
+}
+
+// --- story policy (from moe-microscope): untold first, arrival once, no repeat unless asked, offer another while untold remain ---
+const storiesFor = id => DOCENT.stories.filter(s => s.place === id);
+const untoldFor = id => storiesFor(id).filter(s => !ctx.toldStories.includes(s.id));
+function pickStory(id, kind) {
+  const u = untoldFor(id);
+  return (kind && u.find(s => s.kind === kind)) || u[0] || null;
+}
+function storyForQuery(q, pred) {
+  const cands = [ctx.currentPlace, ...pred.ranked.map(r => r.id)];
+  for (const id of cands) { const s = pickStory(id); if (s) return s; }
+  const qt = tokens(q);
+  return DOCENT.stories.find(s => !ctx.toldStories.includes(s.id) && s.concepts.some(c => tokens(c).some(t => qt.includes(t)))) || null;
+}
+
+// --- turns ---
+const where = id => chainOf(id).slice(1, -1).map(a => PLACES[a].title).join(' › ') || 'the campus';
+function say(turn) { ctx.transcript.push(turn); if (ctx.transcript.length > 40) ctx.transcript.shift(); saveCtx(); renderTranscript(); }
+function storyTurn(s, lead) {
+  ctx.toldStories.includes(s.id) || ctx.toldStories.push(s.id);
+  ctx.lastStory = s.id; ctx.stop += 1;
+  const more = untoldFor(s.place).length;
+  say({ who: 'docent', stop: ctx.stop, place: s.place, title: s.title, text: (lead ? lead + ' ' : '') + s.text,
+    actions: [['go', s.place], more ? ['another', s.place] : null, ['play', null]].filter(Boolean),
+    why: { intent: 'story', signals: s.concepts, ranked: [[PLACES[s.place].title, 1]] } });
+}
+function answer(q) {
+  ctx.recentQueries.push(q); if (ctx.recentQueries.length > 10) ctx.recentQueries.shift();
+  say({ who: 'you', text: q });
+  const pred = predict(q);
+  pred.ranked.forEach(r => (DOCENT.concepts[r.id] || []).slice(0, 2).forEach(c => ctx.interests.includes(c) || ctx.interests.push(c)));
+  const top = pred.ranked[0];
+  const why = { intent: pred.intent, signals: top ? top.hits : [], ranked: pred.ranked.map(r => [PLACES[r.id].title, r.score]) };
+  if (pred.intent === 'again') {
+    const s = DOCENT.stories.find(x => x.id === ctx.lastStory);
+    return s ? storyTurn(s, 'Once more:') : say({ who: 'docent', text: 'I have not told you a story yet. Ask me for one.', why });
+  }
+  if (pred.intent === 'here') {
+    const p = PLACES[ctx.currentPlace];
+    const kids = (p.children || []).filter(k => PLACES[k].status === 'open').slice(0, 4).map(k => PLACES[k].title).join(', ');
+    return say({ who: 'docent', place: ctx.currentPlace, title: p.title, text: `You are at ${p.title}, in ${where(ctx.currentPlace)}. ${p.tagline}${kids ? ' Open here: ' + kids + '.' : ''}`,
+      actions: [pickStory(ctx.currentPlace) ? ['another', ctx.currentPlace] : null].filter(Boolean), why });
+  }
+  if (pred.intent === 'story') {
+    const s = storyForQuery(q, pred);
+    return s ? storyTurn(s) : say({ who: 'docent', text: 'You have heard every story I know for this part of the campus. Walk somewhere new and ask again.', why });
+  }
+  if (!top) return say({ who: 'docent', text: 'I only know about the exhibits and how to get around this campus. Try asking where something is, or what a building holds.', why });
+  if (pred.intent === 'recommend' || (pred.ranked.length > 1 && pred.ranked[1].score >= top.score * 0.8)) {
+    const list = pred.ranked.map(r => `${PLACES[r.id].title} (${where(r.id)})`).join('; ');
+    return say({ who: 'docent', place: top.id, title: 'A few places that fit', text: `Based on what you asked, in order: ${list}.`,
+      actions: pred.ranked.map(r => ['go', r.id]), why });
+  }
+  const p = PLACES[top.id];
+  if (pred.intent === 'explain') {
+    return say({ who: 'docent', place: top.id, title: p.title, text: `${p.tagline} ${p.summary || ''}`.trim() + ` It is in ${where(top.id)}.`,
+      actions: [['go', top.id], pickStory(top.id) ? ['another', top.id] : null].filter(Boolean), why });
+  }
+  const soon = p.status !== 'open' ? ' It is not open yet, but the directory page is there.' : '';
+  say({ who: 'docent', place: top.id, title: p.title, text: `${p.title} is in ${where(top.id)}.${soon}`,
+    actions: [['go', top.id], pickStory(top.id) ? ['another', top.id] : null].filter(Boolean), why });
+}
+
+// --- arrival: volunteer a place's arrival story once ---
+function docentArrive(id) {
+  if (!id || ctx.currentPlace === id && ctx.recentPlaces.length) { renderEaselStory(id); return; }
+  ctx.currentPlace = id;
+  ctx.recentPlaces = [id, ...ctx.recentPlaces.filter(x => x !== id)].slice(0, 8);
+  const s = DOCENT.ready ? pickStory(id, 'arrival') : null;
+  if (s) storyTurn(s); else saveCtx();
+  renderEaselStory(id);
+}
+
+// --- easel ---
+function easelHtml(id, place) {
+  const fid = place.featured || (PARENT[id] && PLACES[PARENT[id]].featured) || null;
+  const f = fid ? PLACES[fid] : null;
+  return `<aside class="easel" aria-label="Easel">
+      <div class="placard">
+        <div class="kind">${f ? 'Featured exhibit' : 'Easel'}</div>
+        ${f ? `<h3>${esc(f.title)}</h3><p>${esc(f.tagline)}</p><a class="visit" href="${pathOf(fid)}">Visit</a>` : ''}
+        <div class="stop" id="easel-stop"></div>
+        <button type="button" class="ask-docent" id="easel-ask">Ask the docent</button>
+      </div>
+      <svg class="legs" viewBox="0 0 120 40" aria-hidden="true"><path d="M20 0 L8 40 M100 0 L112 40 M60 0 L60 40 M14 24 L106 24" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+    </aside>`;
+}
+function renderEaselStory(id) {
+  const el = document.getElementById('easel-stop'); if (!el) return;
+  const untold = DOCENT.ready ? untoldFor(id).length : 0;
+  const last = ctx.transcript.filter(t => t.who === 'docent' && t.stop).slice(-1)[0];
+  el.innerHTML = last && last.place === id
+    ? `<span class="badge">Stop ${last.stop}</span> ${esc(last.title)}${untold ? ` <small>· ${untold} more</small>` : ''}`
+    : (untold ? `<span class="badge">${untold} ${untold === 1 ? 'story' : 'stories'}</span> about this place` : '');
+}
+function wireEasel() {
+  const b = document.getElementById('easel-ask'); if (b) b.onclick = openDocent;
+}
+function openDocent() { const d = document.getElementById('docent'); d.hidden = false; renderTranscript(); document.getElementById('q').focus(); }
+
+// --- transcript ---
+function renderTranscript() {
+  const ol = document.getElementById('transcript'); if (!ol) return;
+  ol.innerHTML = ctx.transcript.map((t, i) => {
+    if (t.who === 'you') return `<li class="you"><p>${esc(t.text)}</p></li>`;
+    const acts = (t.actions || []).map(([a, id]) => a === 'go' ? `<a class="act" href="${pathOf(id)}">Take me to ${esc(PLACES[id].title)}</a>`
+      : a === 'another' ? `<button type="button" class="act" data-another="${id}">Another story</button>`
+      : `<button type="button" class="act" data-play="${i}">Play</button>`).join('');
+    const why = t.why ? `<details class="why"><summary>Why this?</summary><div>intent: <b>${esc(t.why.intent)}</b><br>signals: ${t.why.signals.length ? t.why.signals.map(esc).join(', ') : 'none'}<br>ranked: ${t.why.ranked.map(([n, s]) => `${esc(n)} ${(+s).toFixed(1)}`).join(' · ') || 'none'}<br><small>Mockup: keyword matcher. The trained MoE shows its experts here.</small></div></details>` : '';
+    return `<li class="docent">${t.stop ? `<span class="badge">Stop ${t.stop}</span> ` : ''}${t.title ? `<h4>${esc(t.title)}</h4>` : ''}<p>${esc(t.text)}</p><div class="acts">${acts}</div>${why}</li>`;
+  }).join('');
+  ol.scrollTop = ol.scrollHeight;
+  ol.querySelectorAll('[data-another]').forEach(b => b.onclick = () => { const s = pickStory(b.dataset.another); if (s) storyTurn(s); });
+  ol.querySelectorAll('[data-play]').forEach(b => b.onclick = () => speak(ctx.transcript[+b.dataset.play].text));
+}
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.rate = 0.95; speechSynthesis.speak(u);
+}
+document.getElementById('ask').addEventListener('submit', e => { e.preventDefault(); const i = document.getElementById('q'); const q = i.value.trim(); if (q) { answer(q); i.value = ''; } });
+document.getElementById('chips').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b) answer(b.dataset.q); });
+document.getElementById('docent-close').onclick = () => { document.getElementById('docent').hidden = true; };
+document.getElementById('docent-clear').onclick = () => { ctx = freshCtx(); ctx.currentPlace = current().id || 'campus'; saveCtx(); renderTranscript(); renderEaselStory(ctx.currentPlace); speechSynthesis && speechSynthesis.cancel(); };
+
 window.addEventListener('hashchange', render);
-render();
+loadSnapshot().then(render);
 </script>
 </body>
 </html>

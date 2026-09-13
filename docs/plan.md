@@ -432,6 +432,58 @@ the vertical slice becomes visible at step 5.
 | 10 | hotspot-editor | `?edit` overlay (Rust only): click to trace a polygon, prints the RON hotspot to the console; refine campus + lobby polygons with it |
 | 11 | polish-and-close | Esc/H keys, focus rings, mobile width, transition fade between scenes, a11y pass, `sw-checklist` 0/0, close the saga |
 
+## Saga: campus-docent (after campus-mvp step 4)
+
+Source: `../../sw-ml-study/moe-microscope/docs/research/research3.txt` and
+that repo's work order in `docs/implementation/cross-repo-handoffs.md`.
+The docent is a self-guided audio tour delivered as a chat window. A tiny
+mixture-of-experts model, trained in batch in moe-microscope, predicts only
+an intent (navigate, explain, recommend, story, unsupported) and a
+destination; this catalog supplies every title, URL, breadcrumb, status,
+and every word of story text. Stories are canned on the Place. The model
+never writes prose, so a stale model can never invent an exhibit.
+
+The mockup in `pages/` already has the whole tour metaphor with a keyword
+matcher standing in for the model (added 2026-09-13): an easel in the same
+corner of every scene with a featured exhibit and "Ask the docent"; a
+drawer with stop cards (stop number, place, story, Take me there, Another
+story, Play, Why this?); arrival stories volunteered once; told stories,
+recent places, interests and recent queries kept in local storage; Clear
+my tour; the edition line naming the snapshot the stories came from.
+`pages/docent/snapshot-a.json` is moe-microscope's snapshot A verbatim.
+
+Steps, each one session, all `sw-checklist`-clean:
+
+1. **docent-block-and-export.** `Docent { aliases, concepts, example_queries,
+   stories: [Story { id, title, text, concepts, kind }] }` as an optional
+   field on Place; `featured: Option<PlaceId>` on lobbies; the three exhibit
+   places snapshot A expects (ibm-1130-emulator, rca-1802, apl); a test that
+   writes `dist/catalog.json` canonically with its SHA-256 so moe-microscope's
+   corpus generator reads the live catalog and the manifest can name it.
+2. **easel.** `campus-docent` crate: `Easel` component (passive face: featured
+   exhibit, Visit; interactive face opens the drawer) rendered by SceneView
+   and by Directory/Exhibit pages; same corner on every scene.
+3. **tour-drawer.** `Docent` drawer with the transcript of stop cards, chips,
+   input, Clear my tour; `DocentContext` in IndexedDB (current place, recent
+   places, interests, recent queries, told stories) and open/closed state in
+   session storage; the story policy ported from moe-microscope with its
+   scripted-visit tests; Play via web-sys SpeechSynthesis; Esc closes first.
+4. **catalog-matcher.** The deterministic fallback `Predictor` (alias and
+   concept matching, the mockup's algorithm) behind a trait, so the easel
+   ships and works before any weights exist; "Why this?" shows its signals.
+5. **model-bridge.** The `mlpl-wasm` `Predictor`: load `docent/model`,
+   `labels`, `manifest` at startup; compare the manifest's catalog hash with
+   the live one and show the edition line and stale badge; run inference in
+   the same session moe-microscope's page uses (iframe bridge now, headless
+   build when upstream ships it). "Why this?" shows the router's experts.
+6. **snapshot-b.** When the 1442 and its radio demo are published: export
+   snapshot B, hand it to moe-microscope for their v1 saga, and show the
+   stale badge for real until the retrained weights land.
+
+Steps 1 to 4 can start as soon as campus-mvp step 4 (router-shell) exists.
+Step 5 waits on moe-microscope step 4 (`just docent` batch export) and their
+step 5 (measured browser inference through the bridge).
+
 ## Saga queue (after campus-mvp)
 
 Not started, not scheduled, listed so they are not forgotten:
