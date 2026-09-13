@@ -27,7 +27,8 @@ Museum lobby, IBM 1130 wing, and exhibits for the 029 card punch, the 1130
 console, and the 1442 card read punch.
 
 It will be published first at
-`https://software-wrighter-lab.github.io/sw-campus/` and later at
+`https://software-wrighter-lab.github.io/sw-campus/` (today: the static
+mockup from `pages/`; later: the app) and at
 `https://campus.softwarewrighter.com/`.
 
 ## Purpose
