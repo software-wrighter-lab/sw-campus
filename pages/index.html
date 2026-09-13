@@ -30,6 +30,7 @@
       <button type="button" data-q="what is here">What's here</button>
       <button type="button" data-q="recommend something">Recommend</button>
       <button type="button" data-q="tell me a story">Tell me a story</button>
+      <button type="button" data-q="what is finished and what is in progress">What works?</button>
     </div>
     <form id="ask" class="ask">
       <label for="q" class="sr">Ask the docent</label>
@@ -335,6 +336,49 @@ const SCENES = {
 };
 const W = 1536, H = 1024;
 
+// ---------- Maturity: the docent's work-in-progress voice (pre-written, never generated) ----------
+// finished: complete and stable. working: runs today, still being improved. early: source exists, no runnable demo.
+// planned: on the map, nothing built. Derived unless a place says otherwise in PROGRESS.
+const MATURITY = {
+  finished: { label: 'Finished', text: 'is finished. It does what it set out to do and is kept stable.' },
+  working:  { label: 'Working',  text: 'works today and is still being improved. Expect rough edges and new features between visits.' },
+  early:    { label: 'Early',    text: 'is very early. The source exists but there is nothing to run in the browser yet.' },
+  planned:  { label: 'Planned',  text: 'is planned. It is on the map so the campus shows where it is going, but nothing is built.' },
+};
+const PROGRESS = {
+  campus: ['working', 'The campus itself is a static mockup: three lobbies have paintings and directories, the rest are placeholders. The Rust app that replaces it is planned in docs/plan.md.'],
+  'computer-history': ['working', 'Four wings have live demos. The IBM 1130 wing is the vertical slice being built first; the 029, 1442, 1132 and 2310 exhibits are planned.'],
+  'ibm-1130': ['working', 'The 1130 system emulator runs. The card punch, card reader, printer and disk exhibits are planned, and the 1442 will be the docent\'s first new-knowledge test.'],
+  'ibm-1130-emulator': ['working', 'Runs in the browser with timing models for the disk, cards and printer. Under active development in sw-comp-history.'],
+  'rca-1802': ['working', 'Two demos run: the assembly emulator and the I/O demo. The toolchain repos behind them are early.'],
+  apl: ['working', 'The interpreter runs on COR24 in the browser. Coverage of the APL language is partial.'],
+  'computer-science': ['working', 'Six of eight wings have live demos; Hardware Interfaces is early. The building lobby is painted; wing scenes are planned.'],
+  'language-experiments': ['working', 'Twelve languages run in the browser. Prolog, RPG-II, HLASM, Rust-to-COR24 and the shell are early.'],
+  'hardware-interfaces': ['early', 'A sensor driver and bench scripts exist; no interface demo runs yet.'],
+  'computational-sciences': ['working', 'sw-MLPL and the abstract algebra course run in the browser. Four wings are interpreter lessons with no browser build yet.'],
+  'mathematics-foundation': ['working', 'Abstract algebra stage one is complete with thirteen lessons; linear algebra is in progress; calculus and discrete mathematics are planned.'],
+  'category-theory': ['early', 'The lessons run in the interpreter; there is no browser page yet.'],
+  'machine-learning': ['working', 'The serial-MoE FPGA emulator and the neural-net lab bench run in the browser. The microscopes and the campus docent itself are in progress in moe-microscope.'],
+  'algorithms-data-structures': ['early', 'Three lesson repos run in the interpreter; no browser build yet.'],
+  'functional-pipelines': ['early', 'Three lesson repos run in the interpreter; no browser build yet.'],
+  'extensions-integrations': ['early', 'Native builds only; no browser demo published yet.'],
+};
+function maturityOf(id) {
+  const p = PLACES[id];
+  if (PROGRESS[id]) return PROGRESS[id][0];
+  if (p.status !== 'open') return 'planned';
+  return (p.demos && p.demos.length) || p.scene || p.external ? 'working' : (p.repos && p.repos.length ? 'early' : 'planned');
+}
+function statusText(id) {
+  const p = PLACES[id], m = maturityOf(id);
+  const note = PROGRESS[id] ? ' ' + PROGRESS[id][1] : '';
+  const kids = p.children || [];
+  const counts = kids.reduce((c, k) => (c[maturityOf(k)] = (c[maturityOf(k)] || 0) + 1, c), {});
+  const tally = kids.length ? ' Inside it: ' + ['finished', 'working', 'early', 'planned'].filter(k => counts[k]).map(k => counts[k] + ' ' + k).join(', ') + '.' : '';
+  const named = kids.filter(k => maturityOf(k) === 'working').slice(0, 5).map(k => PLACES[k].title).join(', ');
+  return `${p.title} ${MATURITY[m].text}${note}${tally}${named ? ' Working now: ' + named + '.' : ''}`;
+}
+
 // ---------- Hierarchy derived from children (a place never stores its parent) ----------
 const PARENT = {};
 for (const [id, p] of Object.entries(PLACES)) (p.children || []).forEach(c => { PARENT[c] = id; });
@@ -366,7 +410,9 @@ function renderCrumbs(chain) {
 }
 
 function chip(p) {
-  return p.status === 'open' ? '<span class="chip open">Open</span>' : '<span class="chip soon">Opening soon</span>';
+  const id = Object.keys(PLACES).find(k => PLACES[k] === p);
+  const m = maturityOf(id);
+  return `<span class="chip m-${m}">${MATURITY[m].label}</span>`;
 }
 
 function renderScene(id, place) {
@@ -522,6 +568,7 @@ const tokens = q => q.toLowerCase().replace(/[^a-z0-9/ ]+/g, ' ').split(/\s+/).f
 function intentOf(q) {
   const s = q.toLowerCase();
   if (/\b(again|repeat|once more)\b/.test(s)) return 'again';
+  if (/\b(status|finished|done|complete|completed|working|in progress|progress|ready|how far|wip|work in progress|planned|what works)\b/.test(s)) return 'status';
   if (/\b(story|stories|anecdote|tell me about|history of|background)\b/.test(s)) return 'story';
   if (/\b(where am i|what is here|what's here|whats here|around here|nearby)\b/.test(s)) return 'here';
   if (/\b(where|take me|go to|show me|find|get to|how do i get)\b/.test(s)) return 'navigate';
@@ -590,6 +637,11 @@ function answer(q) {
     const s = DOCENT.stories.find(x => x.id === ctx.lastStory);
     return s ? storyTurn(s, 'Once more:') : say({ who: 'docent', text: 'I have not told you a story yet. Ask me for one.', why });
   }
+  if (pred.intent === 'status') {
+    const id = top && top.score >= 3 ? top.id : ctx.currentPlace;
+    return say({ who: 'docent', place: id, title: 'Work in progress: ' + PLACES[id].title, text: statusText(id),
+      actions: [id !== ctx.currentPlace ? ['go', id] : null].filter(Boolean), why: Object.assign({}, why, { intent: 'status' }) });
+  }
   if (pred.intent === 'here') {
     const p = PLACES[ctx.currentPlace];
     const kids = (p.children || []).filter(k => PLACES[k].status === 'open').slice(0, 4).map(k => PLACES[k].title).join(', ');
@@ -622,7 +674,9 @@ function docentArrive(id) {
   ctx.currentPlace = id;
   ctx.recentPlaces = [id, ...ctx.recentPlaces.filter(x => x !== id)].slice(0, 8);
   const s = DOCENT.ready ? pickStory(id, 'arrival') : null;
-  if (s) storyTurn(s); else saveCtx();
+  if (s) storyTurn(s);
+  else if (maturityOf(id) !== 'working') say({ who: 'docent', place: id, title: PLACES[id].title, text: statusText(id), actions: [], why: { intent: 'status', signals: ['arrival'], ranked: [[PLACES[id].title, 1]] } });
+  else saveCtx();
   renderEaselStory(id);
 }
 
@@ -633,7 +687,7 @@ function easelHtml(id, place) {
   return `<aside class="easel" aria-label="Easel">
       <div class="placard">
         <div class="kind">${f ? 'Featured exhibit' : 'Easel'}</div>
-        ${f ? `<h3>${esc(f.title)}</h3><p>${esc(f.tagline)}</p><a class="visit" href="${pathOf(fid)}">Visit</a>` : ''}
+        ${f ? `<h3>${esc(f.title)}</h3><p>${esc(f.tagline)}</p><a class="visit" href="${pathOf(fid)}">Visit</a> ${chip(f)}` : ''}
         <div class="stop" id="easel-stop"></div>
         <button type="button" class="ask-docent" id="easel-ask">Ask the docent</button>
       </div>

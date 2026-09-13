@@ -454,9 +454,22 @@ my tour; the edition line naming the snapshot the stories came from.
 
 Steps, each one session, all `sw-checklist`-clean:
 
+The docent also speaks for the work in progress. Every place has a
+maturity: finished (complete and stable), working (runs today, still
+improving), early (source exists, nothing runnable), or planned (on the
+map, nothing built). Maturity is derived from the catalog (a live demo or
+scene means working, repos only means early, placeholder means planned)
+unless the place carries a hand-written `progress` note, which overrides
+it and adds one or two sentences. The "status" intent ("what works?", "is
+the ML wing finished?") answers from the four pre-written maturity
+sentences plus the note plus a tally of the children; nothing is
+generated. Directory chips show the same four labels, and arriving at a
+non-working place gets the status line instead of a story.
+
 1. **docent-block-and-export.** `Docent { aliases, concepts, example_queries,
    stories: [Story { id, title, text, concepts, kind }] }` as an optional
-   field on Place; `featured: Option<PlaceId>` on lobbies; the three exhibit
+   field on Place; `maturity: Option<Maturity>` and `progress: Option<String>`
+   on Place, with `maturity_of()` deriving the default; `featured: Option<PlaceId>` on lobbies; the three exhibit
    places snapshot A expects (ibm-1130-emulator, rca-1802, apl); a test that
    writes `dist/catalog.json` canonically with its SHA-256 so moe-microscope's
    corpus generator reads the live catalog and the manifest can name it.
