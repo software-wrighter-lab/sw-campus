@@ -705,8 +705,17 @@ function renderEaselStory(id) {
 function wireEasel() {
   const b = document.getElementById('easel-ask'); if (b) b.onclick = openDocent;
 }
-function openDocent() { const d = document.getElementById('docent'); d.hidden = false; document.body.classList.add('docent-open'); renderTranscript(); document.getElementById('q').focus(); }
-function closeDocent() { document.getElementById('docent').hidden = true; document.body.classList.remove('docent-open'); }
+const OPEN_KEY = 'sw-campus-docent-open';
+function setDocentOpen(open, focus) {
+  document.getElementById('docent').hidden = !open;
+  document.body.classList.toggle('docent-open', open);
+  try { sessionStorage.setItem(OPEN_KEY, open ? '1' : ''); } catch {}
+  if (open) { renderTranscript(); if (focus) document.getElementById('q').focus(); }
+}
+function openDocent() { setDocentOpen(true, true); }
+function closeDocent() { setDocentOpen(false); }
+// Restore the open state before the first paint so the page starts already shifted, without animating.
+try { if (sessionStorage.getItem(OPEN_KEY)) { document.body.classList.add('no-anim'); setDocentOpen(true, false); requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.remove('no-anim'))); } } catch {}
 document.getElementById('head-docent').onclick = openDocent;
 
 // --- transcript ---

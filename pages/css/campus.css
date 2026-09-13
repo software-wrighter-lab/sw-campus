@@ -422,3 +422,7 @@
   }
   .docent-btn:hover { background: var(--blue-ink); }
   @media (prefers-reduced-motion: reduce) { body.docent-open { transition: none; } }
+
+  /* The hidden attribute must beat the drawer's display:flex */
+  .drawer[hidden] { display: none; }
+  body.no-anim, body.no-anim.docent-open { transition: none; }
