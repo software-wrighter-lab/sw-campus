@@ -553,6 +553,9 @@ document.addEventListener('keydown', e => {
 // sw-ml-study/moe-microscope replaces `predict()` and nothing else. Story text
 // is canned in snapshot A and never generated. The catalog stays the
 // authority for titles, URLs, breadcrumbs, and status.
+// The docent is gated until the trained model lands (docs/plan.md, saga campus-docent, step 5).
+// Preview it with ?docent=1 before the hash: /sw-campus/?docent=1#/campus
+const DOCENT_ENABLED = (() => { try { return new URLSearchParams(location.search).has('docent'); } catch { return false; } })();
 const DOCENT = { stories: [], aliases: {}, concepts: {}, ready: false, edition: 'no snapshot loaded' };
 const CTX_KEY = 'sw-campus-docent-context';
 const freshCtx = () => ({ currentPlace: 'campus', recentPlaces: [], interests: [], recentQueries: [], toldStories: [], transcript: [], lastStory: null, stop: 0 });
@@ -592,6 +595,7 @@ function mergeLocal() {
   DOCENT.ready = true;
 }
 async function loadSnapshot() {
+  if (!DOCENT_ENABLED) return;
   try {
     const s = await (await fetch('docent/snapshot-a.json')).json();
     DOCENT.stories = s.story_ids.map((id, i) => ({ id, place: s.story_places[i], kind: s.story_kinds[i],
@@ -713,6 +717,7 @@ function answer(q) {
 
 // --- arrival: volunteer a place's arrival story once ---
 function docentArrive(id) {
+  if (!DOCENT_ENABLED) return;
   if (!id || ctx.currentPlace === id && ctx.recentPlaces.length) { renderEaselStory(id); return; }
   ctx.currentPlace = id;
   ctx.recentPlaces = [id, ...ctx.recentPlaces.filter(x => x !== id)].slice(0, 8);
@@ -725,6 +730,7 @@ function docentArrive(id) {
 
 // --- easel ---
 function easelHtml(id, place) {
+  if (!DOCENT_ENABLED) return '';
   const fid = place.featured || (PARENT[id] && PLACES[PARENT[id]].featured) || null;
   const f = fid ? PLACES[fid] : null;
   return `<aside class="easel" aria-label="Easel">
@@ -755,10 +761,11 @@ function setDocentOpen(open, focus) {
   try { sessionStorage.setItem(OPEN_KEY, open ? '1' : ''); } catch {}
   if (open) { renderTranscript(); if (focus) document.getElementById('q').focus(); }
 }
-function openDocent() { setDocentOpen(true, true); }
+function openDocent() { if (DOCENT_ENABLED) setDocentOpen(true, true); }
 function closeDocent() { setDocentOpen(false); }
 // Restore the open state before the first paint so the page starts already shifted, without animating.
-try { if (sessionStorage.getItem(OPEN_KEY)) { document.body.classList.add('no-anim'); setDocentOpen(true, false); requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.remove('no-anim'))); } } catch {}
+if (!DOCENT_ENABLED) { document.getElementById('head-docent').hidden = true; }
+try { if (DOCENT_ENABLED && sessionStorage.getItem(OPEN_KEY)) { document.body.classList.add('no-anim'); setDocentOpen(true, false); requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.remove('no-anim'))); } } catch {}
 document.getElementById('head-docent').onclick = openDocent;
 
 // --- transcript ---

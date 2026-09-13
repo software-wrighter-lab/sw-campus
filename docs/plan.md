@@ -443,6 +443,10 @@ destination; this catalog supplies every title, URL, breadcrumb, status,
 and every word of story text. Stories are canned on the Place. The model
 never writes prose, so a stale model can never invent an exhibit.
 
+The docent is gated on the public site behind `?docent=1` until step 5
+below ships a real model; a visitor without the flag sees no easel and no
+drawer, so the campus can be shared without implying a model exists.
+
 The mockup in `pages/` already has the whole tour metaphor with a keyword
 matcher standing in for the model (added 2026-09-13): an easel in the same
 corner of every scene with a featured exhibit and "Ask the docent"; a
