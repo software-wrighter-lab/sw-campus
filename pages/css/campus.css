@@ -468,3 +468,15 @@
   .sk-sub   { font-family: "IBM Plex Mono", monospace; font-size: 16px; fill: #fbf7ee; text-anchor: middle; letter-spacing: 0.08em; }
   .sk-label { font-size: 26px; }
   .sk-sub { font-size: 14px; }
+
+  /* Call to action: the docent controls pulse slowly while the drawer is closed */
+  @keyframes docent-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(39, 87, 166, 0.55); }
+    50%      { box-shadow: 0 0 0 10px rgba(39, 87, 166, 0); }
+  }
+  body:not(.docent-open) .docent-btn,
+  body:not(.docent-open) .ask-docent { animation: docent-pulse 2.6s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .docent-btn, .ask-docent { animation: none !important; }
+    body:not(.docent-open) .docent-btn, body:not(.docent-open) .ask-docent { outline: 2px solid var(--brass); outline-offset: 2px; }
+  }
