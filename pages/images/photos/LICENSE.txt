@@ -1,0 +1,31 @@
+LICENSED PHOTOGRAPHS
+
+Copies of the licensed media kept in
+https://github.com/softwarewrighter/demo-ibm-1130-system/tree/main/licensed-media
+converted to WebP and scaled for the web (a modification under each license).
+Each photograph is credited on the page that shows it.
+
+ibm-1130-console.webp
+  "IBM 1130 console at CHM.agr" by ArnoldReinhold, CC BY-SA 3.0
+  https://commons.wikimedia.org/wiki/File:IBM_1130_console_at_CHM.agr.JPG
+  https://creativecommons.org/licenses/by-sa/3.0/
+  Modifications: scaled to 1200 px wide, WebP.
+
+ibm-1132-printer.webp
+  "Vintage Computer Festival 2010 056 (4717096457) (cropped)" by
+  ThisIsNotABetter, CC BY-SA 2.0
+  https://commons.wikimedia.org/wiki/File:Vintage_Computer_Festival_2010_056_(4717096457)_(cropped).jpg
+  https://creativecommons.org/licenses/by-sa/2.0/
+  Modifications: cropped (upstream), scaled to 1000 px wide, WebP.
+
+ibm-1442-card-reader.webp
+  "IBM1442.corestore" by Mike Ross (corestore.org), CC BY-SA 3.0 / GFDL 1.2+
+  https://commons.wikimedia.org/wiki/File:IBM1442.corestore.jpg
+  https://creativecommons.org/licenses/by-sa/3.0/
+  Modifications: WebP.
+
+ibm-2315-cartridge.webp
+  "Disk Cartridge 2315 type" by James Berlin, CC BY-SA 3.0
+  https://commons.wikimedia.org/wiki/File:Disk_Cartridge_2315_type.jb.jpg
+  https://creativecommons.org/licenses/by-sa/3.0/
+  Modifications: scaled (upstream), WebP.

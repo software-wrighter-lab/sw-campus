@@ -398,7 +398,12 @@ places. Demo matches: 1131 console and 029 keypunch run in
 sw-comp-history/ibm-1130-rs; 1442, 1133 and 2310 run in
 softwarewrighter/demo-ibm-1130-system; nothing simulates the 1132. The
 painted "Coming Soon" buttons are inaccurate where a demo exists; the
-caption tip says so. Step 7 uses this painting instead of an SVG floor
+caption tip says so. A large "Rough draft" notice sits over the
+painting. Licensed photographs of the real 1130 console, 1442, 1132 and
+2315 cartridge (from demo-ibm-1130-system/licensed-media, attributions in
+`pages/images/photos/LICENSE.txt`) show on the exhibit pages and in the
+hover caption of each wrong machine; the 1133 image there is AI-generated
+and is not used. No 029 photo exists yet. Step 7 uses this painting instead of an SVG floor
 plan. Adding the 1442 to the catalog is the snapshot B event for the docent.
 
 ## Build, run, check

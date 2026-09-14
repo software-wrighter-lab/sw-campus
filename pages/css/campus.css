@@ -434,3 +434,22 @@
   .caption .tip { margin-top: 6px; font-size: 0.78rem; color: var(--ink); border-top: 1px dotted var(--rule); padding-top: 6px; }
   .caption .kind .chip { margin-left: 6px; vertical-align: middle; }
   .cols.links { margin-top: 28px; }
+
+  /* Scene notice: a large disclaimer across the top of a rough painting */
+  .scene .notice {
+    position: absolute; left: 3%; right: 3%; top: 9%;
+    background: rgba(184, 134, 43, 0.94); color: #1d1a14;
+    border: 3px solid #1d1a14; padding: 12px 18px;
+    font-size: clamp(0.85rem, 1.6vw, 1.15rem); line-height: 1.35; z-index: 4;
+    box-shadow: var(--shadow); text-wrap: balance;
+  }
+  .scene .notice strong { font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; margin-right: 10px; }
+  @media (max-width: 640px) { .scene .notice { position: static; margin-bottom: 8px; } }
+
+  /* Licensed photographs: on exhibit pages, and small in the hover caption */
+  .photo { margin: 0 0 16px; }
+  .photo img { display: block; width: 100%; max-width: 100%; height: auto; border: 1px solid var(--rule); }
+  .photo figcaption { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-2); margin-top: 6px; line-height: 1.4; }
+  .photo.small { margin: 8px 0 0; }
+  .photo.small img { max-height: 150px; width: auto; }
+  .caption { max-width: 320px; }

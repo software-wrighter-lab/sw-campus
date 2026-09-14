@@ -92,6 +92,7 @@ const PLACES = {
   'ibm-1130-emulator': { kind: 'Exhibit', title: 'IBM 1130 System Emulator', status: 'open',
     tagline: 'The 1131 CPU: 16-bit, 8K to 64K words of core, the console with its lights, switches and speed knob.',
     tip: 'Runs today: the console panel, the 1131 console printer and the 029 keypunch are tabs in one emulator.',
+    photo: { file: 'ibm-1130-console.webp', alt: 'The IBM 1130 console at the Computer History Museum: the 1131 register lamps above, the console typewriter and keyboard below', credit: 'ArnoldReinhold', title: 'IBM 1130 console at CHM.agr', license: 'CC BY-SA 3.0', url: 'https://commons.wikimedia.org/wiki/File:IBM_1130_console_at_CHM.agr.JPG', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/' },
     summary: 'The 1131 console with its lights and switches, the 2310 disk, the 1442 card read punch and the 1403 printer, simulated with the timing of the real hardware. Run it in the browser; nothing to install.',
     demos: [ { name: 'IBM 1130 System Emulator', repo: 'sw-comp-history/ibm-1130-rs', url: CH + 'ibm-1130-rs/', note: 'Yew/Rust/WASM emulation of the 1130 system' } ],
     repos: [['sw-comp-history/ibm-1130-rs', 'the emulator']] },
@@ -103,12 +104,14 @@ const PLACES = {
   '1442': { kind: 'Exhibit', title: 'IBM 1442 Card Read Punch', status: 'open',
     tagline: 'Reads and punches 80-column cards at up to 600 cards a minute.',
     tip: 'The placard says coming soon, but the 1442 is simulated in the IBM 1130 System Simulator. The card-reader radio demo is still to come.',
+    photo: { file: 'ibm-1442-card-reader.webp', alt: 'An IBM 1442 card read punch: grey cabinet with the red front panel, card hopper on top', credit: 'Mike Ross (corestore.org)', title: 'IBM1442.corestore', license: 'CC BY-SA 3.0', url: 'https://commons.wikimedia.org/wiki/File:IBM1442.corestore.jpg', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/' },
     demos: [ { name: 'IBM 1130 System Simulator', repo: 'softwarewrighter/demo-ibm-1130-system', url: 'https://softwarewrighter.github.io/demo-ibm-1130-system/', note: 'card reader/punch interface and deck handling' } ],
     repos: [['softwarewrighter/demo-ibm-1130-system','the peripheral simulator'],['sw-comp-history/sw-ibm-1130-peripherals','where the peripherals are being consolidated']],
     exhibits: [['radio','Card-reader radio: music by RFI']] },
   '1132': { kind: 'Exhibit', title: 'IBM 1132 Printer', status: 'soon',
     tagline: 'Line printer, 132 columns, up to 600 lines a minute.',
-    tip: 'No 1132 yet. The emulator has the 1131 console printer; the simulator has the 1403 line printer.' },
+    tip: 'No 1132 yet. The emulator has the 1131 console printer; the simulator has the 1403 line printer.',
+    photo: { file: 'ibm-1132-printer.webp', alt: 'An IBM 1132 line printer beside an 1130: blue top band, grey doors, control buttons at the corner', credit: 'ThisIsNotABetter', title: 'Vintage Computer Festival 2010 056 (cropped)', license: 'CC BY-SA 2.0', url: 'https://commons.wikimedia.org/wiki/File:Vintage_Computer_Festival_2010_056_(4717096457)_(cropped).jpg', licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.0/' } },
   '029': { kind: 'Exhibit', title: 'IBM 029 Keypunch', status: 'open',
     tagline: 'Punches 80-column cards from the keyboard, with Hollerith encoding.',
     tip: 'Runs today as a tab inside the IBM 1130 System Emulator: type text, see the punch pattern, build a deck.',
@@ -117,6 +120,7 @@ const PLACES = {
   '2310': { kind: 'Exhibit', title: 'IBM 2310 Disk Drive', status: 'open',
     tagline: 'The 2315 cartridge: one platter, half a million words, and the sound of a seek.',
     tip: 'Not on the painting yet. Simulated with real seek timing and synthesized seek sounds in the IBM 1130 System Simulator.',
+    photo: { file: 'ibm-2315-cartridge.webp', alt: 'A 2315-type removable disk cartridge for the IBM 1130', credit: 'James Berlin', title: 'Disk Cartridge 2315 type', license: 'CC BY-SA 3.0', url: 'https://commons.wikimedia.org/wiki/File:Disk_Cartridge_2315_type.jb.jpg', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/' },
     demos: [ { name: 'IBM 1130 System Simulator', repo: 'softwarewrighter/demo-ibm-1130-system', url: 'https://softwarewrighter.github.io/demo-ibm-1130-system/', note: 'disk map viewer, cylinder/head/sector' } ],
     repos: [['softwarewrighter/demo-ibm-1130-system','the peripheral simulator']] },
   'ibm-360': { kind: 'Wing', title: 'IBM System/360 Wing', status: 'open',
@@ -368,7 +372,9 @@ const SCENES = {
     ['visualizing-understanding', 1180,700,356,170], ['ideas-lab', 1140,530,190,160],
   ]},
 };
-SCENES['ibm-1130-wing'] = { image: 'images/ibm-1130-wing.webp', alt: 'Rough painting of the IBM 1130 wing: 1442 card read punch, 1133 multiplexor, 1131 console, 1132 printer, 029 keypunch', hotspots: [
+SCENES['ibm-1130-wing'] = { image: 'images/ibm-1130-wing.webp',
+  notice: { head: 'Rough draft', body: 'The machines in this picture are AI stand-ins, not the real hardware: the "1442" is a printer, the "029" is a Selectric terminal, the 1131 and 1133 are wrong too. Photographs of the real machines replace them later. The placards and links are right.' },
+  alt: 'Rough painting of the IBM 1130 wing: 1442 card read punch, 1133 multiplexor, 1131 console, 1132 printer, 029 keypunch', hotspots: [
     ['1442', 258,220,190,185], ['1442', 150,400,350,240],
     ['1133', 535,118,185,150], ['1133', 465,268,235,270],
     ['ibm-1130-emulator', 768,245,192,145], ['ibm-1130-emulator', 615,340,415,260],
@@ -476,6 +482,7 @@ function renderScene(id, place) {
         ${hots}
       </svg>
       <div class="caption" id="caption" hidden></div>
+      ${sc.notice ? `<div class="notice" role="note"><strong>${esc(sc.notice.head)}</strong> ${esc(sc.notice.body)}</div>` : ''}
       ${place.kind === 'Building' ? easelHtml(id, place) : ''}
     </div>
     <section class="dir" aria-label="Directory">
@@ -484,6 +491,12 @@ function renderScene(id, place) {
     </section>`;
 }
 
+function figureHtml(p, small) {
+  if (!p.photo) return '';
+  const ph = p.photo;
+  return `<figure class="photo${small ? ' small' : ''}"><img src="images/photos/${ph.file}" alt="${esc(ph.alt)}" loading="lazy">
+    <figcaption>${small ? 'The real one. ' : ''}"${esc(ph.title)}" by ${esc(ph.credit)}, <a href="${ph.licenseUrl}" target="_blank" rel="noopener">${esc(ph.license)}</a>${small ? '' : ` · <a href="${ph.url}" target="_blank" rel="noopener">source</a>`}</figcaption></figure>`;
+}
 function renderLinks(id, place) {
   const demos = (place.demos || []).map(d => `
     <li><span class="name">${esc(d.name)}<small>${esc(d.repo)} · ${esc(d.note)}</small></span>
@@ -519,6 +532,7 @@ function renderPage(id, place) {
       <p class="tagline">${esc(place.tagline)}</p>
       <div class="cols">
         <div class="prose">
+          ${figureHtml(place)}
           ${prose}
           ${external}
           ${kids ? `<div class="section dir"><h2>In this ${esc(place.kind.toLowerCase())}</h2><ul>${kids}</ul></div>` : ''}
@@ -563,7 +577,7 @@ function wireScene() {
     const kids = (p.children || []).slice(0, 4).map(k => PLACES[k].title).join(' · ');
     const soon = p.status !== 'open';
     cap.className = 'caption' + (soon ? ' soon' : '');
-    cap.innerHTML = `<div class="kind">${esc(p.kind)} ${chip(p)}</div><h3>${esc(p.title)}</h3><p>${esc(p.tagline)}</p>${p.tip ? `<p class="tip">${esc(p.tip)}</p>` : ''}
+    cap.innerHTML = `<div class="kind">${esc(p.kind)} ${chip(p)}</div><h3>${esc(p.title)}</h3><p>${esc(p.tagline)}</p>${p.tip ? `<p class="tip">${esc(p.tip)}</p>` : ''}${figureHtml(p, true)}
       ${kids ? `<div class="children">${esc(kids)}${p.children.length > 4 ? ' · …' : ''}</div>` : ''}
       <div class="enter">${soon ? 'Opening soon' : 'Click to enter'}</div>`;
     const cx = a.dataset.cx / W, by = a.dataset.by / H;
