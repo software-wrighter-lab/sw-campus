@@ -642,9 +642,10 @@ document.addEventListener('keydown', e => {
 // sw-ml-study/moe-microscope replaces `predict()` and nothing else. Story text
 // is canned in snapshot A and never generated. The catalog stays the
 // authority for titles, URLs, breadcrumbs, and status.
-// The docent is gated until the trained model lands (docs/plan.md, saga campus-docent, step 5).
-// Preview it with ?docent=1 before the hash: /sw-campus/?docent=1#/campus
-const DOCENT_ENABLED = (() => { try { return new URLSearchParams(location.search).has('docent'); } catch { return false; } })();
+// The keyword-matcher docent is public. The drawer's edition line says there is no model yet;
+// the trained MoE from moe-microscope replaces predict() when it is measurably better.
+// Hide the docent with ?docent=0 before the hash: /sw-campus/?docent=0#/campus
+const DOCENT_ENABLED = (() => { try { return new URLSearchParams(location.search).get('docent') !== '0'; } catch { return true; } })();
 const DOCENT = { stories: [], aliases: {}, concepts: {}, ready: false, edition: 'no snapshot loaded' };
 const CTX_KEY = 'sw-campus-docent-context';
 const freshCtx = () => ({ currentPlace: 'campus', recentPlaces: [], interests: [], recentQueries: [], toldStories: [], transcript: [], lastStory: null, stop: 0 });

@@ -30,11 +30,10 @@ pages/
 `-- docent/snapshot-a.json  moe-microscope's campus snapshot A: the canned stories
 ```
 
-## The docent (gated)
+## The docent
 
-Hidden on the public site until the trained model lands. Preview it with
-`?docent=1` before the hash: <https://software-wrighter-lab.github.io/sw-campus/?docent=1#/campus>.
-Without the flag there is no easel, no Docent button, and no drawer.
+Public. The drawer says plainly that a keyword matcher answers today and
+there is no model yet. Hide it with `?docent=0` before the hash.
 
 Every scene and page carries an easel: a featured exhibit, and "Ask the
 docent". The docent is a self-guided audio tour in a chat drawer: each
