@@ -469,14 +469,14 @@
   .sk-label { font-size: 26px; }
   .sk-sub { font-size: 14px; }
 
-  /* Call to action: the docent controls pulse slowly while the drawer is closed */
-  @keyframes docent-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(39, 87, 166, 0.55); }
-    50%      { box-shadow: 0 0 0 10px rgba(39, 87, 166, 0); }
+  /* Call to action: a slow glow fades in and out on the docent controls while the drawer is closed */
+  @keyframes docent-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(120, 170, 255, 0); }
+    50%      { box-shadow: 0 0 18px 5px rgba(120, 170, 255, 0.85); }
   }
   body:not(.docent-open) .docent-btn,
-  body:not(.docent-open) .ask-docent { animation: docent-pulse 2.6s ease-in-out infinite; }
+  body:not(.docent-open) .ask-docent { animation: docent-glow 3.2s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) {
     .docent-btn, .ask-docent { animation: none !important; }
-    body:not(.docent-open) .docent-btn, body:not(.docent-open) .ask-docent { outline: 2px solid var(--brass); outline-offset: 2px; }
+    body:not(.docent-open) .docent-btn, body:not(.docent-open) .ask-docent { box-shadow: 0 0 14px 4px rgba(120, 170, 255, 0.6); }
   }
