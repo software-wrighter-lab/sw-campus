@@ -399,7 +399,11 @@ sw-comp-history/ibm-1130-rs; 1442, 1133 and 2310 run in
 softwarewrighter/demo-ibm-1130-system; nothing simulates the 1132. The
 painted "Coming Soon" buttons are inaccurate where a demo exists; the
 caption tip says so. A large "Rough draft" notice sits over the
-painting. Licensed photographs of the real 1130 console, 1442, 1132 and
+painting. The four wrong machines (1442, 1133, 1131, 029) are covered
+by an SVG overlay of labelled schematic boxes (`overlays` on the scene,
+drawn back to front, each inside its machine's footprint and below its
+placard); the 1132 is left as painted. Removing the overlay when the art
+is fixed is deleting that list. Licensed photographs of the real 1130 console, 1442, 1132 and
 2315 cartridge (from demo-ibm-1130-system/licensed-media, attributions in
 `pages/images/photos/LICENSE.txt`) show on the exhibit pages and in the
 hover caption of each wrong machine; the 1133 image there is AI-generated

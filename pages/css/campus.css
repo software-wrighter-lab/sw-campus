@@ -453,3 +453,18 @@
   .photo.small { margin: 8px 0 0; }
   .photo.small img { max-height: 150px; width: auto; }
   .caption { max-width: 320px; }
+
+  /* Schematic boxes drawn over wrong machines in a rough painting */
+  .sketch { pointer-events: none; }
+  .sk-patch { fill: #dcd8cf; opacity: 0.96; }
+  .sk-front { fill: #5d86b3; stroke: #262420; stroke-width: 3; stroke-linejoin: round; }
+  .sk-side  { fill: #3f6390; stroke: #262420; stroke-width: 3; stroke-linejoin: round; }
+  .sk-top   { fill: #e3e6ea; stroke: #262420; stroke-width: 3; stroke-linejoin: round; }
+  .sk-slot  { fill: #2b3a4d; stroke: #262420; stroke-width: 2; }
+  .sk-key   { fill: #cfd4da; stroke: #262420; stroke-width: 2; }
+  .sk-lamp  { fill: #f2c14e; stroke: #262420; stroke-width: 1.5; }
+  .sk-detail{ fill: #cfd4da; stroke: #262420; stroke-width: 2; }
+  .sk-label { font-family: "IBM Plex Mono", monospace; font-size: 30px; font-weight: 500; fill: #fbf7ee; text-anchor: middle; }
+  .sk-sub   { font-family: "IBM Plex Mono", monospace; font-size: 16px; fill: #fbf7ee; text-anchor: middle; letter-spacing: 0.08em; }
+  .sk-label { font-size: 26px; }
+  .sk-sub { font-size: 14px; }

@@ -373,7 +373,14 @@ const SCENES = {
   ]},
 };
 SCENES['ibm-1130-wing'] = { image: 'images/ibm-1130-wing.webp',
-  notice: { head: 'Rough draft', body: 'The machines in this picture are AI stand-ins, not the real hardware: the "1442" is a printer, the "029" is a Selectric terminal, the 1131 and 1133 are wrong too. Photographs of the real machines replace them later. The placards and links are right.' },
+  notice: { head: 'Rough draft', body: 'The AI painting got four machines wrong, so they are drawn over as schematic boxes for now. Hover a box to see a photograph of the real machine. The 1132 and the placards are right. Better art later.' },
+  // back to front; each box sits below its placard, inside the painted machine's footprint
+  overlays: [
+    { kind: 'mux',      label: 'IBM 1133', sub: 'multiplexor',     x: 478, y: 262, w: 215, h: 270, floor: 545 },
+    { kind: 'console',  label: 'IBM 1131', sub: 'CPU and console', x: 650, y: 372, w: 370, h: 215, floor: 605 },
+    { kind: 'reader',   label: 'IBM 1442', sub: 'card read punch', x: 165, y: 392, w: 315, h: 235, floor: 645 },
+    { kind: 'keypunch', label: 'IBM 029',  sub: 'card punch',      x: 1278, y: 415, w: 245, h: 140, floor: 570 },
+  ],
   alt: 'Rough painting of the IBM 1130 wing: 1442 card read punch, 1133 multiplexor, 1131 console, 1132 printer, 029 keypunch', hotspots: [
     ['1442', 258,220,190,185], ['1442', 150,400,350,240],
     ['1133', 535,118,185,150], ['1133', 465,268,235,270],
@@ -466,6 +473,27 @@ function chip(p) {
   return `<span class="chip m-${m}">${MATURITY[m].label}</span>`;
 }
 
+// Rough schematic boxes: a flat patch hides the wrong machine, an isometric cube with a label stands in.
+function boxHtml(o) {
+  const d = Math.round(Math.min(o.w, o.h) * 0.16);
+  const x = o.x, y = o.y, w = o.w, h = o.h;
+  const front = `${x},${y + d} ${x + w - d},${y + d} ${x + w - d},${y + h} ${x},${y + h}`;
+  const top = `${x},${y + d} ${x + d},${y} ${x + w},${y} ${x + w - d},${y + d}`;
+  const side = `${x + w - d},${y + d} ${x + w},${y} ${x + w},${y + h - d} ${x + w - d},${y + h}`;
+  const fx = x + 18, fw = w - d - 36;
+  let detail = '';
+  if (o.kind === 'reader') detail = `<rect x="${x + d + 40}" y="${y - 22}" width="${Math.round(w * 0.28)}" height="24" class="sk-detail" transform="skewX(-25)"/><rect x="${fx}" y="${y + d + 24}" width="${fw}" height="26" class="sk-slot"/>`;
+  if (o.kind === 'mux') detail = [0, 1, 2].map(i => `<rect x="${fx + i * (fw / 3) + 6}" y="${y + d + 24}" width="${fw / 3 - 12}" height="${h - d - 48}" class="sk-slot"/>`).join('');
+  if (o.kind === 'console') detail = Array.from({ length: 14 }, (_, i) => `<circle cx="${fx + 14 + i * (fw - 28) / 13}" cy="${y + d + 34}" r="6" class="sk-lamp"/>`).join('') + `<rect x="${fx + 30}" y="${y + d + 60}" width="${fw - 60}" height="18" class="sk-slot"/><rect x="${x + Math.round(w * 0.3)}" y="${y + h - 70}" width="${Math.round(w * 0.32)}" height="34" class="sk-key"/>`;
+  if (o.kind === 'keypunch') detail = `<rect x="${fx}" y="${y + d + 40}" width="${fw}" height="44" class="sk-key"/><rect x="${x + w - d - 60}" y="${y - 20}" width="50" height="22" class="sk-detail" transform="skewX(-25)"/>`;
+  return `<g class="sketch" aria-hidden="true">
+    <rect x="${x - 10}" y="${y - 30}" width="${w + 20}" height="${o.floor - y + 34}" rx="6" class="sk-patch"/>
+    <polygon points="${side}" class="sk-side"/><polygon points="${top}" class="sk-top"/><polygon points="${front}" class="sk-front"/>
+    ${detail}
+    <text x="${x + (w - d) / 2}" y="${y + h - 22}" class="sk-label">${esc(o.label)}</text>
+    <text x="${x + (w - d) / 2}" y="${y + h - 4}" class="sk-sub">${esc(o.sub)}</text>
+  </g>`;
+}
 function renderScene(id, place) {
   const sc = SCENES[place.scene];
   const hots = sc.hotspots.map(([hid, x, y, w, h]) => {
@@ -479,6 +507,7 @@ function renderScene(id, place) {
     <div class="scene" id="scene">
       <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(sc.alt)}">
         <image href="${sc.image}" width="${W}" height="${H}"></image>
+        ${(sc.overlays || []).map(boxHtml).join('')}
         ${hots}
       </svg>
       <div class="caption" id="caption" hidden></div>
