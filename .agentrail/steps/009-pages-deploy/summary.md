@@ -1,0 +1,1 @@
+Configured GitHub Pages to build the Rust/Yew/WASM campus with pinned Trunk, upload dist/, and deploy via the Pages environment; verified Pages is already enabled and local artifacts include copied image assets. README now describes the live app.

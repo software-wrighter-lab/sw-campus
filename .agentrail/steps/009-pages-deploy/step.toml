@@ -1,9 +1,10 @@
 number = 9
 slug = "pages-deploy"
-status = "in-progress"
+status = "completed"
 description = "Publish to GitHub Pages at https://software-wrighter-lab.github.io/sw-campus/..."
 role = "production"
 context_files = []
 created_at = "2026-09-12T12:12:05"
+completed_at = "2026-09-29T11:30:42"
 task_type = "ci"
-commits = []
+commits = ["505b51b8c1a2b527281479648222483e3336a3fb"]
