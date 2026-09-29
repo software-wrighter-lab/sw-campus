@@ -1,0 +1,1 @@
+Added campus-scene with typed scenes, hotspots, rectangles/polygons, point and centroid geometry, embedded campus and museum RON scenes, and catalog-aware validation. Imported the documented first-pass hotspot rectangles and tested invalid child references.

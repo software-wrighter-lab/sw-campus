@@ -1,9 +1,10 @@
 number = 3
 slug = "scene-engine"
-status = "in-progress"
+status = "completed"
 description = "Create the scene layer: crate crates/campus-scene plus content/scenes/campus...."
 role = "production"
 context_files = []
 created_at = "2026-09-12T12:12:05"
+completed_at = "2026-09-29T10:21:11"
 task_type = "rust-lib"
-commits = []
+commits = ["2b6b3458a376423079eaca64551ccbb2454cdb2f"]
