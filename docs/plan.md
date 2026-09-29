@@ -435,11 +435,11 @@ binary, `just pages`, upload `dist/` with `actions/upload-pages-artifact`,
 deploy with `actions/deploy-pages`. Modelled on
 `sw-ml-study/demo-abstract-algebra/.github/workflows/pages.yml`.
 
-## Saga: campus-mvp
+## Saga: campus-mvp (shipped)
 
-One saga, eleven steps, each a single session that ends green. Steps 2 and
-3 have no web dependency and are pure TDD. Nothing in steps 1-4 needs art;
-the vertical slice becomes visible at step 5.
+The MVP saga shipped on 2026-09-29. Its steps ended green, including the
+hosted GitHub Pages build, hotspot tracing editor, responsive layout, and
+accessibility pass. Steps 2 and 3 had no web dependency and were pure TDD.
 
 | # | slug | delivers |
 | --- | --- | --- |
@@ -539,6 +539,9 @@ Not started, not scheduled, listed so they are not forgotten:
 - **cross-campus-paths** -- "Related work" links rendered as paths between
   places (the research's strongest idea, deliberately deferred).
 - **scene-editor** -- drag hotspots, export RON; grows out of step 10.
+- **docent-pins** -- add ephemeral 3D-looking Docent push-pin overlays for
+  campus, building, and wing destinations after the sw-atlas query contract
+  stabilizes; the MVP keeps navigation pins out of the painted art.
 
 ## Non-goals for the MVP
 

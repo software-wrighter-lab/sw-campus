@@ -23,9 +23,10 @@ art. No JavaScript beyond what the bundler emits, no Python.
 
 ## Status
 
-The first vertical slice is live: campus map, Computer History Museum lobby,
-IBM 1130 wing, and individual exhibit pages. See [docs/plan.md](docs/plan.md)
-for the architecture and `agentrail status` for saga progress.
+The campus MVP is shipped: campus map, Computer History Museum lobby, IBM
+1130 wing, individual exhibit pages, responsive behavior, keyboard navigation,
+and accessible directory equivalents. See [docs/plan.md](docs/plan.md) for
+the architecture and the queued follow-on work.
 
 The MVP is one complete vertical slice: campus map, Computer History
 Museum lobby, IBM 1130 wing, and exhibits for the 029 card punch, the 1130

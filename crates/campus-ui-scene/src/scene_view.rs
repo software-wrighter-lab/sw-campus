@@ -41,8 +41,9 @@ pub fn scene_view(props: &SceneViewProps) -> Html {
         move || drop(listener)
     });
     let selected = (*hovered).clone();
-    html! { <div class="scene-view"><svg viewBox={format!("0 0 {} {}", props.scene.width, props.scene.height)} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Campus scene">
-    <image href={format!("assets/{}", props.scene.image)} x="0" y="0" width={props.scene.width.to_string()} height={props.scene.height.to_string()} />
+    html! { <div class="scene-view" key={props.scene.id.clone()}><svg viewBox={format!("0 0 {} {}", props.scene.width, props.scene.height)} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Campus scene">
+    <title>{ format!("{} scene", props.scene.place.0) }</title>
+    <image href={format!("assets/{}", props.scene.image)} x="0" y="0" width={props.scene.width.to_string()} height={props.scene.height.to_string()} role="img" aria-label={format!("{} painted scene", props.scene.place.0)} />
     <HotspotLayer scene={props.scene.clone()} catalog={props.catalog.clone()} base={props.base.clone()} hovered={selected.clone()} on_hover={on_hover} on_navigate={props.on_navigate.clone()} />
     { edit_mode.then(|| html! { <HotspotEditor width={props.scene.width} height={props.scene.height} /> }) }
     </svg>{ selected.and_then(|id| caption(&props.catalog, &id, &props.scene)) }</div> }
