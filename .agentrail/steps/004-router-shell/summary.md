@@ -1,0 +1,1 @@
+Wired clean campus routes with basename support, catalog-backed routing, breadcrumbs using real Yew router links, directory pages with status badges, not-found handling, and a shared campus-ui crate. The app now resolves nested place URLs such as the IBM 1442 directory.
