@@ -1,0 +1,1 @@
+Added the IBM 1130 wing as a hand-authored 1536x1024 SVG floor plan with five exhibit plinths and data-driven hotspots for 1442, 1130, 1132, 029, and 2310. Extended embedded scene loading and validation; SVG assets use the same href path as painted WebP scenes.
