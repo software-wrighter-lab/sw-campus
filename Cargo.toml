@@ -1,0 +1,11 @@
+[workspace]
+members = ["crates/campus-web"]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85"
+
+[workspace.lints.clippy]
+all = "deny"
+pedantic = "deny"

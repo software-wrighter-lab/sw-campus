@@ -1,6 +1,6 @@
 number = 1
 slug = "scaffold-workspace"
-status = "pending"
+status = "in-progress"
 description = "Scaffold the Rust/Yew/WASM workspace so `just serve` shows the campus paintin..."
 role = "production"
 context_files = []
