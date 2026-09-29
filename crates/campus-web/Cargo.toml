@@ -8,7 +8,9 @@ build = "build.rs"
 
 [dependencies]
 campus-model = { path = "../campus-model" }
-campus-ui = { path = "../campus-ui" }
+campus-scene = { path = "../campus-scene" }
+campus-ui-chrome = { path = "../campus-ui-chrome" }
+campus-ui-scene = { path = "../campus-ui-scene" }
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = ["Document", "Window"] }
 yew = { version = "0.21", features = ["csr"] }

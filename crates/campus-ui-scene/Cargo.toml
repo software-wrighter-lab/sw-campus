@@ -1,0 +1,14 @@
+[package]
+name = "campus-ui-scene"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+campus-model = { path = "../campus-model" }
+campus-scene = { path = "../campus-scene" }
+yew = "0.21"
+
+[lints]
+workspace = true

@@ -11,15 +11,7 @@ pub struct DirectoryProps {
 
 #[function_component(Directory)]
 pub fn directory(props: &DirectoryProps) -> Html {
-    html! {
-        <section class="directory">
-            <p class="kind">{format!("{:?}", props.place.kind)}</p>
-            <h1>{&props.place.title}</h1>
-            <p class="tagline">{&props.place.tagline}</p>
-            <p>{&props.place.summary}</p>
-            <ul>{ for props.place.children.iter().filter_map(|id| directory_entry(&props.catalog, id)) }</ul>
-        </section>
-    }
+    html! { <section class="directory"><p class="kind">{format!("{:?}", props.place.kind)}</p><h1>{&props.place.title}</h1><p class="tagline">{&props.place.tagline}</p><p>{&props.place.summary}</p><ul>{ for props.place.children.iter().filter_map(|id| directory_entry(&props.catalog, id)) }</ul></section> }
 }
 
 fn directory_entry(catalog: &Catalog, id: &PlaceId) -> Option<Html> {

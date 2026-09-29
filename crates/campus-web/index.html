@@ -13,6 +13,16 @@
     body { margin: 0; min-width: 320px; font: 0.8rem system-ui, sans-serif; }
     .campus-shell { min-height: 100vh; display: flex; flex-direction: column; }
     .campus-map { display: block; width: 100%; height: auto; flex: 1 1 auto; object-fit: contain; }
+    .campus-content { width: min(100%, 1100px); margin: 0 auto; padding: 1rem; }
+    .scene-view { position: relative; width: 100%; }
+    .scene-view svg { display: block; width: 100%; height: auto; }
+    .hotspot { outline: none; }
+    .hotspot polygon { fill: transparent; stroke: transparent; stroke-width: 2; vector-effect: non-scaling-stroke; }
+    .hotspot:hover polygon, .hotspot:focus polygon, .hotspot-active polygon { fill: #f1c27d44; stroke: #f1c27d; }
+    .hotspot:focus-visible polygon { stroke: #fff; stroke-width: 3; }
+    .caption-card { position: absolute; left: clamp(1rem, calc(var(--caption-x) / 1536 * 100%), calc(100% - 18rem)); top: clamp(1rem, calc(var(--caption-y) / 1024 * 100%), calc(100% - 8rem)); width: min(18rem, calc(100% - 2rem)); padding: .8rem; border: 1px solid #f1c27d; border-radius: .5rem; background: #111820eF; box-shadow: 0 .4rem 1rem #0008; }
+    .caption-card p, .caption-card small { display: block; margin: .35rem 0 0; }
+    .caption-card em, .status { margin-left: .7rem; color: #f1c27d; font-style: normal; }
     footer { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; padding: 0.7rem 1rem; color: #b9c5ca; }
     a { color: #f1c27d; }
   </style>

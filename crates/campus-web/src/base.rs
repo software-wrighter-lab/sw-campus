@@ -13,3 +13,10 @@ pub fn basename() -> String {
         path.trim_end_matches('/').to_owned()
     }
 }
+
+use yew::prelude::*;
+
+#[function_component(Footer)]
+pub fn footer() -> Html {
+    html! { <footer><span>{"Copyright (c) 2026 Michael A Wright"}</span><a href="LICENSE">{"MIT License"}</a><a href="https://github.com/software-wrighter-lab/sw-campus">{"Repository: software-wrighter-lab/sw-campus"}</a><span>{"Build Host: "}{env!("BUILD_HOST")}</span><span>{"Build Commit: "}{env!("BUILD_SHA")}</span><span>{"Build Time: "}{env!("BUILD_TIMESTAMP")}</span></footer> }
+}

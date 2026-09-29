@@ -1,6 +1,6 @@
 number = 5
 slug = "campus-hotspots"
-status = "pending"
+status = "in-progress"
 description = "Make the campus scene interactive: painting + SVG hotspot layer, hover captio..."
 role = "production"
 context_files = []
