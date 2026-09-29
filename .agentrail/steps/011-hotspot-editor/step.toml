@@ -1,4 +1,4 @@
-number = 10
+number = 11
 slug = "hotspot-editor"
 status = "pending"
 description = "Add a Rust-only hotspot tracing overlay and use it to refine the campus and l..."

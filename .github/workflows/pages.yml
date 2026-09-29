@@ -23,6 +23,8 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - uses: extractions/setup-just@v3
+      - name: Install shell used by justfile
+        run: sudo apt-get update && sudo apt-get install --yes zsh
       - name: Install Trunk
         env:
           TRUNK_VERSION: 0.21.14

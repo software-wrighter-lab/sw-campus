@@ -1,0 +1,1 @@
+Fix the hosted GitHub Pages workflow failure discovered after step 009. Ensure the Ubuntu runner can execute the repository's justfile, run the required just check gate, commit and push the fix, and verify the Pages workflow succeeds and the published app/deep link responds.
