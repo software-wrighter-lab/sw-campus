@@ -13,7 +13,8 @@
     body { margin: 0; min-width: 320px; font: 0.8rem system-ui, sans-serif; }
     .campus-shell { min-height: 100vh; display: flex; flex-direction: column; }
     .campus-map { display: block; width: 100%; height: auto; flex: 1 1 auto; object-fit: contain; }
-    .campus-content { width: min(100%, 1100px); margin: 0 auto; padding: 1rem; }
+    .campus-content { position: relative; width: min(100%, 1100px); margin: 0 auto; padding: 1rem; }
+    .breadcrumb { position: absolute; z-index: 3; top: 1.4rem; left: 1.4rem; max-width: calc(100% - 2.8rem); padding: .45rem .7rem; border-radius: 1rem; background: #111820eF; box-shadow: 0 .2rem .8rem #0008; }
     .scene-view { position: relative; width: 100%; }
     .scene-view svg { display: block; width: 100%; height: auto; }
     .hotspot { outline: none; }

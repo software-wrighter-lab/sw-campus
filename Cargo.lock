@@ -82,6 +82,9 @@ version = "0.1.0"
 dependencies = [
  "campus-model",
  "campus-scene",
+ "gloo-events 0.2.0",
+ "wasm-bindgen",
+ "web-sys",
  "yew",
 ]
 

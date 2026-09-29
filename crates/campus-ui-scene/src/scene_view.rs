@@ -1,6 +1,8 @@
 use crate::{CaptionCard, HotspotLayer};
 use campus_model::{Catalog, PlaceId};
 use campus_scene::Scene;
+use gloo_events::EventListener;
+use wasm_bindgen::JsCast;
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -18,11 +20,43 @@ pub fn scene_view(props: &SceneViewProps) -> Html {
         let hovered = hovered.clone();
         Callback::from(move |id| hovered.set(id))
     };
+    let parent = parent_path(&props.catalog, &props.scene.place);
+    let on_navigate = props.on_navigate.clone();
+    use_effect_with((), move |()| {
+        let window = web_sys::window().expect("window available");
+        let listener = EventListener::new(&window, "keydown", move |event| {
+            let Some(keyboard) = event.dyn_ref::<web_sys::KeyboardEvent>() else {
+                return;
+            };
+            let path = match keyboard.key().as_str() {
+                "Escape" => Some(parent.clone()),
+                "h" | "H" => Some(String::new()),
+                _ => None,
+            };
+            if let Some(path) = path {
+                on_navigate.emit(path);
+            }
+        });
+        move || drop(listener)
+    });
     let selected = (*hovered).clone();
     html! { <div class="scene-view"><svg viewBox={format!("0 0 {} {}", props.scene.width, props.scene.height)} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Campus scene">
     <image href={format!("assets/{}", props.scene.image)} x="0" y="0" width={props.scene.width.to_string()} height={props.scene.height.to_string()} />
     <HotspotLayer scene={props.scene.clone()} catalog={props.catalog.clone()} base={props.base.clone()} hovered={selected.clone()} on_hover={on_hover} on_navigate={props.on_navigate.clone()} />
     </svg>{ selected.and_then(|id| caption(&props.catalog, &id, &props.scene)) }</div> }
+}
+
+fn parent_path(catalog: &Catalog, place: &PlaceId) -> String {
+    let Some(chain) = campus_model::ancestors(catalog, place) else {
+        return String::new();
+    };
+    chain
+        .iter()
+        .skip(1)
+        .take(chain.len().saturating_sub(2))
+        .map(|item| item.id.0.clone())
+        .collect::<Vec<_>>()
+        .join("/")
 }
 
 fn caption(catalog: &Catalog, id: &PlaceId, scene: &Scene) -> Option<Html> {

@@ -28,7 +28,16 @@ fn shell(route: &Route, catalog: &UseStateHandle<Catalog>, navigator: Option<Nav
             .map(|id| PlaceId(id.to_owned())),
         Route::NotFound => None,
     };
-    html! { <main class="campus-shell"><header><a href=".">{"Software Wrighter Research Campus"}</a></header>{ current.map(|id| html! { <Breadcrumb catalog={(**catalog).clone()} place={id} /> }).unwrap_or_default() }<main class="campus-content">{render_content(route, catalog, navigator)}</main><Footer /></main> }
+    html! {
+        <main class="campus-shell">
+            <header><a href=".">{"Software Wrighter Research Campus"}</a></header>
+            <main class="campus-content">
+                { current.map(|id| html! { <Breadcrumb catalog={(**catalog).clone()} place={id} /> }).unwrap_or_default() }
+                {render_content(route, catalog, navigator)}
+            </main>
+            <Footer />
+        </main>
+    }
 }
 
 fn render_content(

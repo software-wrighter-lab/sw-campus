@@ -8,6 +8,9 @@ publish = false
 [dependencies]
 campus-model = { path = "../campus-model" }
 campus-scene = { path = "../campus-scene" }
+gloo-events = "0.2"
+wasm-bindgen = "0.2"
+web-sys = { version = "0.3", features = ["KeyboardEvent", "Window"] }
 yew = "0.21"
 
 [lints]
