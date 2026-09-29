@@ -59,6 +59,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "campus-scene"
+version = "0.1.0"
+dependencies = [
+ "campus-model",
+ "ron",
+ "serde",
+]
+
+[[package]]
 name = "campus-web"
 version = "0.1.0"
 dependencies = [

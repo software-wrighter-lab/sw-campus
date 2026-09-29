@@ -1,6 +1,6 @@
 number = 3
 slug = "scene-engine"
-status = "pending"
+status = "in-progress"
 description = "Create the scene layer: crate crates/campus-scene plus content/scenes/campus...."
 role = "production"
 context_files = []
