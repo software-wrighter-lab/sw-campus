@@ -1,6 +1,6 @@
 number = 7
 slug = "ibm-1130-wing"
-status = "pending"
+status = "in-progress"
 description = "Give the IBM 1130 wing a scene so the drill-down reaches individual exhibits,..."
 role = "production"
 context_files = []

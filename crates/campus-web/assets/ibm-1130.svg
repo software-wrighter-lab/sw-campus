@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024" role="img" aria-labelledby="title desc">
+  <title id="title">IBM 1130 wing floor plan</title>
+  <desc id="desc">A warm paper floor plan with five labelled IBM 1130 exhibit plinths.</desc>
+  <rect width="1536" height="1024" fill="#ead9b7"/>
+  <path d="M48 52h1440v920H48z" fill="#f8edcf" stroke="#263b52" stroke-width="8"/>
+  <path d="M96 96h1344v832H96z" fill="none" stroke="#b48b58" stroke-width="3" stroke-dasharray="14 12"/>
+  <text x="112" y="160" fill="#263b52" font-family="Georgia,serif" font-size="48" font-weight="bold">IBM 1130 WING</text>
+  <text x="112" y="205" fill="#52677a" font-family="monospace" font-size="22">A TEMPORARY FLOOR PLAN · SELECT A MACHINE</text>
+  <g fill="#d7e4eb" stroke="#263b52" stroke-width="6">
+    <rect x="220" y="300" width="260" height="260" rx="18"/>
+    <rect x="610" y="300" width="320" height="300" rx="18"/>
+    <rect x="1050" y="300" width="260" height="260" rx="18"/>
+    <rect x="560" y="730" width="400" height="190" rx="18"/>
+    <rect x="620" y="100" width="300" height="140" rx="18"/>
+  </g>
+  <g fill="#263b52" font-family="Georgia,serif" text-anchor="middle">
+    <text x="350" y="425" font-size="40">IBM 1442</text><text x="350" y="470" font-size="25">CARD READ PUNCH</text>
+    <text x="770" y="445" font-size="48">IBM 1131</text><text x="770" y="495" font-size="30">CONSOLE CPU</text>
+    <text x="1180" y="425" font-size="40">IBM 1132</text><text x="1180" y="470" font-size="25">LINE PRINTER</text>
+    <text x="760" y="815" font-size="42">IBM 029 KEYPUNCH</text><text x="760" y="865" font-size="26">FRONT OF HOUSE</text>
+    <text x="770" y="165" font-size="40">IBM 2310</text><text x="770" y="205" font-size="24">2315 DISK CARTRIDGE</text>
+  </g>
+  <g fill="none" stroke="#4d7696" stroke-width="8" stroke-linecap="round">
+    <path d="M480 430h130M930 430h120M770 600v130M770 240v60"/>
+    <path d="M130 680h1276" stroke-width="3" stroke-dasharray="18 18"/>
+  </g>
+  <text x="768" y="978" fill="#52677a" font-family="monospace" font-size="20" text-anchor="middle">COMPUTER HISTORY MUSEUM · IBM SYSTEMS COLLECTION</text>
+</svg>

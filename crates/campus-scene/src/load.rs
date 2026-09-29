@@ -16,8 +16,9 @@ impl Scenes {
         let campus: Scene = ron::from_str(include_str!("../../../content/scenes/campus.ron"))?;
         let museum: Scene =
             ron::from_str(include_str!("../../../content/scenes/computer-history.ron"))?;
+        let wing: Scene = ron::from_str(include_str!("../../../content/scenes/ibm-1130.ron"))?;
         Ok(Self {
-            scenes: vec![campus, museum],
+            scenes: vec![campus, museum, wing],
         })
     }
 
