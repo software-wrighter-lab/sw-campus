@@ -1,0 +1,1 @@
+Made the campus scene interactive with a WebP painting, SVG hotspot layer, hover/focus captions, keyboard-accessible real anchors, SPA navigation callbacks, transparent polygons and focus styling. Split UI into campus-ui-chrome and campus-ui-scene, added museum-lobby WebP, and kept scene/catalog geometry as the source for future Docent pins.
