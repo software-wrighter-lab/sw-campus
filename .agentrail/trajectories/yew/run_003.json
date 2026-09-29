@@ -1,0 +1,11 @@
+{
+  "task_type": "yew",
+  "state": {
+    "number": 11,
+    "step": "hotspot-editor"
+  },
+  "action": "view_image source art; cargo fmt; cargo check wasm; just check",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-09-29T12:03:25"
+}

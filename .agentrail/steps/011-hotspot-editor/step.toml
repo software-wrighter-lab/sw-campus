@@ -1,9 +1,10 @@
 number = 11
 slug = "hotspot-editor"
-status = "in-progress"
+status = "completed"
 description = "Add a Rust-only hotspot tracing overlay and use it to refine the campus and l..."
 role = "production"
 context_files = []
 created_at = "2026-09-12T12:12:05"
+completed_at = "2026-09-29T12:03:25"
 task_type = "yew"
-commits = []
+commits = ["db8a5907e050f5f50f1c8803d637bb40054b037a"]

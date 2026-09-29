@@ -1,0 +1,1 @@
+Added the development-only ?edit hotspot tracer with SVG screen-CTM coordinate conversion, live vertex/polygon rendering, Enter RON logging, Backspace undo, and Escape clear. Refined all campus building/site hotspots to footprint polygons, documented the workflow, and kept museum directory rows as tight rectangles. Full just check passed with zero failures and warnings.
