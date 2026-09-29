@@ -1,0 +1,1 @@
+Implemented campus-model and content/catalog.ron: typed places, statuses, links, canonical resolution/ancestors/URLs, validation for IDs/references/cycles/unique campus, and tests for the MVP tree. Included the Computational Sciences Institute and Commons placeholders for future research areas and shared Atlas/Docent work.
