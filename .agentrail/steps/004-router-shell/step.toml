@@ -1,6 +1,6 @@
 number = 4
 slug = "router-shell"
-status = "pending"
+status = "in-progress"
 description = "Wire routing so every place in the catalog renders at its URL, with a breadcr..."
 role = "production"
 context_files = []

@@ -68,9 +68,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "campus-ui"
+version = "0.1.0"
+dependencies = [
+ "campus-model",
+ "yew",
+ "yew-router",
+]
+
+[[package]]
 name = "campus-web"
 version = "0.1.0"
 dependencies = [
+ "campus-model",
+ "campus-ui",
  "wasm-bindgen",
  "web-sys",
  "yew",
