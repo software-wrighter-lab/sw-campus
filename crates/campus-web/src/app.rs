@@ -1,8 +1,6 @@
 use crate::base::Footer;
 use campus_model::{Catalog, PlaceId};
-use campus_scene::Scenes;
-use campus_ui_chrome::{Breadcrumb, Directory, NotFound, Route};
-use campus_ui_scene::SceneView;
+use campus_ui_chrome::{Breadcrumb, Route};
 use yew::prelude::*;
 use yew_router::prelude::{BrowserRouter, Navigator, Switch, use_navigator};
 
@@ -20,7 +18,7 @@ fn router_shell() -> Html {
 }
 
 fn shell(route: &Route, catalog: &UseStateHandle<Catalog>, navigator: Option<Navigator>) -> Html {
-    let current = match &route {
+    let current = match route {
         Route::Home | Route::Campus => catalog.root().map(|place| place.id.clone()),
         Route::Place { path } => path
             .split('/')
@@ -28,38 +26,5 @@ fn shell(route: &Route, catalog: &UseStateHandle<Catalog>, navigator: Option<Nav
             .map(|id| PlaceId(id.to_owned())),
         Route::NotFound => None,
     };
-    html! {
-        <main class="campus-shell">
-            <header><a href=".">{"Software Wrighter Research Campus"}</a></header>
-            <main class="campus-content">
-                { current.map(|id| html! { <Breadcrumb catalog={(**catalog).clone()} place={id} /> }).unwrap_or_default() }
-                {render_content(route, catalog, navigator)}
-            </main>
-            <Footer />
-        </main>
-    }
-}
-
-fn render_content(
-    route: &Route,
-    catalog: &UseStateHandle<Catalog>,
-    navigator: Option<Navigator>,
-) -> Html {
-    let Some(place) = crate::route::place(route, catalog) else {
-        return html! { <NotFound /> };
-    };
-    let directory = html! { <Directory place={place.clone()} catalog={(**catalog).clone()} /> };
-    let Some(scene_id) = place.scene.clone() else {
-        return crate::route::switch(route, catalog);
-    };
-    let scenes = Scenes::embedded().expect("embedded scenes");
-    let Some(scene) = scenes.get(&scene_id) else {
-        return directory;
-    };
-    let on_navigate = Callback::from(move |path: String| {
-        if let Some(navigator) = navigator.clone() {
-            navigator.push(&Route::Place { path });
-        }
-    });
-    html! { <><SceneView scene={scene.clone()} catalog={(**catalog).clone()} base={crate::base::basename()} on_navigate={on_navigate} />{directory}</> }
+    html! { <main class="campus-shell"><header><a href=".">{"Software Wrighter Research Campus"}</a></header><main class="campus-content">{ current.map(|id| html! { <Breadcrumb catalog={(**catalog).clone()} place={id} /> }).unwrap_or_default() }{crate::route::switch(route, catalog, navigator)}</main><Footer /></main> }
 }

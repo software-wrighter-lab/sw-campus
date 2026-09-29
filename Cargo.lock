@@ -77,6 +77,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "campus-ui-exhibits"
+version = "0.1.0"
+dependencies = [
+ "campus-model",
+ "yew",
+]
+
+[[package]]
 name = "campus-ui-scene"
 version = "0.1.0"
 dependencies = [
@@ -95,6 +103,7 @@ dependencies = [
  "campus-model",
  "campus-scene",
  "campus-ui-chrome",
+ "campus-ui-exhibits",
  "campus-ui-scene",
  "wasm-bindgen",
  "web-sys",

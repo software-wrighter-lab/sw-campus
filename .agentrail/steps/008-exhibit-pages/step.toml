@@ -1,6 +1,6 @@
 number = 8
 slug = "exhibit-pages"
-status = "pending"
+status = "in-progress"
 description = """
 Build the exhibit page and write the content for the open exhibits.
 
