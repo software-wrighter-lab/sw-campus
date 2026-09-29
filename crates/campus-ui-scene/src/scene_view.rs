@@ -1,4 +1,4 @@
-use crate::{CaptionCard, HotspotLayer};
+use crate::{CaptionCard, HotspotEditor, HotspotLayer};
 use campus_model::{Catalog, PlaceId};
 use campus_scene::Scene;
 use gloo_events::EventListener;
@@ -15,6 +15,7 @@ pub struct SceneViewProps {
 
 #[function_component(SceneView)]
 pub fn scene_view(props: &SceneViewProps) -> Html {
+    let edit_mode = edit_mode();
     let hovered = use_state(|| None::<PlaceId>);
     let on_hover = {
         let hovered = hovered.clone();
@@ -43,7 +44,19 @@ pub fn scene_view(props: &SceneViewProps) -> Html {
     html! { <div class="scene-view"><svg viewBox={format!("0 0 {} {}", props.scene.width, props.scene.height)} preserveAspectRatio="xMidYMid meet" role="img" aria-label="Campus scene">
     <image href={format!("assets/{}", props.scene.image)} x="0" y="0" width={props.scene.width.to_string()} height={props.scene.height.to_string()} />
     <HotspotLayer scene={props.scene.clone()} catalog={props.catalog.clone()} base={props.base.clone()} hovered={selected.clone()} on_hover={on_hover} on_navigate={props.on_navigate.clone()} />
+    { edit_mode.then(|| html! { <HotspotEditor width={props.scene.width} height={props.scene.height} /> }) }
     </svg>{ selected.and_then(|id| caption(&props.catalog, &id, &props.scene)) }</div> }
+}
+
+fn edit_mode() -> bool {
+    web_sys::window()
+        .and_then(|window| window.location().search().ok())
+        .is_some_and(|search| {
+            search
+                .trim_start_matches('?')
+                .split('&')
+                .any(|part| part == "edit" || part.starts_with("edit="))
+        })
 }
 
 fn parent_path(catalog: &Catalog, place: &PlaceId) -> String {

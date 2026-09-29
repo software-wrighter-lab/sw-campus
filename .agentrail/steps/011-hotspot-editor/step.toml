@@ -1,6 +1,6 @@
 number = 11
 slug = "hotspot-editor"
-status = "pending"
+status = "in-progress"
 description = "Add a Rust-only hotspot tracing overlay and use it to refine the campus and l..."
 role = "production"
 context_files = []

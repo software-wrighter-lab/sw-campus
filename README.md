@@ -87,6 +87,11 @@ Work is driven by [agentrail](CLAUDE.md) sagas. Start a session with
 `agentrail complete`. Code metrics are enforced by `sw-checklist`, which
 must report zero failures and zero warnings at every commit.
 
+For geometry work, add ?edit to a scene URL while running just serve.
+Click vertices on the painting, press Enter to log a RON polygon, Backspace
+to undo a vertex, or Esc to clear the draft. This tracing overlay is
+development-only and is absent from normal URLs.
+
 ## Copyright
 
 Copyright (c) 2026 Michael A Wright

@@ -239,6 +239,11 @@ render `Directory` alone; else render `ExhibitPage`.
   says "Opening soon" and the click lands on the directory page for that
   place, which says the same. A campus that visibly can grow beats a
   campus that pretends to be finished.
+- Development-only hotspot tracing: append ?edit to any scene URL. Click
+  the painting to add vertices in the SVG viewBox coordinate space. Press
+  Enter to close and log a ready-to-paste RON Hotspot, Backspace to remove
+  the last vertex, and Esc to clear the draft. The editor is not rendered and
+  registers no listeners unless the query flag is present.
 
 ## Content for the MVP
 
@@ -288,8 +293,9 @@ Known external targets for the open exhibits (fill in as each step lands):
 
 ### First-pass hotspot rectangles
 
-Image space, 1536x1024, eyeballed from the art. Good enough to ship; the
-hotspot editor (step 10) refines them into polygons.
+Image space, 1536x1024, in the art's pixel coordinate system. Campus building
+hotspots are polygons following the visible footprints; the museum directory
+rows remain tight rectangles because they are rectangular signage.
 
 Campus (`scenes/campus.ron`):
 
