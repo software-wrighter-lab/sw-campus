@@ -1,10 +1,9 @@
 # sw-campus -- Software Wrighter Research Campus
 
-**[Open the campus](https://software-wrighter-lab.github.io/sw-campus/)** -- the
-live demo. Hover a building, click to enter, follow a directory to a wing and
-its live demos. Today it is the static mockup from [`pages/`](pages/); the
-Rust/Yew/WASM app will replace it at the same URL. The idea is introduced in
-the blog post [Software Wrighter Research Campus](https://blog.softwarewrighter.com/2026/09/12/software-wrighter-research-campus/).
+**[Open the campus](https://software-wrighter-lab.github.io/sw-campus/)** --
+explore the live Rust/Yew/WASM campus map, enter a building, and follow its
+directories to wings and exhibits. The idea is introduced in the blog post
+[Software Wrighter Research Campus](https://blog.softwarewrighter.com/2026/09/12/software-wrighter-research-campus/).
 
 A visual, explorable guide to the public projects and live demos of
 Software Wrighter, drawn as a research campus you can walk into.
@@ -24,18 +23,16 @@ art. No JavaScript beyond what the bundler emits, no Python.
 
 ## Status
 
-Pre-implementation. The plan is written; the app is not.
-See [docs/plan.md](docs/plan.md) for the architecture and the saga that
-builds it, and `agentrail status` for where that saga stands.
+The first vertical slice is live: campus map, Computer History Museum lobby,
+IBM 1130 wing, and individual exhibit pages. See [docs/plan.md](docs/plan.md)
+for the architecture and `agentrail status` for saga progress.
 
 The MVP is one complete vertical slice: campus map, Computer History
 Museum lobby, IBM 1130 wing, and exhibits for the 029 card punch, the 1130
 console, and the 1442 card read punch.
 
-It is published at
-<https://software-wrighter-lab.github.io/sw-campus/> (today the static
-mockup from `pages/`, later the app) and will also appear at
-`https://campus.softwarewrighter.com/`.
+It is published at <https://software-wrighter-lab.github.io/sw-campus/> and
+will later also appear at `https://campus.softwarewrighter.com/`.
 
 ## Purpose
 

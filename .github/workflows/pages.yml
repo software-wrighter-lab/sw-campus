@@ -1,14 +1,8 @@
-# Publish ./pages to GitHub Pages.
-#
-# Today ./pages is the static HTML mockup of the campus (see mockups/README.md).
-# When the Rust/Yew app lands (docs/plan.md, saga step pages-deploy) this
-# workflow gains a Trunk build step and uploads dist/ instead.
 name: Pages
 
 on:
   push:
     branches: [main]
-    paths: ['pages/**', '.github/workflows/pages.yml']
   workflow_dispatch:
 
 permissions:
@@ -16,21 +10,41 @@ permissions:
   pages: write
   id-token: write
 
-# Never cancel a deploy midway; queue instead.
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: extractions/setup-just@v3
+      - name: Install Trunk
+        env:
+          TRUNK_VERSION: 0.21.14
+        run: |
+          curl --fail --location --show-error \
+            "https://github.com/trunk-rs/trunk/releases/download/v${TRUNK_VERSION}/trunk-x86_64-unknown-linux-gnu.tar.gz" \
+            --output "$RUNNER_TEMP/trunk.tar.gz"
+          tar -xzf "$RUNNER_TEMP/trunk.tar.gz" -C "$RUNNER_TEMP"
+          chmod +x "$RUNNER_TEMP/trunk"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+      - name: Build Pages artifact
+        run: just pages
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: pages
-      - id: deploy
+      - id: deployment
         uses: actions/deploy-pages@v4

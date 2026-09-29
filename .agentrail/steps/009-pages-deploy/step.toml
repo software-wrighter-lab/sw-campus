@@ -1,6 +1,6 @@
 number = 9
 slug = "pages-deploy"
-status = "pending"
+status = "in-progress"
 description = "Publish to GitHub Pages at https://software-wrighter-lab.github.io/sw-campus/..."
 role = "production"
 context_files = []
