@@ -1,6 +1,6 @@
 number = 8
 slug = "exhibit-pages"
-status = "in-progress"
+status = "completed"
 description = """
 Build the exhibit page and write the content for the open exhibits.
 
@@ -8,5 +8,6 @@ Read doc..."""
 role = "production"
 context_files = []
 created_at = "2026-09-12T12:12:05"
+completed_at = "2026-09-29T11:04:51"
 task_type = "yew-content"
-commits = []
+commits = ["8ea6c7de47c53e97bcdbd566a0f527504386aa11"]

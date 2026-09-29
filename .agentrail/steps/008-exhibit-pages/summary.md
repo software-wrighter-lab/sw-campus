@@ -1,0 +1,1 @@
+Built leaf exhibit pages with titles, historical summaries, status, Run exhibit buttons, external source/docs/related links, and child exhibit links. Added historically grounded content for the 029, 1130, and 1442; kept 1132/2310 placeholders and marked the radio demo honestly as a placeholder without a confirmed repository.

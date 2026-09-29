@@ -1,0 +1,11 @@
+{
+  "task_type": "yew-content",
+  "state": {
+    "number": 8,
+    "step": "exhibit-pages"
+  },
+  "action": "Added campus-ui-exhibits; updated route rendering for leaf places; authored catalog content and links; ran full native/WASM gate, release build, and sw-checklist with 16 passes and zero failures/warnings.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-09-29T11:04:51"
+}
