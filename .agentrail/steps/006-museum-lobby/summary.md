@@ -1,0 +1,1 @@
+Activated the Computer History Museum lobby using the existing 18-hotspot scene and optimized art. The real breadcrumb now overlays the painted mock chrome; placeholder destinations retain Opening soon behavior; Esc navigates to the parent and H returns to campus with a cleaned-up window listener.
