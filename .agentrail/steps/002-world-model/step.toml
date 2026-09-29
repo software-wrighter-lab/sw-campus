@@ -1,6 +1,6 @@
 number = 2
 slug = "world-model"
-status = "pending"
+status = "in-progress"
 description = "Create the semantic model: crate crates/campus-model plus content/catalog.ron..."
 role = "production"
 context_files = []

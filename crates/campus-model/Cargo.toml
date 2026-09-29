@@ -1,0 +1,13 @@
+[package]
+name = "campus-model"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+ron = "0.8"
+serde = { version = "1", features = ["derive"] }
+
+[lints]
+workspace = true
