@@ -1,7 +1,7 @@
 use crate::place::{Place, PlaceId};
 use serde::Deserialize;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Deserialize)]
 pub struct Catalog {
     pub(crate) places: Vec<Place>,
 }
