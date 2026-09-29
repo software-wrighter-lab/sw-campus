@@ -1,0 +1,1 @@
+Fixed the hosted Pages build by installing zsh on the Ubuntu runner, matching the repository justfile shell. Local just check remains green with zero checklist warnings.
