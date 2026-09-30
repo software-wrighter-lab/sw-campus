@@ -1,0 +1,1 @@
+Added Docent aliases and example queries to the campus catalog for the MVP destinations, preserved backward-compatible defaults for future places, exposed stable campus resource IDs derived from canonical URLs, documented the sw-atlas v1 query-to-pin mapping, and added regression coverage.
