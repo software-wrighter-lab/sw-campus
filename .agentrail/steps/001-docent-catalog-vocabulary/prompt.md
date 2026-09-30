@@ -1,0 +1,1 @@
+Add explicit Docent metadata to the campus catalog: aliases and example queries for the MVP places, stable campus resource IDs, validation, and documentation of the sw-atlas EASEL-CONTRACT v1 mapping. Keep the existing catalog URLs and scenes compatible.

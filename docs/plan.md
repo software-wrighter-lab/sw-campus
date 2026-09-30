@@ -470,6 +470,17 @@ The keyword-matcher docent is public on the mockup; its edition line
 says there is no model yet. The trained MoE replaces the matcher only
 when it measures better on the same questions. `?docent=0` hides it.
 
+### Query-to-pin first slice
+
+The post-MVP campus-docent saga starts with the interaction that matters:
+open the glowing Docent control, ask a question, and see ephemeral pins on
+the current campus, building, or wing view. It follows sw-atlas
+EASEL-CONTRACT v1: render up to three campus destinations in offer order;
+show refusal or NotYet text without inventing a destination; never display
+an uncalibrated confidence percentage. Until the atlas runtime packaging is
+settled, a local deterministic adapter uses catalog titles, aliases, and
+example queries while preserving the same outcome shape.
+
 The mockup in `pages/` already has the whole tour metaphor with a keyword
 matcher standing in for the model (added 2026-09-13): an easel in the same
 corner of every scene with a featured exhibit and "Ask the docent"; a

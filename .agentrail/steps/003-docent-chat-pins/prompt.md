@@ -1,0 +1,1 @@
+Add the glowing Docent button and accessible chat dialog to the Yew app. Submitting a question renders the answer and ephemeral 3D-looking color push-pins for up to three current-scene destinations; directory/project lists show pin badges when targeted. Pins navigate on click, never alter scene art, and clear on a new question/navigation.

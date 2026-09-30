@@ -1,0 +1,1 @@
+Implement the local deterministic Docent adapter behind the sw-atlas v1 outcome shape. It must tokenize a question, match catalog aliases/titles/examples, return One/Several/NotYet/Rephrase/NothingHere explicitly, and resolve only campus place IDs. Add tests for answers and empty/refusal outcomes.

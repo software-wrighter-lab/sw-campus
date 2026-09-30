@@ -47,4 +47,8 @@ pub struct Place {
     pub children: Vec<PlaceId>,
     pub scene: Option<String>,
     pub links: Vec<Link>,
+    #[serde(default)]
+    pub aliases: Vec<String>,
+    #[serde(default)]
+    pub example_queries: Vec<String>,
 }

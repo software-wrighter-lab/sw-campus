@@ -1,0 +1,1 @@
+Polish keyboard/mobile behavior, document local usage and the query-to-pin flow, run the complete gate, verify local URLs and GitHub Pages deployment, and close the campus-docent saga.

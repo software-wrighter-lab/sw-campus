@@ -44,3 +44,8 @@ pub fn url(catalog: &Catalog, id: &PlaceId) -> Option<String> {
         .collect::<Vec<_>>();
     (!tail.is_empty()).then(|| format!("/campus/{}", tail.join("/")))
 }
+
+#[must_use]
+pub fn resource_id(catalog: &Catalog, id: &PlaceId) -> Option<String> {
+    url(catalog, id).and_then(|path| path.rsplit('/').next().map(|leaf| format!("campus:{leaf}")))
+}
