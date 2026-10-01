@@ -84,21 +84,29 @@ fn reply_for_matches(catalog: &Catalog, tokens: &[String], matches: &[(u32, &Pla
     }
 }
 
-fn score(place: &Place, tokens: &[String]) -> Option<u32> {
-    let searchable = searchable(place);
-    let overlap = u32::try_from(
-        tokens
-            .iter()
-            .filter(|token| searchable.contains(token))
-            .count(),
-    )
-    .unwrap_or(u32::MAX);
+fn score(place: &Place, query_tokens: &[String]) -> Option<u32> {
+    let explicit = place
+        .aliases
+        .iter()
+        .chain(place.example_queries.iter())
+        .flat_map(|text| tokens(text))
+        .collect::<Vec<_>>();
+    let descriptive = tokens(&format!("{} {}", place.title, place.tagline));
+    let explicit_overlap = query_tokens
+        .iter()
+        .filter(|token| explicit.contains(token))
+        .count();
+    let descriptive_overlap = query_tokens
+        .iter()
+        .filter(|token| descriptive.contains(token))
+        .count();
     let phrase = place
         .aliases
         .iter()
         .chain(place.example_queries.iter())
-        .any(|text| normalize(text).contains(&tokens.join(" ")));
-    (overlap > 0).then_some(overlap + u32::from(phrase) * 8)
+        .any(|text| normalize(text).contains(&query_tokens.join(" ")));
+    let score = explicit_overlap * 10 + descriptive_overlap;
+    (score > 0).then_some(u32::try_from(score).unwrap_or(u32::MAX) + u32::from(phrase) * 20)
 }
 
 fn searchable(place: &Place) -> Vec<String> {
@@ -106,7 +114,7 @@ fn searchable(place: &Place) -> Vec<String> {
         .aliases
         .iter()
         .chain(place.example_queries.iter())
-        .chain([&place.title, &place.tagline, &place.summary])
+        .chain([&place.title, &place.tagline])
         .flat_map(|text| tokens(text))
         .collect()
 }
@@ -151,7 +159,7 @@ fn refusal(outcome: Outcome, because: &str) -> Reply {
 
 const STOP_WORDS: &[&str] = &[
     "a", "an", "and", "at", "can", "do", "for", "i", "in", "is", "me", "of", "on", "show", "take",
-    "that", "the", "to", "where",
+    "that", "the", "to", "where", "what", "there", "related", "work",
 ];
 
 #[must_use]

@@ -35,7 +35,9 @@
     .docent-dialog-head { display: flex; justify-content: space-between; gap: 1rem; }
     .docent-dialog-head small, .docent-dialog-head strong { display: block; }
     .docent-dialog-head button { color: #f4f7f8; background: transparent; border: 0; font-size: 1.4rem; cursor: pointer; }
-    .docent-transcript { overflow: auto; min-height: 3rem; }
+    .docent-transcript { overflow-y: auto; min-height: 3rem; max-height: min(24rem, 48vh); padding-right: .35rem; }
+    .docent-turn { border-bottom: 1px solid rgba(255,255,255,.12); padding: .35rem 0 .7rem; margin-bottom: .7rem; }
+    .docent-question { color: #b9d7ff; margin: 0 0 .35rem; }
     .docent-answer p, .docent-hint { margin: .4rem 0; }
     .docent-input-row { display: flex; gap: .4rem; }
     .docent-input-row input { min-width: 0; flex: 1; padding: .55rem; color: #f4f7f8; background: #26333d; border: 1px solid #b9c5ca; border-radius: .25rem; }

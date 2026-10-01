@@ -11,6 +11,7 @@ pub enum PlaceKind {
     Wing,
     Exhibit,
     Demo,
+    Project,
     Site,
 }
 

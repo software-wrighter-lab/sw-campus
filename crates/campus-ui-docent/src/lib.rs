@@ -9,12 +9,18 @@ pub struct DocentPanelProps {
     pub on_answer: Callback<Option<Reply>>,
 }
 
+#[derive(Clone, PartialEq)]
+struct Turn {
+    question: String,
+    reply: Reply,
+}
+
 #[function_component(DocentPanel)]
 pub fn docent_panel(props: &DocentPanelProps) -> Html {
     let open = use_state(|| false);
     let question = use_state(String::new);
-    let reply = use_state(|| None::<Reply>);
-    let submit = submit_callback(props, &question, &reply);
+    let transcript = use_state(Vec::<Turn>::new);
+    let submit = submit_callback(props, &question, &transcript);
     let on_input = {
         let question = question.clone();
         Callback::from(move |event: InputEvent| {
@@ -37,7 +43,7 @@ pub fn docent_panel(props: &DocentPanelProps) -> Html {
             { open.then(|| html! {
                 <aside class="docent-dialog" role="dialog" aria-label="Campus Docent" aria-modal="false">
                     <header class="docent-dialog-head"><div><strong>{"Campus Docent"}</strong><small>{"Ask where to go."}</small></div><button type="button" aria-label="Close Docent" onclick={close}>{"×"}</button></header>
-                    <div class="docent-transcript" aria-live="polite">{ reply.as_ref().map_or_else(|| html! { <p class="docent-hint">{"Try “where is the console with toggle switches?”"}</p> }, reply_view) }</div>
+                    <div class="docent-transcript" aria-live="polite">{ if transcript.is_empty() { html! { <p class="docent-hint">{"Try “where is the console with toggle switches?”"}</p> } } else { html! { for transcript.iter().map(turn_view) } } }</div>
                     <form onsubmit={submit}>
                         <label for="docent-question">{"Ask the Docent"}</label>
                         <div class="docent-input-row"><input id="docent-question" value={(*question).clone()} oninput={on_input} placeholder="Where should I go?" /><button type="submit">{"Ask"}</button></div>
@@ -51,18 +57,28 @@ pub fn docent_panel(props: &DocentPanelProps) -> Html {
 fn submit_callback(
     props: &DocentPanelProps,
     question: &UseStateHandle<String>,
-    reply: &UseStateHandle<Option<Reply>>,
+    transcript: &UseStateHandle<Vec<Turn>>,
 ) -> Callback<SubmitEvent> {
     let catalog = props.catalog.clone();
     let question = question.clone();
-    let reply_state = reply.clone();
+    let transcript_state = transcript.clone();
     let on_answer = props.on_answer.clone();
     Callback::from(move |event: SubmitEvent| {
         event.prevent_default();
-        let next = ask(&catalog, &question);
-        reply_state.set(Some(next.clone()));
+        let question_text = (*question).clone();
+        let next = ask(&catalog, &question_text);
+        let mut history = (*transcript_state).clone();
+        history.push(Turn {
+            question: question_text,
+            reply: next.clone(),
+        });
+        transcript_state.set(history);
         on_answer.emit(Some(next));
     })
+}
+
+fn turn_view(turn: &Turn) -> Html {
+    html! { <article class="docent-turn"><p class="docent-question">{format!("You: {}", turn.question)}</p>{reply_view(&turn.reply)}</article> }
 }
 
 fn reply_view(reply: &Reply) -> Html {
@@ -98,11 +114,14 @@ pub fn pin_layer(props: &PinLayerProps) -> Html {
 }
 
 fn pin(id: &PlaceId, index: usize, props: &PinLayerProps) -> Option<Html> {
-    let hotspot = props
-        .scene
-        .hotspots
-        .iter()
-        .find(|hotspot| &hotspot.place == id)?;
+    let chain = ancestors(&props.catalog, id)?;
+    let hotspot = chain.iter().rev().find_map(|place| {
+        props
+            .scene
+            .hotspots
+            .iter()
+            .find(|hotspot| hotspot.place == place.id)
+    })?;
     let (x, y) = hotspot.shape.centroid()?;
     let place = props.catalog.get(id)?;
     let path = ancestors(&props.catalog, id)?

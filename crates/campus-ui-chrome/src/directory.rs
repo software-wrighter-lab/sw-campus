@@ -31,6 +31,14 @@ fn directory_entry(catalog: &Catalog, id: &PlaceId, pinned: &[PlaceId]) -> Optio
         Status::ComingSoon => "Coming soon",
     };
     Some(
-        html! { <li><Link<Route> to={Route::Place { path }}>{&place.title}</Link<Route>>{ pinned.contains(id).then(|| html! { <span class="docent-pin-badge">{"📍 Docent pin"}</span> }) }<span class="status">{status}</span><p>{&place.tagline}</p></li> },
+        html! { <li><Link<Route> to={Route::Place { path }}>{&place.title}</Link<Route>>{ is_pinned_or_contains(catalog, id, pinned).then(|| html! { <span class="docent-pin-badge">{"📍 Docent pin"}</span> }) }<span class="status">{status}</span><p>{&place.tagline}</p></li> },
     )
+}
+
+fn is_pinned_or_contains(catalog: &Catalog, id: &PlaceId, pinned: &[PlaceId]) -> bool {
+    pinned.iter().any(|pin| {
+        pin == id
+            || ancestors(catalog, pin)
+                .is_some_and(|chain| chain.iter().any(|place| &place.id == id))
+    })
 }

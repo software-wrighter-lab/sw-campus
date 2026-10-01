@@ -1,6 +1,6 @@
 number = 4
 slug = "docent-polish-deploy"
-status = "pending"
+status = "in-progress"
 description = "Polish keyboard/mobile behavior, document local usage and the query-to-pin fl..."
 role = "validation"
 context_files = []

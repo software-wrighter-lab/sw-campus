@@ -53,3 +53,14 @@ fn reports_known_words_that_point_nowhere_without_pins() {
     assert_eq!(reply.outcome, Outcome::NothingHere);
     assert!(reply.offer.is_empty());
 }
+
+#[test]
+fn apl_query_prefers_language_projects_over_card_machines() {
+    let catalog = catalog();
+    let reply = ask(&catalog, "what APL related work is there");
+    assert_eq!(reply.outcome, Outcome::Several);
+    assert!(reply.offer.iter().any(|id| id.0 == "apl-cor24"));
+    assert!(reply.offer.iter().any(|id| id.0 == "x-etal"));
+    assert!(reply.offer.iter().any(|id| id.0 == "sw-mlpl"));
+    assert!(!reply.offer.iter().any(|id| id.0 == "029" || id.0 == "1442"));
+}
