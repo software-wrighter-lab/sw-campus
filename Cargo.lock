@@ -84,6 +84,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "campus-ui-docent"
+version = "0.1.0"
+dependencies = [
+ "campus-docent",
+ "campus-model",
+ "campus-scene",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "campus-ui-exhibits"
 version = "0.1.0"
 dependencies = [
@@ -95,8 +106,10 @@ dependencies = [
 name = "campus-ui-scene"
 version = "0.1.0"
 dependencies = [
+ "campus-docent",
  "campus-model",
  "campus-scene",
+ "campus-ui-docent",
  "gloo-events 0.2.0",
  "wasm-bindgen",
  "web-sys",
@@ -107,9 +120,11 @@ dependencies = [
 name = "campus-web"
 version = "0.1.0"
 dependencies = [
+ "campus-docent",
  "campus-model",
  "campus-scene",
  "campus-ui-chrome",
+ "campus-ui-docent",
  "campus-ui-exhibits",
  "campus-ui-scene",
  "wasm-bindgen",

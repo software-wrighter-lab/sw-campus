@@ -1,6 +1,8 @@
 use crate::{CaptionCard, HotspotEditor, HotspotLayer};
+use campus_docent::Reply;
 use campus_model::{Catalog, PlaceId};
 use campus_scene::Scene;
+use campus_ui_docent::PinLayer;
 use gloo_events::EventListener;
 use wasm_bindgen::JsCast;
 use yew::prelude::*;
@@ -11,6 +13,7 @@ pub struct SceneViewProps {
     pub catalog: Catalog,
     pub base: String,
     pub on_navigate: Callback<String>,
+    pub docent_reply: Option<Reply>,
 }
 
 #[function_component(SceneView)]
@@ -45,6 +48,7 @@ pub fn scene_view(props: &SceneViewProps) -> Html {
     <title>{ format!("{} scene", props.scene.place.0) }</title>
     <image href={format!("assets/{}", props.scene.image)} x="0" y="0" width={props.scene.width.to_string()} height={props.scene.height.to_string()} role="img" aria-label={format!("{} painted scene", props.scene.place.0)} />
     <HotspotLayer scene={props.scene.clone()} catalog={props.catalog.clone()} base={props.base.clone()} hovered={selected.clone()} on_hover={on_hover} on_navigate={props.on_navigate.clone()} />
+    <PinLayer scene={props.scene.clone()} catalog={props.catalog.clone()} base={props.base.clone()} reply={props.docent_reply.clone()} on_navigate={props.on_navigate.clone()} />
     { edit_mode.then(|| html! { <HotspotEditor width={props.scene.width} height={props.scene.height} /> }) }
     </svg>{ selected.and_then(|id| caption(&props.catalog, &id, &props.scene)) }</div> }
 }

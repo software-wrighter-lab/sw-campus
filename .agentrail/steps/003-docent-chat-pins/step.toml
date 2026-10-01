@@ -1,6 +1,6 @@
 number = 3
 slug = "docent-chat-pins"
-status = "pending"
+status = "in-progress"
 description = "Add the glowing Docent button and accessible chat dialog to the Yew app. Subm..."
 role = "production"
 context_files = []

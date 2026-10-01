@@ -28,6 +28,29 @@
     .hotspot-editor-line { fill: none; stroke: #ffcf5c; stroke-width: 3; vector-effect: non-scaling-stroke; }
     .hotspot-editor-closed { fill: #ffcf5c44; stroke: #ffcf5c; stroke-width: 3; vector-effect: non-scaling-stroke; }
     .hotspot-editor-point { fill: #fff; stroke: #d66b2c; stroke-width: 3; vector-effect: non-scaling-stroke; }
+    .docent-button { position: fixed; z-index: 10; right: 1rem; bottom: 1rem; padding: .65rem 1rem; border: 2px solid #f1c27d; border-radius: 999px; color: #111820; background: #f1c27d; font-weight: 700; cursor: pointer; box-shadow: 0 0 0 0 #f1c27d99; animation: docent-glow 2.2s ease-in-out infinite; }
+    .docent-button:hover, .docent-button:focus-visible { background: #ffe3b0; }
+    @keyframes docent-glow { 0%, 100% { box-shadow: 0 0 0 0 #f1c27d66; } 50% { box-shadow: 0 0 1.2rem .35rem #f1c27d99; } }
+    .docent-dialog { position: fixed; z-index: 11; right: 1rem; bottom: 4.5rem; width: min(24rem, calc(100vw - 2rem)); max-height: min(32rem, calc(100vh - 6rem)); display: flex; flex-direction: column; gap: .8rem; padding: 1rem; border: 1px solid #f1c27d; border-radius: .7rem; color: #f4f7f8; background: #111820F7; box-shadow: 0 .4rem 1.2rem #000b; }
+    .docent-dialog-head { display: flex; justify-content: space-between; gap: 1rem; }
+    .docent-dialog-head small, .docent-dialog-head strong { display: block; }
+    .docent-dialog-head button { color: #f4f7f8; background: transparent; border: 0; font-size: 1.4rem; cursor: pointer; }
+    .docent-transcript { overflow: auto; min-height: 3rem; }
+    .docent-answer p, .docent-hint { margin: .4rem 0; }
+    .docent-input-row { display: flex; gap: .4rem; }
+    .docent-input-row input { min-width: 0; flex: 1; padding: .55rem; color: #f4f7f8; background: #26333d; border: 1px solid #b9c5ca; border-radius: .25rem; }
+    .docent-input-row button { padding: .55rem .8rem; color: #111820; background: #f1c27d; border: 0; border-radius: .25rem; font-weight: 700; }
+    .docent-dialog label { display: block; margin-bottom: .3rem; }
+    .docent-pin { cursor: pointer; }
+    .docent-pin-stem { stroke: #111820; stroke-width: 5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .docent-pin-shadow { fill: #11182099; }
+    .docent-pin-head { stroke: #fff; stroke-width: 2; vector-effect: non-scaling-stroke; }
+    .docent-pin-glint { fill: #fff; opacity: .85; }
+    .docent-pin-1 .docent-pin-head { fill: #ff5f6d; }
+    .docent-pin-2 .docent-pin-head { fill: #4dc9ff; }
+    .docent-pin-3 .docent-pin-head { fill: #b68cff; }
+    .docent-pin:focus-visible .docent-pin-head { stroke: #fff; stroke-width: 4; }
+    .docent-pin-badge { display: inline-block; margin-left: .5rem; padding: .15rem .4rem; color: #111820; background: #f1c27d; border-radius: 999px; font-size: .72rem; font-weight: 700; }
     .caption-card { position: absolute; left: clamp(1rem, calc(var(--caption-x) / 1536 * 100%), calc(100% - 18rem)); top: clamp(1rem, calc(var(--caption-y) / 1024 * 100%), calc(100% - 8rem)); width: min(18rem, calc(100% - 2rem)); padding: .8rem; border: 1px solid #f1c27d; border-radius: .5rem; background: #111820F2; box-shadow: 0 .4rem 1rem #0008; }
     .caption-card p, .caption-card small { display: block; margin: .35rem 0 0; }
     .caption-card em, .status { margin-left: .7rem; color: #f1c27d; font-style: normal; }
@@ -41,6 +64,11 @@
       .breadcrumb { top: .7rem; left: .7rem; max-width: calc(100% - 1.4rem); }
       .caption-card { left: .5rem; right: .5rem; top: auto; bottom: .5rem; width: auto; }
       footer { padding: .7rem .5rem; }
+      .docent-button { right: .6rem; bottom: .6rem; }
+      .docent-dialog { right: .5rem; bottom: 4.2rem; width: calc(100vw - 1rem); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .docent-button, .scene-view svg { animation: none; }
     }
   </style>
 </head>

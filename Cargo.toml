@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/campus-model", "crates/campus-scene", "crates/campus-docent", "crates/campus-ui-chrome", "crates/campus-ui-exhibits", "crates/campus-ui-scene", "crates/campus-web"]
+members = ["crates/campus-model", "crates/campus-scene", "crates/campus-docent", "crates/campus-ui-chrome", "crates/campus-ui-exhibits", "crates/campus-ui-docent", "crates/campus-ui-scene", "crates/campus-web"]
 resolver = "2"
 
 [workspace.package]

@@ -8,6 +8,8 @@ publish = false
 [dependencies]
 campus-model = { path = "../campus-model" }
 campus-scene = { path = "../campus-scene" }
+campus-docent = { path = "../campus-docent" }
+campus-ui-docent = { path = "../campus-ui-docent" }
 gloo-events = "0.2"
 wasm-bindgen = "0.2"
 web-sys = { version = "0.3", features = ["KeyboardEvent", "Location", "SvgElement", "SvgMatrix", "SvgsvgElement", "Window"] }
