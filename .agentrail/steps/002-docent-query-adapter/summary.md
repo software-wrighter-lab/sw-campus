@@ -1,0 +1,1 @@
+Implemented campus-docent as a typed local adapter following sw-atlas EASEL-CONTRACT v1. It tokenizes questions, scores only catalog vocabulary, returns One/Several/NotYet/Rephrase/NothingHere, resolves stable campus IDs, and has six outcome/answer tests. Workspace and full gate are green.
