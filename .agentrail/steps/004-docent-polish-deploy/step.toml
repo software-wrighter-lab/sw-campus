@@ -1,9 +1,10 @@
 number = 4
 slug = "docent-polish-deploy"
-status = "in-progress"
+status = "completed"
 description = "Polish keyboard/mobile behavior, document local usage and the query-to-pin fl..."
 role = "validation"
 context_files = []
 created_at = "2026-09-30T16:34:48"
+completed_at = "2026-10-01T08:21:47"
 task_type = "validation"
-commits = []
+commits = ["2c5321c8f20575b2180fdad8bd80d82930753bee"]

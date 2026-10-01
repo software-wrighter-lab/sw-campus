@@ -1,0 +1,1 @@
+Fixed Docent transcript scrolling/history, corrected APL matching with explicit language-project destinations and links, made project pins visible through ancestor hotspots and directory signage, and passed the complete build/check gate.
