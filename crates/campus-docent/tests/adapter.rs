@@ -64,3 +64,28 @@ fn apl_query_prefers_language_projects_over_card_machines() {
     assert!(reply.offer.iter().any(|id| id.0 == "sw-mlpl"));
     assert!(!reply.offer.iter().any(|id| id.0 == "029" || id.0 == "1442"));
 }
+
+#[test]
+fn fortran_aliases_find_the_cor24_project() {
+    let catalog = catalog();
+    for question in [
+        "fortran",
+        "FORTRAN",
+        "where is fortran compiler",
+        "sw-cor24-fortran",
+    ] {
+        let reply = ask(&catalog, question);
+        assert!(
+            reply.offer.iter().any(|id| id.0 == "cor24-fortran"),
+            "{question}: {reply:?}"
+        );
+        assert!(!reply.offer.iter().any(|id| id.0 == "029" || id.0 == "1442"));
+    }
+}
+
+#[test]
+fn machine_learning_shorthand_finds_ml_work() {
+    let catalog = catalog();
+    let reply = ask(&catalog, "ML");
+    assert!(reply.offer.iter().any(|id| id.0 == "sw-mlpl"));
+}

@@ -1,0 +1,1 @@
+Refresh the Docent catalog index from current sw-atlas evidence: add missing project destinations and aliases for machine-learning shorthand and COR24 Fortran, add regression tests, run the complete gate, commit, and complete the step.

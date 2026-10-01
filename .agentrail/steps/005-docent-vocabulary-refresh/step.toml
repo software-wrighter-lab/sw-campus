@@ -1,0 +1,9 @@
+number = 5
+slug = "docent-vocabulary-refresh"
+status = "in-progress"
+description = "Refresh the Docent catalog index from current sw-atlas evidence: add missing ..."
+role = "production"
+context_files = []
+created_at = "2026-10-01T09:56:37"
+task_type = "implementation"
+commits = []
