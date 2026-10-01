@@ -40,4 +40,9 @@ impl Catalog {
             })
             .unwrap_or_default()
     }
+
+    #[must_use]
+    pub fn all_places(&self) -> Vec<&Place> {
+        self.places.iter().collect()
+    }
 }

@@ -1,6 +1,6 @@
 number = 2
 slug = "docent-query-adapter"
-status = "pending"
+status = "in-progress"
 description = "Implement the local deterministic Docent adapter behind the sw-atlas v1 outco..."
 role = "production"
 context_files = []
