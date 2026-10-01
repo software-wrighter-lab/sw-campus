@@ -62,7 +62,7 @@ fn reply_for_matches(catalog: &Catalog, tokens: &[String], matches: &[(u32, &Pla
     }
     let offer = matches
         .iter()
-        .filter(|(score, _)| *score * 2 >= *top_score)
+        .filter(|(score, _)| *score * 4 >= *top_score * 3)
         .take(3)
         .map(|(_, place)| place.id.clone())
         .collect::<Vec<_>>();
@@ -85,13 +85,8 @@ fn reply_for_matches(catalog: &Catalog, tokens: &[String], matches: &[(u32, &Pla
 }
 
 fn score(place: &Place, query_tokens: &[String]) -> Option<u32> {
-    let explicit = place
-        .aliases
-        .iter()
-        .chain(place.example_queries.iter())
-        .flat_map(|text| tokens(text))
-        .collect::<Vec<_>>();
-    let descriptive = tokens(&format!("{} {}", place.title, place.tagline));
+    let explicit = indexed_tokens(place, true);
+    let descriptive = indexed_tokens(place, false);
     let explicit_overlap = query_tokens
         .iter()
         .filter(|token| explicit.contains(token))
@@ -104,19 +99,57 @@ fn score(place: &Place, query_tokens: &[String]) -> Option<u32> {
         .aliases
         .iter()
         .chain(place.example_queries.iter())
-        .any(|text| normalize(text).contains(&query_tokens.join(" ")));
+        .any(|text| contains_sequence(&tokens(text), query_tokens))
+        || place.links.iter().any(|link| {
+            contains_sequence(&tokens(&link.label), query_tokens)
+                || contains_sequence(&tokens(&link.url), query_tokens)
+        });
     let score = explicit_overlap * 10 + descriptive_overlap;
     (score > 0).then_some(u32::try_from(score).unwrap_or(u32::MAX) + u32::from(phrase) * 20)
 }
 
 fn searchable(place: &Place) -> Vec<String> {
-    place
-        .aliases
+    indexed_tokens(place, true)
+}
+
+fn indexed_tokens(place: &Place, include_explicit: bool) -> Vec<String> {
+    let mut texts = place
+        .links
         .iter()
-        .chain(place.example_queries.iter())
-        .chain([&place.title, &place.tagline])
+        .flat_map(|link| [&link.label, &link.url])
+        .chain([&place.title, &place.tagline]);
+    let mut words = texts
+        .by_ref()
         .flat_map(|text| tokens(text))
+        .collect::<Vec<_>>();
+    if include_explicit {
+        words.extend(
+            place
+                .aliases
+                .iter()
+                .chain(place.example_queries.iter())
+                .flat_map(|text| tokens(text)),
+        );
+    }
+    words.extend(acronyms(&words));
+    words
+}
+
+fn acronyms(words: &[String]) -> Vec<String> {
+    words
+        .windows(2)
+        .filter_map(|pair| {
+            Some(format!(
+                "{}{}",
+                pair[0].chars().next()?,
+                pair[1].chars().next()?
+            ))
+        })
         .collect()
+}
+
+fn contains_sequence(words: &[String], query: &[String]) -> bool {
+    !query.is_empty() && words.windows(query.len()).any(|window| window == query)
 }
 
 fn tokens(text: &str) -> Vec<String> {
@@ -159,7 +192,7 @@ fn refusal(outcome: Outcome, because: &str) -> Reply {
 
 const STOP_WORDS: &[&str] = &[
     "a", "an", "and", "at", "can", "do", "for", "i", "in", "is", "me", "of", "on", "show", "take",
-    "that", "the", "to", "where", "what", "there", "related", "work",
+    "that", "the", "to", "where", "what", "there", "related", "work", "with",
 ];
 
 #[must_use]

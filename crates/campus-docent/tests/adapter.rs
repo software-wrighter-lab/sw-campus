@@ -89,3 +89,18 @@ fn machine_learning_shorthand_finds_ml_work() {
     let reply = ask(&catalog, "ML");
     assert!(reply.offer.iter().any(|id| id.0 == "sw-mlpl"));
 }
+
+#[test]
+fn declared_links_are_part_of_the_search_index() {
+    let catalog = catalog();
+    for place in catalog.all_places() {
+        for link in &place.links {
+            let reply = ask(&catalog, &link.label);
+            assert!(
+                reply.offer.iter().any(|id| id == &place.id),
+                "{} -> {reply:?}",
+                link.label
+            );
+        }
+    }
+}

@@ -1,0 +1,1 @@
+Replace one-off Docent vocabulary fixes with a repeatable sw-atlas-to-campus indexing process. Analyze current catalog/export contracts and matcher failure modes, implement the smallest durable process and tests, run the complete gate, commit, and complete the step.

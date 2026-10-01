@@ -1,0 +1,9 @@
+number = 6
+slug = "docent-index-process"
+status = "in-progress"
+description = "Replace one-off Docent vocabulary fixes with a repeatable sw-atlas-to-campus ..."
+role = "production"
+context_files = []
+created_at = "2026-10-01T09:57:50"
+task_type = "implementation"
+commits = []
