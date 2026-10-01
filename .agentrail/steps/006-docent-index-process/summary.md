@@ -1,0 +1,1 @@
+Replaced alias-only matching with deterministic indexing of declared link labels and URL identifiers, derived common abbreviations from catalog language, tightened ranking, added generic link coverage tests, and documented the reviewed local-LLM synonym refresh process. Full just check passes.
