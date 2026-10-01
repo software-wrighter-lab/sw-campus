@@ -1,0 +1,1 @@
+Added sw-cor24-fortran and web-sw-cor24-fortran as a COR24 Fortran project, added ML and machine-learning aliases, and covered all reported queries with regression tests; just check passes.
