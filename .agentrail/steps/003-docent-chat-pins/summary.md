@@ -1,0 +1,1 @@
+Added the glowing Docent button and accessible chat dialog, connected it to the typed local adapter, rendered up to three ephemeral SVG push-pins at current-scene hotspot centroids, added Docent pin badges to directory/project lists, routed pin clicks through the app basename, and cleared active pins when the route changes. Full gate passes with zero warnings.
